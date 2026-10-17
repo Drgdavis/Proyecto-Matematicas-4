@@ -1,0 +1,9 @@
+Rock 06 — Poly Haven
+Source: https://polyhaven.com/a/rock_06
+Author: Rob Tuytel
+License: CC0 https://polyhaven.com/license
+Downloaded: 2026-09-09
+Resolution: 2048 x 2048 pixels, JPEG
+Physical tile width: 1.5 m (official asset page)
+Maps: diffuse (sRGB color); nor_gl (OpenGL normal, linear); rough (linear).
+Use: dry stratified cliff rock, no vegetation; tint toward warm iron oxide for Mars.

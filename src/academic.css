@@ -1,0 +1,40 @@
+.academic-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0;padding:12px 0;border-top:1px solid #50685f;border-bottom:1px solid #50685f}
+.academic-controls label{display:grid;gap:8px;flex:1;min-width:150px;font-size:14px;color:#dfece6}
+.academic-controls input{width:100%;accent-color:#dfb985}
+.academic-controls button{padding:10px 13px;border:1px solid #718a7e;background:#20372f;color:#fff;font-size:14px;cursor:pointer}
+.academic-download{display:inline-block;padding:12px 0;color:#e8c48e;font-size:15px;text-decoration:underline}
+.visible-working li{font-size:15px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere}
+.scene-tools{display:flex;flex-wrap:wrap;gap:8px}
+.mars-live-graph small{display:block;color:#bed1c8;margin-top:8px;font-size:13px}
+.equation-feature{margin:22px 0;padding:18px 16px;background:#0b171b;border:1px solid #455d60;border-radius:8px}
+.equation-feature>span,.procedure-conclusion>span{font-size:10px;letter-spacing:1.7px;color:#dcbc91}
+.display-math{overflow-x:auto;overflow-y:hidden;max-width:100%;padding:15px 0;scrollbar-width:thin;scrollbar-color:#8baaa2 transparent;color:#edf4ef}
+.math-footprint{position:relative;width:100%;min-height:30px}
+.math-typeset{width:max-content;position:absolute;top:0;left:0;transform-origin:top left;font-size:17px}
+.math-typeset .katex{font-size:1.05em}
+.math-typeset .katex-display{margin:0;text-align:left}
+.math-procedure{margin-top:26px}
+.math-procedure>header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #425957;padding-bottom:14px}
+.math-procedure h4{margin:0;font-size:19px;font-weight:500;letter-spacing:-.3px}
+.math-procedure>header>span{font-size:12px;color:#92aaa1;white-space:nowrap}
+.math-procedure>ol{list-style:none;padding:0;margin:0}
+.math-procedure>ol>li{padding:23px 0;border-bottom:1px solid #314743}
+.procedure-title{display:flex;gap:12px;align-items:baseline}
+.procedure-number{font-size:12px;color:#e2bb88;font-variant-numeric:tabular-nums}
+.procedure-title h5{font-size:15px;line-height:1.5;font-weight:600;margin:0;color:#f1eee3}
+.math-procedure li p{font-size:14px;line-height:1.7;margin:10px 0 0;color:#afc0bb}
+.procedure-conclusion{padding:17px 18px;margin:22px 0 0;background:#243932;border-left:3px solid #b6ccac;border-radius:0 6px 6px 0}
+.procedure-conclusion p{margin:10px 0 0!important;font-size:15px!important;color:#edf2df!important}
+.concept-statement{font-family:inherit;line-height:1.7}
+.scene-heading h1{white-space:pre-line}
+.expand-solution{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 18px;margin:15px 0 0;background:#dcbc91;color:#152423;border:0;border-radius:5px;font-weight:600;font-size:14px}
+.solution-modal{width:min(900px,96vw);padding:42px 56px;background:#122023;border-radius:10px}
+.solution-modal .math-typeset{font-size:25px}
+.solution-modal .procedure-title h5{font-size:18px}
+.solution-modal .math-procedure li p{font-size:16px;line-height:1.8}
+.solution-modal .math-procedure>ol>li{padding:28px 0}
+.solution-modal .equation-feature{padding:22px}
+@media(max-width:760px){.solution-modal{padding:30px 22px}.solution-modal .math-typeset{font-size:20px}}
+@media(min-width:1100px){.presentation-mode .workspace{grid-template-columns:minmax(0,1fr) clamp(430px,37vw,550px)}.presentation-mode .story-scroll{padding:28px 30px}.math-typeset{font-size:18px}}
+@media(max-width:1100px){.scene-heading h1{max-width:220px;white-space:normal}.auto-focus{top:auto;bottom:116px;left:18px;right:auto;max-width:calc(100% - 36px)}.auto-focus small{display:none}}
+@media(max-width:760px){.scene-heading h1{font-size:27px;max-width:100%;letter-spacing:-1px;margin-top:10px}.scene-heading{right:18px}.auto-focus{bottom:112px;padding:8px 11px}.auto-focus span{font-size:10px}.auto-focus b{font-size:12px}.math-typeset{font-size:17px}.math-procedure>header{align-items:baseline}.brand small{font-size:9px}}

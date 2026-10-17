@@ -1,0 +1,519 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ==========================================================================
+   SOLAR MATH III — DEEP SPACE DESIGN SYSTEM (v2: paleta sobria "NASA Eyes")
+   Negro espacial limpio + blancos/grises neutros + un único acento verde
+   reservado exclusivamente para el estado "LIVE/REAL RATE". Sin neón, sin
+   glows agresivos: el objetivo es legibilidad y elegancia, no "brillo".
+   ========================================================================== */
+
+:root {
+  /* --- Superficie / fondo --- */
+  --space-950: #020203;
+  --space-900: #050506;
+  --space-850: #08090b;
+  --space-800: #0c0d10;
+
+  /* --- Paneles de vidrio (glassmorphism) --- */
+  --panel-bg: rgba(14, 14, 16, 0.55);
+  --panel-bg-strong: rgba(10, 10, 12, 0.82);
+  --panel-bg-soft: rgba(16, 16, 18, 0.38);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-border-strong: rgba(255, 255, 255, 0.15);
+  --panel-border-hover: rgba(255, 255, 255, 0.28);
+
+  /* --- Acentos (uso deliberadamente escaso, como la referencia) --- */
+  --accent-cyan: #9db4c7;          /* azul grisáceo apagado — "seleccionado", nunca neón */
+  --accent-cyan-dim: #5c6f7d;
+  --accent-cyan-glow: rgba(157, 180, 199, 0.0);  /* sin halo */
+  --accent-orange: #c98a52;        /* ámbar apagado — solo advertencias reales */
+  --accent-orange-dim: #8f5f35;
+  --accent-orange-glow: rgba(201, 138, 82, 0.0);
+  --accent-live: #4ade80;          /* único color "vivo": estado LIVE/REAL RATE */
+  --accent-live-glow: rgba(74, 222, 128, 0.22);
+  --accent-amber: #c9a35b;
+  --accent-danger: #d9707a;
+
+  /* --- Tipografía / texto --- */
+  --text-primary: #f3f4f6;
+  --text-secondary: #9aa1ad;
+  --text-tertiary: #6b7280;
+  --text-faint: #454a52;
+
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
+
+  /* --- Sombras / resplandores: mínimos, casi inexistentes --- */
+  --glow-cyan-sm: none;
+  --glow-cyan-md: none;
+  --glow-orange-sm: none;
+}
+
+html, body {
+  background: var(--space-950);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mono utility override: project uses Tailwind's font-mono extensively —
+   redirect it to our premium technical monospace face. */
+.font-mono {
+  font-family: var(--font-mono) !important;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+.font-ui {
+  font-family: var(--font-ui) !important;
+  font-feature-settings: normal;
+}
+
+* {
+  font-family: var(--font-ui);
+}
+
+/* ==========================================================================
+   FONDO AMBIENTE — negro limpio, sin tinte de color (estilo NASA Eyes)
+   ========================================================================== */
+.deep-space-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--space-950);
+}
+.deep-space-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  box-shadow: inset 0 0 16vw rgba(0, 0, 0, 0.45);
+  mix-blend-mode: multiply;
+}
+
+/* ==========================================================================
+   PANELES DE VIDRIO — telemetría flotante translúcida
+   ========================================================================== */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px) saturate(105%);
+  -webkit-backdrop-filter: blur(20px) saturate(105%);
+  border: 1px solid var(--panel-border);
+}
+.glass-panel-strong {
+  background: var(--panel-bg-strong);
+  backdrop-filter: blur(24px) saturate(105%);
+  -webkit-backdrop-filter: blur(24px) saturate(105%);
+  border: 1px solid var(--panel-border-strong);
+}
+.glass-panel-soft {
+  background: var(--panel-bg-soft);
+  backdrop-filter: blur(12px) saturate(105%);
+  -webkit-backdrop-filter: blur(12px) saturate(105%);
+  border: 1px solid var(--panel-border);
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  transition: border-color .2s ease, background .2s ease;
+}
+.glass-card:hover {
+  border-color: var(--panel-border-hover);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA TÉCNICA — eyebrows, labels, valores numéricos
+   ========================================================================== */
+.hud-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.hud-title {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+.telemetry-value {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: 0.01em;
+}
+.section-divider {
+  border-top: 1px solid var(--panel-border);
+}
+
+/* ==========================================================================
+   INDICADOR "LIVE" — punto + texto verde plano, halo mínimo (como referencia)
+   ========================================================================== */
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-live);
+  box-shadow: 0 0 0 0 var(--accent-live-glow);
+  animation: live-pulse 2.2s ease-out infinite;
+}
+@keyframes live-pulse {
+  0%   { box-shadow: 0 0 0 0 var(--accent-live-glow); }
+  70%  { box-shadow: 0 0 0 5px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+.live-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--accent-live);
+}
+
+/* ==========================================================================
+   SCROLLBAR — neutro
+   ========================================================================== */
+.scrollbar-hud::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-hud::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-hud::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+.scrollbar-hud::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.14) transparent; }
+
+/* ==========================================================================
+   SLIDERS — pista delgada neutra, thumb blanco simple sin halo
+   ========================================================================== */
+input[type="range"].hud-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"].hud-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  margin-top: 0;
+  transition: transform .15s ease;
+}
+input[type="range"].hud-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"].hud-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+input[type="range"].hud-slider-amber::-webkit-slider-thumb {
+  border-color: var(--accent-live);
+}
+input[type="range"].hud-slider-amber::-moz-range-thumb {
+  border-color: var(--accent-live);
+}
+
+/* ==========================================================================
+   CHECKBOX / RADIO — neutro, sin glow
+   ========================================================================== */
+input[type="checkbox"].hud-check {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  border: 1px solid var(--panel-border-strong);
+  background: rgba(0,0,0,0.4);
+  position: relative;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+input[type="checkbox"].hud-check:checked {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+input[type="checkbox"].hud-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid var(--text-primary);
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(45deg);
+}
+
+/* ==========================================================================
+   BOTONES HUD — neutros, sin glow; el estado activo se distingue por
+   contraste de blancos/grises, no por color saturado
+   ========================================================================== */
+.btn-hud {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  border: 1px solid var(--panel-border-strong);
+  background: rgba(255,255,255,0.02);
+  color: var(--text-secondary);
+  transition: all .18s ease;
+}
+.btn-hud:hover {
+  border-color: var(--panel-border-hover);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+.btn-hud-active {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* ==========================================================================
+   INFO TIP — caja "¿Para qué sirve?" (RightPanel), tono neutro y discreto
+   ========================================================================== */
+.info-tip {
+  font-size: 10px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 8px;
+}
+.info-tip-label {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+.info-tip > span:first-child {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+.info-tip p {
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* Caja de resultado numérico destacado — texto blanco, sin glow */
+.result-box {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--text-primary);
+  margin-top: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 7px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--panel-border);
+}
+.result-box .result-highlight {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+.result-box .result-sub {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  display: block;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   ETIQUETAS FLOTANTES 3D — nombres de planetas, blanco/gris neutro, sin glow
+   ========================================================================== */
+.planet-label-3d {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+}
+.planet-label-3d .leader-line {
+  width: 1px;
+  height: 14px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.45));
+  opacity: 0.6;
+}
+.planet-label-3d .label-chip {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  padding: 2px 7px 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(8, 8, 9, 0.82);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #e3e5e8;
+}
+.planet-label-3d .label-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.3px solid currentColor;
+}
+.planet-label-3d.is-selected .label-chip {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+}
+
+.galaxy-view-button{position:absolute;z-index:22;top:16px;left:50%;transform:translateX(-50%);min-width:210px;padding:9px 15px;border:1px solid rgba(138,168,187,.42);border-radius:4px;background:rgba(3,7,13,.78);color:#e8eef1;backdrop-filter:blur(12px);cursor:pointer;box-shadow:0 14px 36px rgba(0,0,0,.35);font-family:var(--font-mono)}
+.galaxy-view-button span{display:block;font-size:11px;font-weight:800;letter-spacing:.16em}.galaxy-view-button small{display:block;margin-top:3px;color:#778d9a;font-size:9px;letter-spacing:.06em}.galaxy-view-button:hover,.galaxy-view-button.is-active{border-color:#71d8db;background:rgba(8,28,38,.86)}.galaxy-view-button.is-active span{color:#7ce3d5}.galaxy-view-button.is-active small{color:#b1c1c8}
+.galaxy-context-card{position:absolute;z-index:20;left:50%;bottom:72px;transform:translateX(-50%);width:min(560px,calc(100% - 36px));padding:12px 15px;border:1px solid rgba(117,151,169,.3);border-left:3px solid #70d9d5;background:linear-gradient(90deg,rgba(3,8,14,.92),rgba(7,13,21,.78));backdrop-filter:blur(15px);box-shadow:0 22px 70px #000;color:#dbe5e9}.galaxy-context-card>span{display:block;color:#75dad8;font:800 9px var(--font-mono);letter-spacing:.18em}.galaxy-context-card strong{display:block;margin-top:5px;color:#fff;font:700 14px var(--font-ui)}.galaxy-context-card p{margin:4px 0 0;color:#879ba5;font:10px/1.4 var(--font-mono)}
+.planet-comparison-readout{position:absolute;z-index:21;left:50%;bottom:28px;transform:translateX(-50%);width:min(590px,calc(100% - 40px));padding:13px 15px;border:1px solid rgba(115,150,167,.34);background:rgba(3,8,13,.91);backdrop-filter:blur(16px);box-shadow:0 22px 64px #000;color:#dce6e9}.planet-comparison-readout header{display:flex;justify-content:space-between;color:#77d9dc;font:800 9px var(--font-mono);letter-spacing:.15em}.planet-comparison-readout header b{color:#82949d}.planet-comparison-readout>div{display:grid;grid-template-columns:1fr 38px 1fr;align-items:center;margin-top:9px}.planet-comparison-readout article{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:8px 10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}.planet-comparison-readout article small{grid-column:1/-1;color:#71858e;font:700 8px var(--font-mono);letter-spacing:.13em}.planet-comparison-readout article strong{color:#fff;font-size:13px}.planet-comparison-readout article b{color:#f2c48e;font:700 12px var(--font-mono)}.planet-comparison-readout>div>i{text-align:center;color:#647981;font:800 10px var(--font-mono);font-style:normal}.planet-comparison-readout>p{margin:8px 0 0;color:#98aab1;font:10px/1.4 var(--font-mono)}.planet-comparison-readout>p b{color:#7de2d7}
+
+/* ==========================================================================
+   HUD INFERIOR — línea de tiempo estilizada, neutra
+   ========================================================================== */
+.hud-timeline-track {
+  position: relative;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.hud-timeline-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+}
+.hud-timeline-ticks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.hud-timeline-ticks span {
+  width: 1px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1.5px);
+}
+
+/* ==========================================================================
+   ANIMACIONES UTILITARIAS
+   ========================================================================== */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in .25s ease-out; }
+
+@keyframes hud-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* ========================================================================== 
+   EVA01 — PUENTE ENTRE SOLAR MATH III Y LA BASE MARCIANA
+   ========================================================================== */
+.eva01-orbit-card {
+  position: absolute; z-index: 35; left: 50%; bottom: 28px;
+  width: min(390px, calc(100% - 36px)); transform: translateX(-50%);
+  padding: 16px; border: 1px solid rgba(224, 116, 67, .55); border-radius: 10px;
+  background: linear-gradient(145deg, rgba(19, 13, 13, .93), rgba(8, 12, 16, .9));
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .65), inset 0 1px rgba(255, 255, 255, .05);
+  backdrop-filter: blur(18px); color: #eef3f5;
+}
+.eva01-orbit-heading { display: flex; align-items: center; gap: 11px; }
+.eva01-orbit-heading > div { display: grid; gap: 2px; flex: 1; }
+.eva01-orbit-heading span { color: #9aa7ad; font: 600 12px/1.2 var(--font-mono); letter-spacing: .12em; }
+.eva01-orbit-heading strong { color: #f6d5a4; font: 800 21px/1.2 var(--font-ui); letter-spacing: .08em; }
+.eva01-site-pulse { width: 11px; height: 11px; border-radius: 50%; background: #e77946; box-shadow: 0 0 0 0 rgba(231,121,70,.55); animation: eva01-pulse 1.8s infinite; }
+.eva01-orbit-card dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 14px 0; }
+.eva01-orbit-card dl div { padding: 8px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.025); }
+.eva01-orbit-card dt { color: #77848b; font: 600 11px var(--font-ui); }
+.eva01-orbit-card dd { margin: 4px 0 0; color: #fff; font: 700 12px var(--font-mono); }
+.eva01-orbit-card .eva01-online { color: #78d7ac; }
+.eva01-orbit-card button,.eva01-surface-nav button {
+  width: 100%; display: flex; justify-content: center; align-items: center; gap: 9px;
+  min-height: 42px; border: 1px solid #e77946; border-radius: 6px;
+  background: #be5f37; color: white; cursor: pointer;
+  font: 750 14px var(--font-ui); letter-spacing: .02em;
+  transition: transform .18s ease, background .18s ease;
+}
+.eva01-orbit-card button:hover { transform: translateY(-1px); background: #db7041; }
+.eva03-mission-cta{align-self:center;min-height:32px;padding:0 13px;border:1px solid #dc7748;background:linear-gradient(135deg,#a84328,#d86d3d);color:#fff;display:flex;align-items:center;gap:7px;font:800 10px var(--font-mono);letter-spacing:.1em;cursor:pointer;box-shadow:0 8px 24px rgba(211,91,48,.2);transition:.18s ease}
+.eva03-mission-cta:hover{transform:translateY(-1px);background:linear-gradient(135deg,#c1512e,#ee8250);box-shadow:0 10px 30px rgba(226,104,57,.34)}
+@keyframes eva01-pulse { 70% { box-shadow: 0 0 0 9px rgba(231,121,70,0); } 100% { box-shadow: 0 0 0 0 rgba(231,121,70,0); } }
+
+.eva01-descent-overlay {
+  position: fixed; inset: 0; z-index: 80; pointer-events: none; overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, transparent 0 12%, rgba(102,36,20,.08) 32%, rgba(7,9,12,.06) 65%);
+  animation: eva01-entry-wash 6.8s ease-in forwards;
+}
+.eva01-entry-ring { position: absolute; left: 50%; top: 50%; width: 220px; height: 220px; border: 1px solid rgba(246,213,164,.7); border-radius: 50%; transform: translate(-50%,-50%); animation: eva01-reticle 5.8s cubic-bezier(.5,0,.25,1) forwards; }
+.eva01-entry-ring::before,.eva01-entry-ring::after { content:""; position:absolute; inset:18px; border:1px dashed rgba(231,121,70,.65); border-radius:50%; }
+.eva01-entry-ring::after { inset:72px; border-style:solid; }
+.eva01-descent-copy { position:absolute; left:50%; top:12%; transform:translateX(-50%); text-align:center; width:min(620px,90vw); }
+.eva01-descent-copy span { color:#dbac83; font:650 12px var(--font-mono); letter-spacing:.2em; }
+.eva01-descent-copy h2 { margin:8px 0 5px; color:#fff; font:800 clamp(28px,4vw,58px) var(--font-ui); letter-spacing:.08em; }
+.eva01-descent-copy p { margin:0; color:#aeb9bf; font:500 14px var(--font-mono); }
+.eva01-descent-telemetry { position:absolute; left:50%; bottom:8%; transform:translateX(-50%); display:flex; gap:8px; }
+.eva01-descent-telemetry span { padding:9px 12px; border:1px solid rgba(255,255,255,.15); background:rgba(4,7,10,.7); color:#9aa7ad; font:600 11px var(--font-mono); }
+.eva01-descent-telemetry b { color:#f6d5a4; margin-right:6px; }
+.eva01-is-descending > header,.eva01-is-descending > footer,.eva01-is-descending .glass-panel { animation: eva01-hud-away 2.8s ease forwards; }
+@keyframes eva01-reticle { 0%{width:220px;height:220px;opacity:.2;transform:translate(-50%,-50%) rotate(0)} 55%{opacity:1} 100%{width:min(110vmax,1500px);height:min(110vmax,1500px);opacity:.05;transform:translate(-50%,-50%) rotate(120deg)} }
+@keyframes eva01-entry-wash { 0%,55%{background-color:transparent} 80%{background-color:rgba(145,52,22,.22)} 96%{background-color:rgba(232,119,67,.82)} 100%{background-color:#070e14} }
+@keyframes eva01-hud-away { to{opacity:0;filter:blur(9px)} }
+
+.eva01-surface-shell { width:100vw; height:100vh; display:grid; grid-template-rows:58px 1fr; overflow:hidden; background:#071018; }
+.eva01-surface-frame { grid-row:2; width:100%; height:100%; border:0; background:#071018; }
+.eva01-surface-nav { grid-row:1; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0 22px; border-bottom:1px solid #324b58; background:#07131c; color:#fff; }
+.eva01-surface-nav > div { display:grid; gap:1px; }
+.eva01-surface-nav .eva01-kicker { color:#7fcdd0; font:650 11px var(--font-mono); letter-spacing:.15em; }
+.eva01-surface-nav strong { color:#f6d5a4; font:800 18px var(--font-ui); letter-spacing:.09em; }
+.eva01-surface-nav button { width:auto; min-height:36px; padding:0 14px; border-color:#46606c; background:#10232e; }
+.eva01-surface-nav button:hover { border-color:#7fcdd0; background:#173442; }
+
+@media(max-width:900px){
+  .eva01-orbit-card{bottom:14px}.eva01-descent-telemetry{display:grid;width:min(340px,90vw)}
+  .eva01-surface-nav{padding:0 12px}.eva01-surface-nav button{font-size:12px}.eva01-surface-nav .eva01-kicker{display:none}
+}
+@media(prefers-reduced-motion:reduce){.eva01-entry-ring,.eva01-descent-overlay,.eva01-is-descending>*{animation-duration:.01ms!important}}
+
+.eva01-ground-experience{position:relative;width:100%;height:100%;overflow:hidden;background:#120806;color:#edf3f4;font-family:var(--font-ui)}
+.eva01-three-mount{position:absolute;inset:0}.eva01-three-mount canvas{display:block;width:100%;height:100%}
+.eva01-ground-experience::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(3,7,10,.8),transparent 27%,transparent 76%,rgba(3,7,10,.28)),linear-gradient(0deg,rgba(3,7,10,.86),transparent 19%,transparent 80%,rgba(3,7,10,.2));transition:opacity .3s}.eva01-ground-experience.is-cinema::after{opacity:.26}
+.eva01-atmosphere-label{position:absolute;z-index:4;left:50%;top:17px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;color:#d8b094;font:700 11px var(--font-mono);letter-spacing:.15em;text-shadow:0 2px 8px #000}.eva01-atmosphere-label i{width:7px;height:7px;border-radius:50%;background:#ff9a5a;box-shadow:0 0 14px #ff7840}
+.eva01-view-controls{position:absolute;z-index:8;right:20px;top:18px;display:flex;gap:6px}.eva01-view-controls button{min-height:34px;padding:0 11px;border:1px solid rgba(172,198,204,.38);background:rgba(5,13,17,.8);color:#d9e6e8;font:700 11px var(--font-mono);letter-spacing:.05em;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(12px)}.eva01-view-controls button:hover{border-color:#e98250;color:#fff;background:rgba(81,35,24,.82)}
+.eva01-math-card{position:absolute;z-index:5;left:20px;top:18px;width:min(380px,calc(100% - 40px));max-height:calc(100% - 192px);padding:17px;border:1px solid rgba(120,156,166,.32);border-left:3px solid #e57843;background:linear-gradient(145deg,rgba(5,13,18,.94),rgba(12,18,21,.82));box-shadow:0 24px 70px rgba(0,0,0,.48);backdrop-filter:blur(16px);display:flex;flex-direction:column}.eva01-math-card header{display:flex;justify-content:space-between;color:#66d5da;font:750 12px var(--font-mono);letter-spacing:.13em}.eva01-math-card header b{color:#f0aa73}.eva01-math-card h1{margin:8px 0 6px;color:#f7d7aa;font-size:clamp(25px,2.3vw,36px);line-height:1.03}.eva01-math-card>p{margin:0;color:#c5d0d3;font-size:14px;line-height:1.45}
+.eva01-step-list{display:grid;gap:5px;margin-top:13px;overflow:auto;padding-right:4px}.eva01-step-list button{position:relative;min-height:48px;padding:8px 32px 8px 10px;border:1px solid rgba(125,164,176,.28);background:rgba(5,13,18,.7);color:#d9e2e4;text-align:left;font-size:14px;cursor:pointer}.eva01-step-list button small{display:block;margin-bottom:2px;color:#79929a;font:700 10px var(--font-mono);letter-spacing:.12em}.eva01-step-list button em{position:absolute;right:11px;top:15px;color:#728b92;font-style:normal}.eva01-step-list button[aria-current="true"]{border-color:#ed8a55;background:linear-gradient(90deg,rgba(126,54,31,.86),rgba(54,29,23,.72));color:white;box-shadow:inset 3px 0 #ff9c63}.eva01-step-list button[aria-current="true"] small,.eva01-step-list button[aria-current="true"] em{color:#ffd3a7}
+.eva01-metrics{position:absolute;z-index:5;right:20px;top:64px;display:grid;grid-template-columns:repeat(3,118px);gap:6px}.eva01-metrics>div{padding:10px 11px;border:1px solid rgba(133,163,173,.32);background:rgba(5,13,18,.82);backdrop-filter:blur(12px)}.eva01-metrics b{display:block;color:#fff;font:750 16px var(--font-mono)}.eva01-metrics span{display:block;margin-top:3px;color:#98adb3;font-size:11px}.eva01-metrics .eva01-model-status{grid-column:1/-1;position:relative;padding-left:28px}.eva01-model-status i{position:absolute;left:11px;top:15px;width:8px;height:8px;border-radius:50%;background:#d68c48;box-shadow:0 0 10px #d68c48}.eva01-model-status i.ready{background:#68e7bd;box-shadow:0 0 12px #68e7bd}.eva01-model-status b{font-size:12px;color:#dce8e9}
+.eva01-equation{position:absolute;z-index:6;left:420px;bottom:86px;width:min(660px,calc(100% - 790px));max-height:245px;overflow:auto;padding:14px 16px;border:1px solid rgba(111,151,164,.44);border-top:2px solid #e67b47;background:rgba(4,11,15,.93);backdrop-filter:blur(14px);box-shadow:0 18px 55px rgba(0,0,0,.45)}.eva01-equation>div{display:flex;justify-content:space-between;gap:12px}.eva01-equation>div span{color:#6fd3d8;font:700 10px var(--font-mono);letter-spacing:.14em}.eva01-equation>div b{color:#f6d5a4;font-size:13px}.eva01-equation code{display:block;margin:9px 0 7px;color:#fff;font:14px/1.45 var(--font-mono);white-space:pre-wrap}.eva01-equation strong{display:block;padding:7px 9px;background:rgba(126,54,31,.55);border-left:2px solid #ef8b56;color:#ffd7ab;font:750 13px var(--font-mono)}.eva01-equation ol{margin:9px 0 6px;padding-left:20px;color:#c8d3d5;font:12px/1.45 var(--font-mono)}.eva01-equation p{margin:0;color:#91a6ac;font-size:12px;line-height:1.4}
+.eva01-math-toggle,.eva01-audit-button{position:absolute;z-index:7;right:20px;min-height:36px;padding:0 12px;border:1px solid #506a73;background:rgba(7,18,24,.88);color:#e0e9ea;display:flex;align-items:center;gap:7px;font:700 11px var(--font-mono);cursor:pointer;backdrop-filter:blur(10px)}.eva01-math-toggle{bottom:95px}.eva01-audit-button{bottom:139px;border-color:#d37043}.eva01-audit-button b{color:#ffca95}.eva01-math-toggle:hover,.eva01-audit-button:hover{background:#17343f;color:#fff}.eva01-nav-hint{position:absolute;z-index:5;right:20px;bottom:184px;display:flex;align-items:center;gap:7px;padding:7px 9px;background:rgba(4,10,14,.68);color:#a8bbc0;font-size:11px}
+.eva01-phase-nav{position:absolute;z-index:8;left:0;right:0;bottom:0;height:72px;display:grid;grid-template-columns:repeat(8,1fr);background:rgba(4,11,15,.95);border-top:1px solid #405b64}.eva01-phase-nav button{border:0;border-right:1px solid rgba(92,123,134,.24);background:transparent;color:#9bafb6;text-align:left;padding:10px 12px;cursor:pointer;font:750 11px var(--font-ui);letter-spacing:.04em}.eva01-phase-nav button small{display:block;color:#687f87;font:650 9px var(--font-mono);margin-bottom:5px}.eva01-phase-nav button[aria-current="true"]{background:#172d36;color:#f6d5a4;box-shadow:inset 0 3px #e77946}.eva01-progress{position:absolute;z-index:9;left:0;right:0;bottom:72px;height:3px;background:rgba(255,255,255,.08)}.eva01-progress i{display:block;height:100%;background:linear-gradient(90deg,#e77946,#50cdd2);transition:width .25s}.eva01-prev,.eva01-next{position:absolute;z-index:9;bottom:84px;min-height:38px;border:1px solid #49616a;background:#10232e;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}.eva01-prev{right:222px;width:42px}.eva01-next{right:20px;width:196px;border-color:#df7545;background:#b95b35}.eva01-next:hover{background:#db7041}
+.eva01-world-tag{position:absolute;z-index:7;left:0;top:0;min-width:150px;padding:7px 10px;background:rgba(4,11,15,.92);border-left:3px solid #f28b55;color:#f6d5a4;pointer-events:none;transform:translate(-1000px,-1000px);margin:-54px 0 0 15px;box-shadow:0 12px 35px rgba(0,0,0,.45);transition:opacity .2s}.eva01-world-tag span{display:block;font:800 12px var(--font-mono);letter-spacing:.04em}.eva01-world-tag small{display:block;margin-top:3px;max-width:270px;color:#c3d0d2;font:10px/1.3 var(--font-mono);white-space:normal}
+.eva01-audit-overlay{position:absolute;z-index:30;inset:0;padding:28px;background:rgba(2,6,9,.8);backdrop-filter:blur(10px);display:grid;place-items:center}.eva01-audit-overlay>section{width:min(1050px,96vw);max-height:88%;overflow:auto;border:1px solid #45616a;background:linear-gradient(145deg,#07131a,#10191d);box-shadow:0 35px 120px #000;padding:22px}.eva01-audit-overlay header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.eva01-audit-overlay header span{color:#68d7da;font:700 11px var(--font-mono);letter-spacing:.16em}.eva01-audit-overlay h2{margin:6px 0 18px;color:#f7d7aa;font-size:30px}.eva01-audit-overlay header button{width:38px;height:38px;border:1px solid #526b73;background:#10242d;color:white;cursor:pointer}.eva01-audit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.eva01-audit-grid article{position:relative;min-height:92px;padding:13px 80px 13px 14px;border:1px solid rgba(125,160,170,.28);background:rgba(255,255,255,.025)}.eva01-audit-grid article>b{position:absolute;right:12px;top:12px;color:#77e2bd;font:800 13px var(--font-mono)}.eva01-audit-grid h3{margin:0;color:#f3f6f6;font-size:14px}.eva01-audit-grid p{margin:6px 0 0;color:#9dafb4;font-size:12px;line-height:1.4}.eva01-audit-overlay footer{margin-top:12px;padding:10px;border-left:2px solid #e67b47;color:#c9d3d5;font-size:12px;background:rgba(125,52,29,.25)}
+.eva01-audit-overlay footer p{margin:0}.eva01-audit-overlay footer p+p{margin-top:5px;color:#9fb0b4}.eva01-audit-overlay footer strong{color:#f3c190}.eva01-audit-overlay footer a{color:#76d7db;text-underline-offset:2px}
+.eva01-ground-experience.is-cinema .eva01-phase-nav,.eva01-ground-experience.is-cinema .eva01-progress{opacity:.18;transition:opacity .2s}.eva01-ground-experience.is-cinema .eva01-phase-nav:hover{opacity:1}
+.eva01-ground-experience.is-cinema .eva01-world-tag{display:none}
+@media(max-width:1180px){.eva01-equation{left:410px;width:calc(100% - 690px)}.eva01-metrics{grid-template-columns:repeat(3,105px)}.eva01-nav-hint{display:none}}
+@media(max-width:900px){.eva01-atmosphere-label{display:none}.eva01-view-controls{right:10px;top:10px}.eva01-view-controls button:not(:last-child){display:none}.eva01-math-card{left:10px;top:10px;width:min(350px,calc(100% - 20px));max-height:44%;padding:13px}.eva01-math-card h1{font-size:25px}.eva01-step-list{display:none}.eva01-metrics{display:none}.eva01-equation{left:10px;right:10px;bottom:79px;width:auto;max-height:35%;padding:11px}.eva01-audit-button{left:10px;right:auto;bottom:84px}.eva01-math-toggle{right:10px;bottom:84px}.eva01-phase-nav{height:64px;overflow-x:auto;grid-template-columns:repeat(8,minmax(116px,1fr))}.eva01-phase-nav button{padding:8px}.eva01-progress{bottom:64px}.eva01-prev,.eva01-next{display:none}.eva01-audit-overlay{padding:10px}.eva01-audit-grid{grid-template-columns:1fr}.eva01-audit-overlay>section{padding:15px}.eva01-audit-overlay h2{font-size:24px}}

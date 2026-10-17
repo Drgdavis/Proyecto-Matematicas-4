@@ -1,0 +1,18 @@
+node_modules/
+dist/
+tmp/
+.vite/
+coverage/
+
+.env
+.env.*
+!.env.example
+*.log
+
+# Referencias visuales externas sin licencia de redistribución verificada.
+evidencia/referencias-usuario-2026-10-03/referencia-*.png
+
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
