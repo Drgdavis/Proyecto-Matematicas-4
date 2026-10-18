@@ -54,6 +54,24 @@ Abro `http://127.0.0.1:3000/`. Ese servidor muestra el último contenido compila
 
 Puedo abrirlo en versiones actuales de **Google Chrome, Microsoft Edge, Mozilla Firefox, Safari u Opera**. Para la exposición en Windows usaré Chrome o Edge y comprobaré antes que el equipo tenga la aceleración gráfica activa. Este proyecto usa **WebGL 2**: pruebo el navegador en [get.webgl.org/webgl2](https://get.webgl.org/webgl2/) y después recorro varias escenas del [modelo público](https://drgdavis.github.io/Proyecto-Matematicas-4/). La compatibilidad depende también de la GPU y sus controladores; [MDN explica ese requisito](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
+### Cabina integrada para tres tablets
+
+Dentro del modelo, con la página enfocada, escribo **EVA03** seguido (sin Ctrl ni Alt, con menos de 1.8 segundos entre letras). La secuencia abre la cabina; **Esc** o **Volver al modelo** la cierra. No aparece un botón nuevo en la vista normal. Si estoy escribiendo en un campo, la secuencia se ignora.
+
+Para una exposición local:
+
+1. Instalo Node.js 22 o posterior en la laptop. Descargo o clono el proyecto y abro `INICIAR_CABINA.cmd`. La primera preparación de dependencias requiere internet; el iniciador compila el sitio, arranca el servidor en segundo plano y abre el modelo local.
+2. Conecto laptop y tablets a la misma red. En el modelo escribo **EVA03**, elijo la dirección de la red y escaneo el QR desde las tablets. Cada integrante elige su nombre. La laptop muestra quién está conectado.
+3. Pulso **Abrir salida para TV**. Muevo esa ventana a la TV y activo allí pantalla completa. La presentación y el 3D permanecen cargados dentro de esa salida.
+4. En la cabina de la laptop pulso **Compartir salida con tablets** y selecciono la pestaña **EVA03 · Salida** en el permiso del navegador. Conservo abierta la pestaña original que inició la captura. La imagen compartida no incluye los guiones.
+5. Desde la tablet con turno toco un panel para proyectarlo. Tocar la presentación activa revela un elemento hasta 6/6; **Siguiente lámina** es independiente. El modelo permite escena, tema, pausa, repetición, avance, cálculo, giro con un dedo y desplazamiento/zoom con dos dedos.
+6. **Ceder turno** entrega el control a otro integrante conectado. **Todos pueden controlar** requiere **Confirmar/Cancelar**; volver al modo individual también. La laptop conserva autoridad de recuperación.
+7. Al terminar abro la cabina y uso **Cerrar sala y servidor**. Cerrar solo el panel conserva la sesión y la captura.
+
+También puedo preparar manualmente con `npm ci`, `npm run build -- --configLoader runner` y `npm run cabina`. La cabina de preparación debe abrirse en `http://127.0.0.1:3000/` desde la laptop; las tablets usan la dirección LAN que muestra el QR. Si la conexión no abre, reviso que la red no aísle dispositivos y que Windows permita a Node atender la red privada. No se cambia el firewall automáticamente. GitHub Pages muestra el modelo y el aviso de preparación, pero no ejecuta el servidor local.
+
+Las tablets reciben una imagen de la salida cuando la laptop autoriza la captura; mientras no se comparta, conservan controles y guion y avisan que falta la imagen. Una vista previa no se anuncia como emisión en directo. La aplicación no solicita cámara ni micrófono. En una red HTTP local no se asume bloqueo automático de pantalla: preparo el tiempo de pantalla de las tablets antes del pase. La compatibilidad, la demora de video y la fluidez en las tres Samsung Tab S10 FE requieren ensayo físico. `npm run test:cabina` comprueba el protocolo y los permisos; no reemplaza ese ensayo.
+
 ## Cómo trabajo desde mis computadoras
 
 En una computadora nueva instalo Git y Node.js 22. Clono mi repositorio y preparo las dependencias:
@@ -64,7 +82,7 @@ cd Proyecto-Matematicas-4
 npm ci
 ```
 
-Antes de empezar en cualquiera de mis computadoras, traigo la versión más reciente con `git pull --ff-only`. Al terminar, ejecuto `npm run audit`, reviso los cambios con `git status` y los publico:
+Antes de actualizar cierro la sala desde la cabina. Traigo la versión más reciente con `git pull --ff-only` y vuelvo a abrir `INICIAR_CABINA.cmd`. Al terminar de editar, ejecuto `npm run audit`, reviso los cambios con `git status` y los publico:
 
 ```powershell
 git add .

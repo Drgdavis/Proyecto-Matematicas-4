@@ -14,7 +14,7 @@ function run(name,args,input){
  results.push({check:name,result:result.status===0&&!result.error?'PASS':'FAIL'});
 }
 run('Tipos TypeScript',['node_modules/typescript/bin/tsc','--noEmit']);
-for(const name of ['demonstrations','mars','region','rover-clearance','campus-junction','rover-transfer','habitat','systems','survey','typesetting','traceability'])run(name,[`scripts/verify-${name}.mjs`]);
+for(const name of ['demonstrations','mars','region','rover-clearance','campus-junction','rover-transfer','habitat','systems','survey','typesetting','traceability','cabina'])run(name,[`scripts/verify-${name}.mjs`]);
 run('Inventario de rúbrica (alcance parcial)',['scripts/audit-rubric.mjs']);
 run('Pares de cápsulas (informe; revisar candidatos)',['scripts/audit-campus.mjs']);
 run('Compilación',['node_modules/vite/bin/vite.js','build','--configLoader','runner']);

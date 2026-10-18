@@ -7,6 +7,8 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
+    "cabina": "node static-server.cjs",
+    "test:cabina": "node scripts/verify-cabina.mjs",
     "lint": "tsc --noEmit",
     "audit": "node scripts/verify-project.mjs"
   },
@@ -16,10 +18,12 @@
     "katex": "^0.16.22",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
+    "qrcode": "^1.5.4",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "three": "^0.184.0",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "ws": "^8.22.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

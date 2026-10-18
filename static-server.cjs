@@ -1,9 +1,11 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { createCabina } = require('./server/cabina.cjs');
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 3000);
 const ROOT = path.resolve(__dirname, 'dist');
+const cabina = createCabina({root:ROOT,port:PORT,shutdown:()=>{cabina.close();server.close();}});
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -31,7 +33,9 @@ const MIME = {
   '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
+  try { if(await cabina.http(req,res))return; }
+  catch { res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'No se pudo preparar la cabina.'}));return; }
   let urlPath;
   try {
     urlPath = decodeURIComponent(req.url.split('?')[0]);
@@ -95,7 +99,9 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.on('upgrade',cabina.upgrade);
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor EVA03 corriendo en http://127.0.0.1:${PORT}/`);
   console.log(`Sirviendo: ${ROOT}`);
+  console.log('Cabina integrada: escribe EVA03 dentro del modelo.');
 });
