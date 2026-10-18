@@ -20,7 +20,7 @@
 | Fase VI · Depósito | Semielipsoide, límites y cambio de variables, jacobiano, integral triple evaluada, densidad positiva, masa, momentos y centro de masa. |
 | Síntesis | Plano común de terreno, base, ruta, R, depósito y resultados cuantificados. |
 
-La exposición abre con **22 escenas** que cubren las seis fases del PDF oficial. En cada escena se destacan uno a tres cálculos para explicar y los demás permanecen accesibles en **Más evidencia de esta escena**. **Siguiente** avanza entre escenas; **Explorar · 53 temas** permite recorrer cada demostración individualmente. Un solo modelo 3D ofrece cuatro accesos opcionales: terreno, llegada y rover, región R y depósito E. También hay cinco estudios aplicados complementarios: energía/polvo, selección de hielo, balance de oxígeno, blindaje y energía del rover. Son optativos; no sustituyen los procedimientos obligatorios.
+La exposición abre con **22 escenas** que cubren las seis fases del PDF oficial. En cada escena se destacan uno a tres temas centrales y los demás permanecen accesibles en **Más evidencia de esta escena**. En **Plano general**, **Siguiente** recorre sus tres temas antes de pasar a la escena 2; después avanza por escenas. **Explorar · 53 temas** permite recorrer cada demostración individualmente. Un solo modelo 3D ofrece cuatro accesos opcionales: terreno, llegada y rover, región R y depósito E. También hay cinco estudios aplicados complementarios: energía/polvo, selección de hielo, balance de oxígeno, blindaje y energía del rover. Son optativos; no sustituyen los procedimientos obligatorios.
 
 ## Dónde está cada cosa
 
