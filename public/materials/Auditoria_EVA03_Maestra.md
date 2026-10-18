@@ -759,3 +759,106 @@ El usuario aclaró que desea **más explicación en las partes matemáticas impo
 - **Hallazgo:** la versión resumida de la tarjeta solar omitió el valor visible de la batería conceptual. El control `verify-traceability.mjs` lo detectó durante `npm run audit`.
 - **Corrección:** la tarjeta conserva su texto breve y vuelve a mostrar los 120 kWh nominales tomados de `PROJECT_FACTS.batteryNominalKwh`. El índice y el README describen los temas centrales sin llamar cálculo a cada tema introductorio.
 - **Comprobación:** `verify-traceability.mjs` volvió a aprobar y `npm run audit` cerró 15/15 controles, incluida la compilación. Permanecen pendientes los datos administrativos, atribuciones individuales de activos sin licencia documentada y el ensayo completo en el equipo de exposición; las pruebas automáticas no los reemplazan.
+
+### Control desde tres tablets y salida unificada · propuesta 17/10/2026
+
+**Estado:** plan de una función nueva, todavía sin implementar ni probar en las tablets. La maqueta de interacción que acompaña la propuesta simula acciones en un solo navegador; no constituye una conexión real entre dispositivos.
+
+**Revisión de la maqueta:** se probaron seis revelados y un séptimo toque sin salto de lámina, retorno del modelo conservando el revelado, cancelación y confirmación del modo compartido, bloqueo del observador, cesión Davis→Haroldo y conservación de la escena 3D al cambiar de lámina. Se comprobó reflujo a 736 y 360 px sin desbordamiento horizontal. Esta evidencia verifica la propuesta de interacción, no video, latencia ni red entre equipos.
+
+**Acuerdos confirmados:** tres Samsung Tab S10 FE; HP Victus como equipo de proyección; red Wi-Fi propia; guion privado por integrante; avance manual de los seis pasos de cada lámina; cambio entre presentación y modelo desde las tablets. Un integrante controla por defecto y puede ceder el turno. También se admite control de las tres tablets, pero cambiar ese modo requiere una pregunta con Confirmar/Cancelar.
+
+#### Resultado que debe ofrecer
+
+- La TV muestra una sola salida limpia. La laptop conserva presentación y modelo cargados en la misma aplicación de salida, con sus estados independientes.
+- Cada tablet, en horizontal, tiene el guion a la izquierda, la presentación arriba a la derecha y el modelo abajo a la derecha. El tamaño del guion se puede ajustar sin cambiar la TV.
+- El panel que está proyectándose muestra la imagen recibida de la laptop. El panel inactivo conserva una miniatura o una vista sincronizada y se identifica como vista previa, no como emisión en directo.
+- Tocar un panel inactivo cambia la salida a ese contenido y conserva el paso, escena, cámara y avance anteriores. Ese toque no ejecuta además un avance o un movimiento.
+- Tocar la presentación activa revela exactamente un elemento. Los seis son fórmula, tres pasos, resultado y significado. Al llegar a 6/6, otro toque no cambia de lámina; existe una acción distinta «Siguiente lámina».
+- Sobre el modelo activo: arrastrar gira la cámara; dos dedos acercan o desplazan; botones permiten escena/tema, pausa, repetición, progreso, vistas predefinidas y desarrollo matemático. Se incorporará una lista explícita de controles remotos, en vez de prometer control genérico de todo Windows.
+- Las tres tablets pueden seguir la exposición y leer sus notas. El guion, su desplazamiento y el tamaño de letra son privados.
+
+#### Conexión y responsabilidades
+
+```text
+Tablet Davis ───────┐
+Tablet Haroldo ─────┼── red propia ── HP Victus ── HDMI ── TV
+Tablet Juan Carlos ┘                 servidor + salida
+```
+
+La propuesta principal es una aplicación web local que se abre en Chrome o Edge de la laptop y en Chrome de las tablets. No requiere una APK para la primera versión. La laptop ejecuta un servidor Node que sirve el contenido y coordina mensajes WebSocket. Las tablets entran mediante URL/QR y código de sesión. La red local debe permitir comunicación entre dispositivos; no usar una red de invitados que los aísle. Si se dispone de router, conectar la laptop por cable y las tablets por Wi-Fi de 5 GHz es una configuración a ensayar. El internet externo no es necesario durante el pase si todos los recursos se sirven localmente.
+
+GitHub Pages conserva la copia pública del proyecto, pero su alojamiento estático no ejecuta este servidor de sesión. Abrir el enlace público en cuatro dispositivos por sí solo no los sincroniza. El servidor actual `static-server.cjs` escucha únicamente en `127.0.0.1` y no tiene WebSocket: hace falta una entrada específica para la sesión en LAN.
+
+Separar tres vistas de la misma aplicación: `/sala` para preparar y supervisar en la laptop, `/salida` para la ventana de la TV y `/control` para las tablets. El modo de pantalla extendida permite dejar `/salida` en la TV y `/sala` en la laptop. La autoridad de permisos y el orden de comandos pertenecen al servidor; la pantalla de salida confirma qué cambio aplicó realmente y comunica su estado. Los clientes no avanzan su contador por su cuenta.
+
+#### Imagen en vivo y controles
+
+Para cumplir la petición de ver lo que realmente sale en la laptop, el diseño principal transmite la pestaña `/salida` a las tablets con WebRTC. Así se incluyen el canvas 3D, rótulos, fórmulas y ventanas de desarrollo; capturar solamente el canvas dejaría fuera elementos HTML que hoy son parte de la demostración.
+
+Antes del pase, una persona pulsa «Compartir salida» en la laptop y elige la pestaña de proyección. El navegador exige esa selección y permiso en cada nueva captura. La preparación se abre en `http://localhost`, un contexto local considerado confiable por los navegadores compatibles; el acceso remoto usa la dirección LAN de la laptop. Hay que comprobar este recorrido con los navegadores reales. No se necesita cámara ni micrófono para el plan propuesto. No se captura el panel de guion ni la pantalla completa de administración.
+
+La ventana de salida se coloca en la TV y se activa su pantalla completa manualmente desde la laptop durante la preparación. Las órdenes remotas no se basarán en conseguir permisos de captura o pantalla completa mediante una pulsación recibida por la red.
+
+Se reutiliza una fuente de captura, pero hay tres conexiones receptoras: deben medirse tanto el tráfico como el trabajo de codificación. Punto inicial de ensayo: vista previa de 720p y 15–20 imágenes/s; adaptar hacia 480p si hace falta. La TV conserva su resolución de salida. Esas cifras son parámetros de prueba, no rendimiento garantizado por la RTX 4050.
+
+El video permite observar; los comandos WebSocket permiten actuar. Las coordenadas táctiles se normalizan respecto al área útil, descontando bandas vacías. Los gestos se traducen a acciones de cámara admitidas por `SceneHandle` y OrbitControls. La selección de fórmulas, botones y objetos usará acciones explícitas e identificadores estables, sin depender de hacer clic a ciegas sobre una imagen comprimida.
+
+Las tablets que abran una URL HTTP de la LAN no deben asumir instalación PWA, caché de service worker o bloqueo automático de pantalla: esas funciones pueden necesitar HTTPS. La primera versión se ensaya en navegador y se configura manualmente un tiempo de pantalla adecuado. Si luego se necesita instalación y pantalla siempre activa desde la aplicación, se planifica HTTPS con confianza válida en los cuatro equipos o una envoltura Android; no se basa la exposición en omitir advertencias de certificados.
+
+#### Turnos y modo compartido
+
+| Modo | Quién puede modificar la salida | Quién ve el guion y la emisión |
+|---|---|---|
+| Un expositor, predeterminado | Dueño del turno; la laptop siempre puede recuperar el control | Los tres |
+| Compartido, activación confirmada | Los tres integrantes emparejados | Los tres |
+
+El expositor puede elegir a otro integrante y cederle el turno. El servidor confirma el cambio a todas las tablets. Los demás pueden solicitarlo; una desconexión no transfiere el turno a otra persona automáticamente.
+
+Cambiar los permisos exige un diálogo privado, con Cancelar como salida segura y sin emitir comandos hasta Confirmar. Ejemplo: «¿Permitir que Davis, Haroldo y Juan Carlos controlen la proyección? Podrán cambiar pasos, escenas y cámara». Volver al modo individual también pide confirmación e identifica quién conservará el turno. El diálogo se puede abrir desde la laptop o desde la tablet que conserva la autoridad del turno; un observador no puede habilitarse a sí mismo. Un cierre, retroceso o cancelación deja el modo intacto. El permiso se comprueba en el servidor, aunque el cliente haya sido manipulado o conserve controles antiguos.
+
+En modo compartido, los avances tienen un orden único. Un identificador de comando impide aplicar dos veces el mismo toque reenviado. Las peticiones de paso esperan su confirmación antes de habilitar el siguiente envío; no se ejecutan pulsaciones acumuladas al reconectar. Para cámara, un gesto tiene control temporal hasta levantar/cancelar el dedo, con caducidad si desaparece la conexión. Dos arrastres simultáneos no se suman. Cambiar escena cancela los gestos anteriores y descarta deltas tardíos.
+
+#### Guion y ritmo de exposición
+
+La fuente editorial será la guía de tres integrantes y las notas de las 22 láminas. Se convierte a datos por integrante, escena, tema del 3D y paso revelado. Hay que revisar ese reparto antes de importarlo: la guía aún contiene algunas instrucciones generales anteriores al avance por tres temas del plano general. No interpretar automáticamente cualquier párrafo como una intervención ya aprobada.
+
+Cada paso ofrece una frase oral corta, qué señalar y una ayuda opcional para preguntas. Davis mantiene las derivaciones más difíciles; Juan Carlos y Haroldo conservan las explicaciones sencillas acordadas. Las tablets pueden seguir la escena actual o fijar sus notas para repasar sin mover la proyección. El seguimiento resalta una frase y no mueve de golpe el texto bajo la lectura.
+
+Mostrar paso actual/6, expositor con turno, siguiente intervención y recordatorios de los bloques 3D. Añadir tiempos transcurridos total y por bloque/integrante con pausa para preguntas; no introducir avance automático por cronómetro. La elección de quién habla y la cesión del control son decisiones visibles, no un cambio de propietario impuesto por entrar a una escena.
+
+#### Integración con los archivos existentes
+
+| Pieza actual | Cambio propuesto |
+|---|---|
+| HTML de las 22 láminas | Exponer estado `index/reveal` y acciones diferenciadas para paso y lámina; recibir órdenes mediante un puente validado por origen y tipo de mensaje. Mantener el HTML autónomo. |
+| `src/Expedition.tsx` | Añadir adaptador de comandos/estado para escena, tema, pausa, progreso, vistas y desarrollo. Reutilizar las acciones actuales desde teclado y tablet. |
+| `src/components/marsScene.ts` | Exponer gestos y estado de cámara a través de `SceneHandle`; suspender el autoencuadre durante un gesto manual y ofrecer recuperar la vista. |
+| Aplicación de salida nueva | Mantener lámina y modelo cargados; cambiar de vista conservando el estado y pausar la animación del modelo cuando queda oculto. |
+| Servidor de sesión nuevo | Servir `dist`, emparejar dispositivos, validar roles, ordenar y confirmar comandos, distribuir estado y señalizar WebRTC. |
+| Datos de guion nuevos | Una estructura por escena/paso/persona, revisada contra la guía y las fórmulas. |
+| `src/index.css` | Sustituir o complementar las fuentes remotas de Google por recursos locales para que el aspecto no dependa de internet. |
+
+Esquema de estado mínimo: sesión; revisión confirmada; contenido proyectado; lámina y revelado 0–6; escena y tema 3D; progreso y pausa; cámara; ventanas abiertas; dueño del turno; modo individual/compartido; dispositivos conectados; tiempos. El avance animado lo informa la salida, no tres relojes independientes de las tablets. Guardar el último estado confirmado permite recuperarse tras una recarga; restaurar una sesión pausada es preferible a disparar animaciones o cambios pendientes.
+
+#### Orden de implementación y puertas de aceptación
+
+1. **Prueba de conexión e imagen real.** Crear una sala mínima y conectar primero una tablet y luego las tres. Probar WebSocket y emisión de una pestaña en la red propia, sin internet. Confirmar que se ven rótulos HTML además del 3D. Esta prueba decide resolución, frecuencia y estrategia de video antes de construir toda la consola.
+2. **Salida unificada y avance exacto.** Integrar las 22 láminas y el 3D. Verificar los seis pasos, que el séptimo toque no salta de lámina, que cambiar de vista no altera el avance y que la introducción conserva sus tres temas.
+3. **Consola y guiones.** Construir la distribución solicitada en horizontal, notas privadas, texto ajustable, siguiente intervención y controles táctiles. Revisar frases, fórmulas y voces de las 22 escenas.
+4. **Turnos, confirmación y concurrencia.** Implementar cesión, solicitudes, modo compartido y Confirmar/Cancelar. Comprobar permisos en el servidor, reintentos, doble toque y gestos de dos personas.
+5. **Recuperación y ensayo completo.** Añadir indicador separado de conexión e imagen en vivo, reconexión al estado actual, teclado de respaldo y recuperación desde la laptop. Ensayar la exposición en los cuatro dispositivos y la TV.
+
+#### Qué significa terminar esta función
+
+- Tres tablets reales conectadas simultáneamente en la red que se llevará a la exposición; un ensayo continuo de al menos 45 minutos o la duración real si es mayor.
+- Recorrer las 22 láminas y sus seis revelados; recorrer las 22 escenas/53 temas desde los mandos y conservar el estado al alternar contenidos. El guion no aparece nunca en la salida.
+- Cancelar el modo compartido no cambia ningún permiso; confirmarlo habilita a los tres; confirmar el regreso a modo individual bloquea a los demás. Probar también solicitudes enviadas justo antes del cambio.
+- Desconectar/reconectar una tablet, bloquearla/desbloquearla, recargar un controlador y detener/restaurar el video sin repetir pasos ni reiniciar la TV. Si la imagen se congela, se identifica como detenida en vez de mantener una etiqueta falsa de «En vivo».
+- Al caer la red, la salida permanece operativa con teclado/ratón. La reconexión trae el estado actual; no reproduce una cola de acciones antiguas. Si falta la salida, el servidor rechaza cambios y muestra el motivo.
+- Medir respuesta de comandos y demora visible. Objetivos iniciales: percentil 95 inferior a 150 ms para confirmación de comandos y demora de video alrededor de 350 ms o menor; se revisan con mediciones en los equipos y no se anuncian como resultados logrados. En ningún caso un arrastre debe continuar después de soltar por una cola atrasada.
+- Repetir la auditoría matemática existente después de integrar el código. Añadir pruebas de protocolo, permisos y navegación que comprueben efectos observables, además de la revisión visual real.
+
+**Primera acción cuando se autorice implementar:** prueba de una tablet controlando el avance de un paso y recibiendo la imagen de `/salida`; después incorporar las otras dos. No construir toda la aplicación suponiendo que la emisión y el Wi-Fi ya funcionarán por las especificaciones del hardware.
+
+**Fuentes técnicas consultadas:** [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket), [señalización WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling), [captura de pantalla y permiso por sesión](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia), [contextos seguros y localhost](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Secure_Contexts), [bloqueo de pantalla](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API), [OrbitControls](https://threejs.org/docs/pages/OrbitControls.html) y [alcance estático de GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
