@@ -102,13 +102,15 @@ La aplicación abre en **Presentación · 22 escenas**. **Siguiente** avanza una
 
 Este guion corresponde a las 22 láminas y a las 22 escenas del modelo. La duración anterior ya no aplica: ensayen en la HP Victus el cambio entre las dos pestañas del navegador, las entradas de texto, la demostración 3D y las preguntas. Los nombres junto a cada escena indican quién toma la palabra. Cada integrante prepara también los temas adicionales de sus escenas y puede responder sobre las otras fases.
 
-### Escena 1 — Plano general — Juan Carlos Boteo — 45 s
+### Escena 1 — Plano general — Juan Carlos Boteo — tres temas
 
-**Qué decir:** «Nuestro proyecto une seis fases matemáticas dentro de un solo sistema métrico. La superficie, la ruta, la región solar, el depósito y los puntos de análisis comparten coordenadas y parámetros».
+En la presentación del modelo, avance por los tres temas antes de pasar a la escena 2:
 
-**Qué señalar:** terreno, dominio, campus, ruta, región R y depósito.
+1. **Mapa del sistema:** «Todo sucede sobre el mismo terreno y usa las mismas coordenadas. Aquí están la base, la llegada, la ruta del rover, los paneles solares y el depósito». Señale esos lugares en la vista general. Así se entiende dónde aparecerán las cuentas de las seis fases.
+2. **Terreno y cálculo:** «La altura de cada punto sale de una función matemática. Con esa misma función calculamos pendientes, rutas y zonas de estudio; los números del modelo provienen de esas cuentas». Señale el relieve y distinga la representación visual del procedimiento matemático que se desarrolla después.
+3. **Funciones del sistema:** «Cada parte tiene una tarea: habitar, captar energía, tratar agua, explorar y guardar recursos». Señale núcleo, paneles, tratamiento, rover y depósito. Sus conexiones son una propuesta de diseño; los cálculos no prueban que la colonia funcione sola en la realidad.
 
-**Idea defendible:** el proyecto es integrado porque los resultados no viven en gráficas aisladas.
+**Idea defendible:** el proyecto es integrado porque terreno, ubicaciones y resultados comparten un mismo sistema de referencia.
 
 **No diga:** que la base está certificada o que el paisaje es topografía real de Marte.
 
