@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.repository == 'Drgdavis/Proyecto-Matematicas-4'
     runs-on: ubuntu-latest
     steps:
       - name: Descargar código
@@ -29,6 +30,8 @@ jobs:
         run: npm ci
       - name: Comprobar tipos
         run: npm run lint
+      - name: Comprobar contenido público
+        run: npm run test:public
       - name: Compilar para Pages
         run: npm run build
         env:

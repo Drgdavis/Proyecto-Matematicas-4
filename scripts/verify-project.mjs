@@ -14,10 +14,9 @@ function run(name,args,input){
  results.push({check:name,result:result.status===0&&!result.error?'PASS':'FAIL'});
 }
 run('Tipos TypeScript',['node_modules/typescript/bin/tsc','--noEmit']);
-for(const name of ['demonstrations','mars','region','rover-clearance','campus-junction','rover-transfer','habitat','systems','survey','typesetting','traceability','cabina'])run(name,[`scripts/verify-${name}.mjs`]);
-run('Inventario de rúbrica (alcance parcial)',['scripts/audit-rubric.mjs']);
-run('Pares de cápsulas (informe; revisar candidatos)',['scripts/audit-campus.mjs']);
+for(const name of ['demonstrations','mars','region','rover-clearance','campus-junction','rover-transfer','habitat','systems','survey','typesetting'])run(name,[`scripts/verify-${name}.mjs`]);
+run('Entrega pública',['scripts/verify-public-release.mjs']);
 run('Compilación',['node_modules/vite/bin/vite.js','build','--configLoader','runner']);
 console.table(results);
-console.log('Un PASS de ejecución no acredita todo el campus ni la entrega. Revisar alcance, hallazgos abiertos y QA visual en public/materials/Auditoria_EVA03_Maestra.md.');
+console.log('Las comprobaciones automáticas no sustituyen la inspección WebGL ni validan una instalación real.');
 process.exitCode=results.some(row=>row.result==='FAIL')?1:0;

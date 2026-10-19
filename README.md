@@ -1,103 +1,86 @@
-# EVA03 — Mars Math Base · Matemática IV
+# Habitar Marte · Matemática IV
 
-**Qué es:** un proyecto académico de diseño matemático de una colonia científica conceptual en Marte. Combina un terreno descrito por `z=f(x,y)`, decisiones de ubicación, la ruta espacial de un rover, una región para integrales dobles y un depósito semielipsoidal para integrales triples. La aplicación React/Three.js presenta esos cálculos sobre un mismo modelo 3D. Es una propuesta de ingeniería conceptual basada en un terreno sintético; no certifica una instalación real ni demuestra autosuficiencia completa.
+Proyecto académico de una colonia científica conceptual sobre un terreno sintético. Las seis fases conectan una función de elevación con decisiones de ubicación, una ruta espacial, integrales dobles y el volumen, la masa y el centro de masa de un depósito.
 
-**Abrir en internet:** [modelo 3D y 22 escenas](https://drgdavis.github.io/Proyecto-Matematicas-4/). Desde **Índice y respaldo** se accede a la presentación de defensa y a los PDF. GitHub Pages publica automáticamente el último build aprobado de `main` mediante [el workflow](.github/workflows/pages.yml). Para ver el 3D se necesita un navegador con WebGL.
+**[Abrir el modelo interactivo](https://drgdavis.github.io/Proyecto-Matematicas-4/)**
 
-**Fuente que manda:** [Proyecto_Integrador_Matematica_IV_Mars_Math_Base_261003_140546.pdf](Proyecto_Integrador_Matematica_IV_Mars_Math_Base_261003_140546.pdf), el documento oficial de 11 páginas recibido el 03/10/2026. Para requisitos, cifras y notación debe consultarse este PDF.
+**Equipo:** Juan Carlos Boteo, Haroldo Rodriguez y Davis Javier Rivera Aroche.
 
-**Única auditoría y plan:** [Auditoria_EVA03_Maestra.md](public/materials/Auditoria_EVA03_Maestra.md). El PDF oficial gobierna requisitos; el archivo maestro contiene el estado, los pendientes, la evidencia y la secuencia. No hay otro plan activo.
+## Contenido
 
-## Qué incluye el proyecto
-
-| Parte | Contenido |
+| Fase | Desarrollo |
 |---|---|
-| Fase I · Terreno | Sistema cartesiano y escala métrica, función diferenciable, dominio físico, curvas de nivel, trazas y cotas en puntos relevantes. |
-| Fase II · Análisis diferencial | Derivadas, plano tangente, normal, linealización y error; gradiente y direccionales en dos puntos; regla de la cadena a lo largo de la ruta. |
-| Fase III · Ubicación | Puntos críticos libres y Hessiano; selección restringida de una plataforma mediante Lagrange. |
-| Fase IV · Movilidad | Curva 3D del rover, velocidad y aceleración paramétricas, tangente, longitud de arco, curvatura y puntos de control. |
-| Fase V · Región R | Límites polares, integral doble del volumen respecto a `z=0`, valor medio, área real del relieve y comparación con la proyección. |
-| Fase VI · Depósito | Semielipsoide, límites y cambio de variables, jacobiano, integral triple evaluada, densidad positiva, masa, momentos y centro de masa. |
-| Síntesis | Plano común de terreno, base, ruta, R, depósito y resultados cuantificados. |
+| Terreno | Función diferenciable, coordenadas, dominio físico, curvas de nivel y trazas. |
+| Cambio local | Derivadas parciales, plano tangente, normal, linealización, gradiente, direccionales y regla de la cadena. |
+| Ubicación | Puntos críticos, Hessiano y optimización restringida con Lagrange. |
+| Ruta | Curva espacial, derivadas, tangente, longitud de arco y curvatura. |
+| Región R | Límites polares, integral doble, altura media y área real del relieve. |
+| Depósito E | Semielipsoide, cambio de variables, jacobiano, integral triple, densidad, masa y centro de masa. |
 
-La exposición abre con **22 escenas** que cubren las seis fases del PDF oficial. En cada escena se destacan uno a tres temas centrales y los demás permanecen accesibles en **Más evidencia de esta escena**. En **Plano general**, **Siguiente** recorre sus tres temas antes de pasar a la escena 2; después avanza por escenas. **Explorar · 53 temas** permite recorrer cada demostración individualmente. Un solo modelo 3D ofrece cuatro accesos opcionales: terreno, llegada y rover, región R y depósito E. También hay cinco estudios aplicados complementarios: energía/polvo, selección de hielo, balance de oxígeno, blindaje y energía del rover. Son optativos; no sustituyen los procedimientos obligatorios.
+El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo** abre los documentos y el desarrollo de cada fase. Los estudios aplicados adicionales son complementarios.
 
-## Dónde está cada cosa
+## Documentos
 
-| Ruta | Función |
-|---|---|
-| `src/Expedition.tsx` | Recorrido visible, paneles, controles y navegación de escenas. |
-| `src/components/marsScene.ts` y `src/components/colonyCampus.ts` | Terreno, campus, rover, depósito, objetos y animaciones 3D. |
-| `src/data/marsMath.ts`, `src/data/mathSolutions.ts` | Funciones matemáticas y desarrollo analítico mostrado por tema. |
-| `src/data/eva01Project.ts`, `src/data/presentationSlides.ts`, `src/data/sceneCallouts.ts` | Temas, estructura narrativa y lecturas ancladas al modelo. |
-| `src/data/marsSystems.ts`, `src/data/researchScenarios.ts` | Supuestos y cálculos de estudios aplicados. |
-| `src/expedition.css` | Interfaz de la presentación. |
-| `public/models/`, `public/assets/`, `public/materials/` | Modelos, texturas e informes, anexos y presentaciones de respaldo. |
-| `scripts/` | Verificadores numéricos, geométricos y de navegación. |
-| `dist/` | Compilación local para abrir la presentación sin ejecutar Vite. No es la fuente editable. |
+- [Informe técnico](public/materials/Informe_Tecnico_EVA03_Final.pdf).
+- [Anexo matemático](public/materials/Anexo_Matematico_EVA03_Final.pdf).
+- [Plano integrado](public/materials/Plano_Integrado_EVA03_Final.pdf).
+- [Presentación visual de 22 láminas](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html).
+- [Presentación en PDF](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf).
 
-Los entregables documentales vigentes son el [informe técnico final](public/materials/Informe_Tecnico_EVA03_Final.pdf), el [anexo matemático final](public/materials/Anexo_Matematico_EVA03_Final.pdf) y el [plano integrado final](public/materials/Plano_Integrado_EVA03_Final.pdf). Se reproducen con `python scripts/build-final-materials.py` a partir de [la fuente del informe](public/materials/Informe_Tecnico_EVA03_Fuente.md) y [la fuente del anexo](public/materials/Anexo_Matematico_EVA03_Fuente.md). La [guía de estudio y defensa en PDF](public/materials/Guia_de_Estudio_y_Defensa_EVA03.pdf) empieza con ejemplos cotidianos, traduce los símbolos y luego explica los procedimientos para Juan Carlos, Haroldo y Davis, con tres escenas sencillas para Juan Carlos (2, 3, 5), tres para Haroldo (11, 12, 14) y las otras catorce demostraciones para Davis; se regenera con `python scripts/build-study-guide.py` (requiere ReportLab y fuentes Cambria/Arial de Windows). La [guía oral de tres integrantes](public/materials/Guia_Defensa_3_Integrantes.md) organiza el recorrido. La [presentación de navegador, 22 láminas](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html) es la versión para exponer sin PowerPoint: abra el HTML en Edge o Chrome, incluso sin internet. Cada escena revela con `→` o espacio la fórmula, tres pasos, resultado y lectura; `F` entra en pantalla completa y `N` muestra las notas de quien expone. Tras cada bloque indicado, cambie al modelo 3D. El [PDF fijo de respaldo](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf) conserva las 22 láminas sin animación. El [PPTX editable](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas.pptx) queda para quien sí disponga de un editor compatible. Ninguna versión incluye fotografías del modelo. Las 53 demostraciones siguen disponibles en la aplicación y en el anexo. Las presentaciones anteriores son respaldo y no versión vigente. **No entregar los PDF antiguos ni el PPTX de respaldo como versiones vigentes.** Antes de la entrega formal faltan carnets, sección, fecha, contribuciones reales, créditos individuales de algunos activos y ensayo con el equipo; el estado preciso está en la auditoría maestra.
+La presentación HTML revela fórmula, tres pasos, resultado e interpretación con las flechas o la barra espaciadora. **F** activa pantalla completa. El PDF conserva las láminas como respaldo fijo.
 
-## Cómo lo abro en mi computadora
+## Resultados de referencia
 
-Después de clonar el repositorio, preparo la aplicación con Node.js 22:
+| Medida | Resultado |
+|---|---:|
+| Pendiente de llegada B⁺ | 3.788 % |
+| Longitud de la ruta principal | 226.205 m |
+| Área real del terreno en R | 623.365 m² |
+| Capacidad geométrica de E | 1344π ≈ 4 222.301 m³ |
+| Masa con la densidad supuesta | 3 797 114.863 kg |
+| Altura local del centro de masa | 2.970844 m |
 
-```powershell
-npm ci
-npm run build
-node static-server.cjs
-```
+B⁺ optimiza la pendiente sobre la circunferencia de comparación, no todo el campus. La ruta principal se mide por separado del ramal al taller. El volumen bajo el terreno respecto de z=0 no representa excavación. La densidad del depósito es una hipótesis declarada.
 
-Abro `http://127.0.0.1:3000/`. Ese servidor muestra el último contenido compilado de `dist` y comienza en **Presentación · 22 escenas**. El botón **Índice y respaldo** permite saltar a cualquiera de los 53 temas. Tras editar la fuente, vuelvo a ejecutar `npm run build` para actualizarla. Si quiero ver los cambios al guardar, uso `npm run dev`.
+## Ejecutar el proyecto
 
-### Navegadores para el modelo 3D
-
-Puedo abrirlo en versiones actuales de **Google Chrome, Microsoft Edge, Mozilla Firefox, Safari u Opera**. Para la exposición en Windows usaré Chrome o Edge y comprobaré antes que el equipo tenga la aceleración gráfica activa. Este proyecto usa **WebGL 2**: pruebo el navegador en [get.webgl.org/webgl2](https://get.webgl.org/webgl2/) y después recorro varias escenas del [modelo público](https://drgdavis.github.io/Proyecto-Matematicas-4/). La compatibilidad depende también de la GPU y sus controladores; [MDN explica ese requisito](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
-
-### Cabina integrada para tres tablets
-
-Dentro del modelo, con la página enfocada, escribo **EVA03** seguido (sin Ctrl ni Alt, con menos de 1.8 segundos entre letras). La secuencia abre la cabina; **Esc** o **Volver al modelo** la cierra. No aparece un botón nuevo en la vista normal. Si estoy escribiendo en un campo, la secuencia se ignora.
-
-Para una exposición local:
-
-1. Instalo Node.js 22 o posterior en la laptop. Descargo o clono el proyecto y abro `INICIAR_CABINA.cmd`. La primera preparación de dependencias requiere internet; el iniciador compila el sitio, arranca el servidor en segundo plano y abre el modelo local.
-2. Conecto laptop y tablets a la misma red. En el modelo escribo **EVA03**, elijo la dirección de la red y escaneo el QR desde las tablets. Cada integrante elige su nombre. La laptop muestra quién está conectado.
-3. Pulso **Abrir salida para TV**. Muevo esa ventana a la TV y activo allí pantalla completa. La presentación y el 3D permanecen cargados dentro de esa salida.
-4. En la cabina de la laptop pulso **Compartir salida con tablets** y selecciono la pestaña **EVA03 · Salida** en el permiso del navegador. Conservo abierta la pestaña original que inició la captura. La imagen compartida no incluye los guiones.
-5. Desde la tablet con turno toco un panel para proyectarlo. Tocar la presentación activa revela un elemento hasta 6/6; **Siguiente lámina** es independiente. El modelo permite escena, tema, pausa, repetición, avance, cálculo, giro con un dedo y desplazamiento/zoom con dos dedos.
-6. **Ceder turno** entrega el control a otro integrante conectado. **Todos pueden controlar** requiere **Confirmar/Cancelar**; volver al modo individual también. La laptop conserva autoridad de recuperación.
-7. Al terminar abro la cabina y uso **Cerrar sala y servidor**. Cerrar solo el panel conserva la sesión y la captura.
-
-También puedo preparar manualmente con `npm ci`, `npm run build -- --configLoader runner` y `npm run cabina`. La cabina de preparación debe abrirse en `http://127.0.0.1:3000/` desde la laptop; las tablets usan la dirección LAN que muestra el QR. Si la conexión no abre, reviso que la red no aísle dispositivos y que Windows permita a Node atender la red privada. No se cambia el firewall automáticamente. GitHub Pages muestra el modelo y el aviso de preparación, pero no ejecuta el servidor local.
-
-Las tablets reciben una imagen de la salida cuando la laptop autoriza la captura; mientras no se comparta, conservan controles y guion y avisan que falta la imagen. Una vista previa no se anuncia como emisión en directo. La aplicación no solicita cámara ni micrófono. En una red HTTP local no se asume bloqueo automático de pantalla: preparo el tiempo de pantalla de las tablets antes del pase. La compatibilidad, la demora de video y la fluidez en las tres Samsung Tab S10 FE requieren ensayo físico. `npm run test:cabina` comprueba el protocolo y los permisos; no reemplaza ese ensayo.
-
-El panel **Mi guion** muestra texto listo para decir en voz alta: una introducción y seis fragmentos por lámina, y una explicación por cada tema del modelo. Las fórmulas se explican con palabras; las cifras del modelo son las del caso de referencia o el total indicado, aunque la animación esté mostrando un avance intermedio. **Solo para ti · no se lee** separa las indicaciones de operación. Las preguntas y la guía técnica quedan plegadas debajo. Ajusto la letra con **A− / A+**. El texto sigue el paso confirmado y no se desplaza por un temporizador.
-
-Para ensayar con una sola tablet entro como **Davis**, que tiene el turno inicial; los otros dos integrantes no necesitan conectarse. Puedo desmarcar **Seguir la exposición** para repasar cualquier escena y fragmento sin modificar la salida. Al marcarlo otra vez, vuelvo al guion del contenido proyectado. La fuente oral editable es [Guion_Oral_Cabina.json](public/materials/Guion_Oral_Cabina.json), con las 22 escenas y los 53 temas. Después de actualizar reinicio la sala y recargo la tablet para cargar el guion vigente.
-
-## Cómo trabajo desde mis computadoras
-
-En una computadora nueva instalo Git y Node.js 22. Clono mi repositorio y preparo las dependencias:
+Con Node.js 22 o posterior:
 
 ```powershell
 git clone https://github.com/Drgdavis/Proyecto-Matematicas-4.git
 cd Proyecto-Matematicas-4
 npm ci
+npm run dev
 ```
 
-Antes de actualizar cierro la sala desde la cabina. Traigo la versión más reciente con `git pull --ff-only` y vuelvo a abrir `INICIAR_CABINA.cmd`. Al terminar de editar, ejecuto `npm run audit`, reviso los cambios con `git status` y los publico:
+Abre `http://127.0.0.1:3000/`. Para usar una compilación estática:
 
 ```powershell
-git add .
-git commit -m "Describir el cambio realizado"
-git push origin main
+npm run build
+node static-server.cjs
 ```
 
-`git pull --ff-only` me avisa si tengo cambios incompatibles para resolverlos antes de continuar. Git guarda el código, los documentos, modelos y evidencias propias. Dejo fuera `node_modules/`, `dist/`, `tmp/`, archivos `.env` y tres imágenes externas cuya licencia de redistribución no está verificada. La publicación de GitHub Pages se actualiza tras cada push a `main`. Para comprobar el modelo 3D necesito un navegador con WebGL; las pruebas automáticas no sustituyen esa revisión visual.
+El modelo requiere WebGL 2 y aceleración gráfica. Puede comprobarse en [la prueba de WebGL 2](https://get.webgl.org/webgl2/). Los controladores y la configuración del navegador influyen en su disponibilidad.
 
-## Estado y continuidad
+## Código y verificación
 
-Abre [la auditoría maestra](public/materials/Auditoria_EVA03_Maestra.md). Ahí están las prioridades ponderadas por la rúbrica, los elementos ya verificados, los problemas visuales abiertos, los criterios de aceptación y la siguiente acción concreta. Actualiza ese mismo archivo al cerrar cada bloque; no agregues registros de reanudación ni planes nuevos.
+- React y TypeScript: interfaz y navegación.
+- Three.js y WebGL: terreno, edificios, rover, vectores y demostraciones 3D.
+- HTML y CSS: presentación visual.
+- KaTeX: fórmulas matemáticas.
+- Python: generación de documentos finales.
+- Node.js y Vite: desarrollo, compilación y verificadores.
 
-Para ejecutar de una vez tipos, verificadores, inventarios y compilación: `npm run audit`. Continúa después de un fallo y devuelve código 1 si alguna comprobación falla. No sustituye la inspección WebGL ni el cotejo de entregables. La auditoría maestra registra los defectos conocidos; no rebajes tolerancias para conseguir un resultado verde.
+`src/data/marsMath.ts` y `src/data/mathSolutions.ts` contienen los cálculos y procedimientos. `src/components/marsScene.ts` y `src/components/colonyCampus.ts` construyen la escena. Las fuentes editables del informe y el anexo están junto a sus PDF.
+
+```powershell
+npm run audit
+```
+
+Este comando comprueba tipos, resultados numéricos, aspectos geométricos, contenido de la entrega y compilación. Las comprobaciones automáticas no sustituyen la inspección visual ni certifican una instalación real. GitHub Pages publica el build de `main` mediante el workflow del repositorio.
+
+## Alcance y recursos
+
+El relieve es sintético. Las conexiones, los servicios y las cargas tienen un alcance conceptual y parcial. La propuesta no acredita autosuficiencia, geotecnia, resistencia estructural o soporte vital de una colonia real.
+
+Los créditos de la textura de roca están en [SOURCE.txt](public/materials/SOURCE.txt) y los de las texturas planetarias en [ATTRIBUTION.md](public/textures/ATTRIBUTION.md). El informe documenta las fuentes y los permisos de recursos que todavía requieren comprobación individual. La autoría del proyecto no transfiere derechos sobre los activos externos.
