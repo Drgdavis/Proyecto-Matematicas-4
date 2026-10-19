@@ -63,7 +63,8 @@ function createCabina({root, port=3000, ackTimeout=4000, shutdown}) {
       const guide=fs.readFileSync(path.join(root,'materials','Guia_Defensa_3_Integrantes.md'),'utf8');
       const scripts={};
       for(const section of guide.matchAll(/^### Escena (\d+) [^\n]*\n([\s\S]*?)(?=^#{1,3} |$(?![\s\S]))/gm))scripts[Number(section[1])]=section[2].trim();
-      json(res,200,{slides:JSON.parse(match[1]),scripts});return true;
+      const oral=JSON.parse(fs.readFileSync(path.join(root,'materials','Guion_Oral_Cabina.json'),'utf8'));
+      json(res,200,{slides:JSON.parse(match[1]),scripts,oral:oral.scenes});return true;
     }
     json(res,404,{error:'Ruta desconocida.'});return true;
   }

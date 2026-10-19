@@ -27,6 +27,22 @@ try{
  const bootstrap=await fetch(origin+'/api/cabina/bootstrap').then(r=>r.json());
  const content=await fetch(origin+`/api/cabina/content?room=${bootstrap.code}`).then(r=>r.json());
  assert.equal(content.slides.length,22);assert.equal(Object.keys(content.scripts).length,22);
+ assert.equal(content.oral.length,22,'Cada escena necesita un guion oral');
+ const expedition=await import('node:fs/promises').then(fs=>fs.readFile(path.join(root,'../src/Expedition.tsx'),'utf8'));
+ const demoBlock=expedition.match(/const TV_DEMONSTRATIONS[^=]*=\{([\s\S]*?)\n\};/)[1];
+ const demoCounts=new Map([...demoBlock.matchAll(/(\d+):\[(.*?)\],/g)].map(m=>[Number(m[1]),[...m[2].matchAll(/name:/g)].length]));
+ let topicCount=0;
+ for(const [i,oral] of content.oral.entries()){
+  assert.equal(oral.scene,i+1);assert.equal(oral.steps.length,6,`Lámina ${i+1}: seis revelados`);
+  assert.equal(oral.model.length,demoCounts.get(i)??1,`Escena ${i+1}: un texto por tema real`);
+  for(const phrase of [oral.opening,...oral.steps,...oral.model.map(m=>m.text),oral.defense.answer]){
+   assert.ok(typeof phrase==='string'&&phrase.length>90,`Escena ${i+1}: texto oral completo`);
+   assert.ok(!/[∫∇δκρφθ]|\\\(|\\\[/.test(phrase),`Escena ${i+1}: símbolos traducidos a palabras`);
+  }
+  assert.ok(oral.model.every(m=>m.topic&&m.cue));assert.ok(oral.speaker&&oral.defense.question);
+  topicCount+=oral.model.length;
+ }
+ assert.equal(topicCount,53);
  assert.equal((await fetch(origin+'/api/cabina/content?room=wrong')).status,403);
  assert.equal((await fetch(origin+'/api/cabina/close',{method:'POST'})).status,403);
  const invalid=await connect({role:'controller',code:'wrong',name:'Davis'});

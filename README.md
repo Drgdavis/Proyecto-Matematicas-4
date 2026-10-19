@@ -72,6 +72,10 @@ También puedo preparar manualmente con `npm ci`, `npm run build -- --configLoad
 
 Las tablets reciben una imagen de la salida cuando la laptop autoriza la captura; mientras no se comparta, conservan controles y guion y avisan que falta la imagen. Una vista previa no se anuncia como emisión en directo. La aplicación no solicita cámara ni micrófono. En una red HTTP local no se asume bloqueo automático de pantalla: preparo el tiempo de pantalla de las tablets antes del pase. La compatibilidad, la demora de video y la fluidez en las tres Samsung Tab S10 FE requieren ensayo físico. `npm run test:cabina` comprueba el protocolo y los permisos; no reemplaza ese ensayo.
 
+El panel **Mi guion** muestra texto listo para decir en voz alta: una introducción y seis fragmentos por lámina, y una explicación por cada tema del modelo. Las fórmulas se explican con palabras; las cifras del modelo son las del caso de referencia o el total indicado, aunque la animación esté mostrando un avance intermedio. **Solo para ti · no se lee** separa las indicaciones de operación. Las preguntas y la guía técnica quedan plegadas debajo. Ajusto la letra con **A− / A+**. El texto sigue el paso confirmado y no se desplaza por un temporizador.
+
+Para ensayar con una sola tablet entro como **Davis**, que tiene el turno inicial; los otros dos integrantes no necesitan conectarse. Puedo desmarcar **Seguir la exposición** para repasar cualquier escena y fragmento sin modificar la salida. Al marcarlo otra vez, vuelvo al guion del contenido proyectado. La fuente oral editable es [Guion_Oral_Cabina.json](public/materials/Guion_Oral_Cabina.json), con las 22 escenas y los 53 temas. Después de actualizar reinicio la sala y recargo la tablet para cargar el guion vigente.
+
 ## Cómo trabajo desde mis computadoras
 
 En una computadora nueva instalo Git y Node.js 22. Clono mi repositorio y preparo las dependencias:

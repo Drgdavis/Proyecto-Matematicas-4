@@ -1,0 +1,410 @@
+{
+  "version": 1,
+  "scenes": [
+    {
+      "scene": 1,
+      "speaker": "Juan Carlos",
+      "opening": "Buenos días. Nuestro proyecto propone una colonia científica en un terreno que construimos con una función matemática. Vamos a explicar cómo usamos ese mismo terreno para estudiar pendientes, escoger una llegada, trazar el camino del rover y calcular las dimensiones de una reserva.",
+      "steps": [
+        "La idea de esta fórmula es sencilla: elegimos un lugar del mapa con dos coordenadas, equis e ye, y la función nos dice su altura. Así, el suelo que vemos tiene una regla que podemos comprobar con cuentas.",
+        "Primero fijamos la escala. Una unidad representa un metro. Esto permite que las distancias, las alturas y las dimensiones de los objetos se puedan comparar dentro del mismo modelo.",
+        "Después damos una altura a cada posición. Es parecido a un mapa donde, además de saber dónde estamos, sabemos qué tan alto está el suelo. Esa altura es la coordenada zeta.",
+        "Sobre ese mismo suelo colocamos la base, el camino del rover, la región de estudio que llamamos erre y el depósito que llamamos e. Todos usan las mismas coordenadas; por eso podemos relacionarlos.",
+        "El trabajo reúne seis fases de matemática. Empezamos por describir el terreno y terminamos calculando volumen, masa y centro de masa. Cada fase responde una pregunta del diseño.",
+        "Lo que defendemos es la relación entre las cuentas y el modelo. El terreno es una propuesta matemática, no un levantamiento real de Marte. Ahora vamos a ver cómo construimos esa regla de alturas."
+      ],
+      "model": [
+        {"topic":"Mapa del sistema","text":"Aquí podemos ubicar el proyecto completo. Esta es la base; aquí está la llegada, este es el camino del rover y estos son el sector solar y el depósito. Todos están colocados sobre el mismo terreno y usan la misma escala.","cue":"Señala base, llegada, ruta, paneles y depósito. Después elige «Terreno y cálculo»."},
+        {"topic":"Terreno y cálculo","text":"La forma del suelo sale de la función que acabamos de presentar. Cuando calculamos una pendiente o la altura de un punto, usamos esa misma función. Así podemos comprobar que el número y el lugar que señalamos corresponden al mismo caso.","cue":"Señala el relieve. Después elige «Funciones del sistema»."},
+        {"topic":"Funciones del sistema","text":"Cada parte tiene una función: habitar, captar energía, tratar agua, explorar o guardar recursos. El modelo ayuda a ver cómo se conectan. Esas conexiones son una propuesta conceptual; todavía no demuestran que una colonia real pueda funcionar por sí sola.","cue":"Señala los sistemas y sus conexiones. Al terminar, continúa con la escena 2."}
+      ],
+      "defense":{"question":"¿Qué demuestra el modelo?","answer":"Que las ubicaciones y los resultados usan un mismo sistema matemático. No demuestra que una colonia real esté certificada ni que sea autosuficiente."}
+    },
+    {
+      "scene": 2,
+      "speaker": "Juan Carlos",
+      "opening": "Para empezar necesitamos una manera de saber la altura del suelo en cualquier punto. Usamos esta función como una receta: le damos una posición y nos devuelve una altura en metros.",
+      "steps": [
+        "Esta expresión es la receta completa del terreno. No hace falta leer todos los símbolos de corrido: lo importante es que equis e ye indican el lugar, y el resultado de la cuenta indica la altura de ese lugar.",
+        "Para obtener una altura sustituimos las dos coordenadas en la fórmula. Por ejemplo, en el centro, cuando ambas valen cero, la altura calculada es de veinticuatro metros.",
+        "La expresión es un polinomio. Esto significa que podemos calcularla y derivarla sin encontrar saltos o cortes en la superficie. Esa continuidad permite estudiar las pendientes después.",
+        "Aunque la fórmula se puede calcular fuera del proyecto, decidimos trabajar dentro de un disco. La condición que vemos limita los puntos a una distancia máxima de ciento diez metros del centro.",
+        "Por eso, ciento diez metros es el radio de la zona estudiada. El diámetro completo es de doscientos veinte metros. Es una medida horizontal del mapa, no una distancia recorrida sobre las lomas.",
+        "Esta separación es importante: una cosa es dónde existe la fórmula y otra es dónde hacemos el diseño. El paisaje que aparece fuera del disco sirve de contexto; no amplía la zona que analizamos."
+      ],
+      "model": [
+        {"topic":"Función del terreno","text":"Esta superficie es el resultado de aplicar la receta de alturas. Las lomas y las depresiones no están puestas al azar: corresponden a la función. En el centro obtenemos veinticuatro metros respecto del plano de referencia.","cue":"Señala el centro y el relieve. Para ver la orientación, elige «Ejes y escala»."},
+        {"topic":"Ejes y escala","text":"Estos ejes permiten ubicar cualquier punto. Equis indica Este y Oeste; ye indica Norte y Sur; zeta representa la altura. Una unidad equivale a un metro, así que las medidas del modelo comparten la misma escala.","cue":"Señala los tres ejes. Después elige «Dominio físico»."},
+        {"topic":"Dominio físico","text":"El borde del disco marca hasta dónde estudiamos el diseño. Está a ciento diez metros del centro. La fórmula continúa fuera, pero nuestras decisiones sobre la ubicación se revisan dentro de este límite.","cue":"Señala el borde de D. No lo presentes como una barrera física."}
+      ],
+      "defense":{"question":"¿Por qué limitar el terreno si la fórmula existe fuera?","answer":"Porque el dominio físico define el área que decidimos estudiar. La restricción no aparece por una falla de la fórmula."}
+    },
+    {
+      "scene": 3,
+      "speaker": "Juan Carlos",
+      "opening": "Ya tenemos el terreno. Ahora necesitamos leer su forma sin depender solo de una vista en tres dimensiones. Para eso usamos curvas de nivel, cortes y alturas de referencia.",
+      "steps": [
+        "Esta igualdad dice que todos los puntos de una misma curva tienen la misma altura. La letra ka representa la altura elegida. Es la misma idea de las líneas que aparecen en un mapa topográfico.",
+        "Elegimos una altura y buscamos todos los puntos donde el suelo alcanza ese valor. Al unirlos aparece una curva de nivel. Si repetimos la idea con otras alturas, podemos reconocer la forma del relieve.",
+        "También hacemos dos cortes verticales. Es como cortar una maqueta y mirar el borde de lado. Así se ven las subidas y las bajadas que una vista desde arriba puede esconder.",
+        "Finalmente calculamos la altura en tres puntos de referencia. Esto permite comprobar con números lo que estamos señalando en la superficie, en lugar de depender solo de su apariencia.",
+        "En total presentamos seis niveles, dos cortes y tres alturas de referencia. Son maneras distintas de leer y comprobar el mismo terreno.",
+        "Cuando comparamos curvas con la misma diferencia de altura, una separación pequeña indica un cambio más rápido del suelo. Las curvas y los cortes ayudan a reconocer zonas suaves y laderas. Ahora podemos verlos directamente en el modelo."
+      ],
+      "model": [
+        {"topic":"Curvas de nivel","text":"Cada línea reúne puntos igual de altos. Al pasar de una línea a otra cambia la altura indicada. Si las alturas están igualmente espaciadas, las líneas más juntas muestran una ladera más pronunciada.","cue":"Señala una curva y su cota; compara dos separaciones."},
+        {"topic":"Cortes verticales","text":"Estos perfiles muestran el terreno de lado. El corte no modifica el suelo: nos deja ver cómo cambia su altura al seguir una línea. Por eso complementa la información de las curvas de nivel.","cue":"Elige «Cortes verticales» y señala ambos perfiles."},
+        {"topic":"Alturas A · P · B","text":"Aquí aparecen tres lugares concretos con sus alturas. Cada número se obtiene sustituyendo las coordenadas en la función. Las marcas comprueban que los puntos señalados están sobre la superficie que calculamos.","cue":"Elige «Alturas A · P · B» y lee las cotas visibles si necesitas sus decimales."},
+        {"topic":"Interpretar el relieve","text":"Con estas lecturas podemos reconocer la elevación central, las zonas bajas y los cambios de pendiente. Eso orienta la ubicación de elementos, pero la forma del relieve no nos dice por sí sola cuánto peso soporta el suelo.","cue":"Tema adicional: ábrelo si explicas la interpretación del terreno."}
+      ],
+      "defense":{"question":"¿Una zona visualmente plana ya es apta para construir?","answer":"No. La geometría permite estudiar pendientes; la resistencia del suelo y la cimentación requieren datos y verificaciones adicionales."}
+    },
+    {
+      "scene": 4,
+      "speaker": "Davis",
+      "opening": "Ahora queremos describir el suelo muy cerca de un punto. La idea es apoyar una tabla sobre la loma: la tabla representa el plano tangente, que reproduce la inclinación del terreno justo en ese lugar.",
+      "steps": [
+        "Esta es la ecuación del plano tangente en pe. Parte de la altura que ya conocemos y añade las correcciones por movernos en equis y en ye. Esas correcciones usan las dos derivadas parciales.",
+        "Primero derivamos la función respecto de cada coordenada, dejando la otra fija. Así obtenemos dos pendientes: una para movernos en dirección de equis y otra para movernos en dirección de ye.",
+        "Después evaluamos ambas en pe, que tiene coordenadas cuarenta y menos veinte. La pendiente en equis es negativa y la de ye es positiva. Eso indica bajada en un sentido del eje y subida en el otro.",
+        "Con esas pendientes también construimos la normal. Es una flecha perpendicular al plano, como un lápiz colocado de punta sobre una tabla. Su función es indicar la orientación del plano.",
+        "El punto de contacto está a unos veintiuno coma cuatrocientos treinta y seis metros de altura. En ese punto, el plano y la superficie coinciden en altura y en sus pendientes de primer orden.",
+        "El plano describe el entorno cercano de pe. Las segundas derivadas nos dicen cómo cambian las pendientes al movernos alrededor. En la siguiente parte medimos el error de usar esta aproximación en otro punto."
+      ],
+      "model": [
+        {"topic":"Plano en P","text":"La superficie curva es el terreno y esta pieza plana es la aproximación en pe. Tocan en el punto marcado y comparten allí la inclinación. Al alejarnos, el suelo puede separarse del plano porque su forma sigue cambiando.","cue":"Señala superficie, punto P y plano. Pausa para distinguir el contacto."},
+        {"topic":"Normal al suelo","text":"Esta flecha es perpendicular al plano tangente. Se construye con las pendientes de equis y de ye, cambiadas de signo, y una componente vertical igual a uno. Describe la orientación; su longitud dibujada no representa una fuerza.","cue":"Elige «Normal al suelo» y señala el ángulo con el plano."},
+        {"topic":"Segundas parciales","text":"Las primeras derivadas describen la pendiente. Las segundas describen cómo cambia esa pendiente. Calculamos las dos puras y las dos mixtas; en esta función polinómica las mixtas coinciden porque las derivadas necesarias son continuas.","cue":"Elige «Segundas parciales». Abre el cálculo si piden el desarrollo."}
+      ],
+      "defense":{"question":"¿Por qué la normal lleva los signos negativos?","answer":"Al escribir el plano como z menos su aproximación igual a cero, su gradiente es menos efe equis, menos efe ye y uno. Ese vector es perpendicular al plano."}
+    },
+    {
+      "scene": 5,
+      "speaker": "Juan Carlos",
+      "opening": "La tabla es una buena comparación, pero no tiene exactamente la misma forma que una loma. Ahora vamos a comprobar cuánto se equivoca cuando la usamos para predecir una altura cercana.",
+      "steps": [
+        "La fórmula del error compara dos alturas en el mismo punto: la que da el terreno y la que predice el plano. Las barras indican que nos interesa el tamaño de la diferencia, sin importar el signo.",
+        "Usamos el plano que construimos en pe. No hacemos otra tabla para el punto nuevo: comprobamos qué tan bien funciona la misma aproximación cuando nos movemos un poco.",
+        "En el punto hache, de coordenadas cuarenta y cuatro y menos diecisiete, el plano predice una altura de aproximadamente veintiuno coma doscientos ocho metros.",
+        "Al sustituir esas coordenadas en la función original, obtenemos aproximadamente veintiuno coma ciento ochenta y tres metros. Esta es la altura del terreno matemático con la que comparamos la predicción.",
+        "La diferencia es de unos dos coma cuarenta y ocho centímetros. Para este punto cercano, la aproximación tiene un error pequeño y, además, podemos decir exactamente cuánto vale.",
+        "Esto muestra para qué sirve la aproximación local. No debemos extenderla a cualquier distancia sin comprobar el error. En el modelo aumentamos visualmente la separación para que se vea; las cifras conservan su medida real."
+      ],
+      "model": [
+        {"topic":"Linealización y error","text":"Aquí se comparan la altura del terreno y la predicción del plano en hache. La diferencia real es de dos coma cuarenta y ocho centímetros. La separación dibujada se amplía ochenta veces para verla; eso no cambia el tamaño del terreno ni el valor calculado.","cue":"Señala ambas alturas y el rótulo ×80. Davis puede abrir la resta y el error porcentual."}
+      ],
+      "defense":{"question":"¿El plano siempre da ese mismo error?","answer":"No. Ese error corresponde al punto hache elegido. En otros lugares hay que volver a comparar; la precisión no es uniforme en todo el terreno."}
+    },
+    {
+      "scene": 6,
+      "speaker": "Davis",
+      "opening": "Las dos pendientes anteriores también permiten contestar otra pregunta: si estamos en un punto y podemos caminar en cualquier rumbo, ¿hacia dónde sube más rápido el terreno?",
+      "steps": [
+        "El gradiente reúne las dos derivadas parciales en un solo vector. La flecha nos da una dirección, y su longitud matemática indica la pendiente máxima local.",
+        "Primero calculamos las pendientes en los ejes en pe. Una mide el cambio al variar equis y la otra al variar ye. Al juntarlas obtenemos información de las direcciones que combinan ambos movimientos.",
+        "El gradiente señala la dirección de mayor ascenso. Si avanzamos una pequeña distancia horizontal en ese rumbo, la altura aumenta más rápido que en cualquier otro rumbo desde el mismo punto.",
+        "Si cambiamos el signo de la flecha, obtenemos el máximo descenso. En cambio, una dirección perpendicular al gradiente tiene cambio de altura instantáneo igual a cero.",
+        "En pe, la pendiente máxima es aproximadamente diez coma diecinueve centímetros verticales por cada metro horizontal. Es una razón de pendiente; no es un ángulo en grados.",
+        "En cu la magnitud es distinta: aproximadamente diez coma noventa centímetros por metro. Esto demuestra que la pendiente depende del lugar. Por eso no basta con medir una única zona y aplicar ese valor a todo el terreno."
+      ],
+      "model": [
+        {"topic":"Cortes y tasas","text":"Estos cortes separan los cambios en equis y en ye. Cada derivada parcial mide cuánto cambia la altura cuando variamos una coordenada y dejamos fija la otra. El gradiente combina esas dos lecturas.","cue":"Señala los cortes. Después elige «Direcciones en P»."},
+        {"topic":"Direcciones en P","text":"En pe, esta flecha marca el ascenso más rápido y la opuesta el descenso más rápido. La pendiente máxima de referencia es diez coma diecinueve por ciento. Una flecha sobre el mapa indica rumbo; su dibujo no debe confundirse con una altura del suelo.","cue":"Señala ascenso, descenso y la dirección de nivel."},
+        {"topic":"Direcciones en Q","text":"Al cambiar a cu cambia también el gradiente. Su pendiente máxima es de aproximadamente diez coma noventa y cinco por ciento. Comparar pe y cu muestra que una dirección conveniente en un punto puede no serlo en otro.","cue":"Elige «Direcciones en Q» y compara las lecturas."},
+        {"topic":"Ascenso y nivel","text":"Esta comparación prueba varios rumbos desde un mismo lugar. En dirección del gradiente la subida es máxima; en la opuesta la bajada es máxima; perpendicular a él, la altura no cambia en primer orden. Eso explica la relación con la curva de nivel.","cue":"Tema adicional: observa el signo al girar el rumbo."}
+      ],
+      "defense":{"question":"¿Por qué el gradiente es perpendicular a una curva de nivel?","answer":"Al recorrer una curva de altura constante, la derivada de la altura es cero. Por la regla de la cadena, el producto del gradiente con la tangente de esa curva es cero."}
+    },
+    {
+      "scene": 7,
+      "speaker": "Davis",
+      "opening": "El gradiente muestra la subida máxima, pero un vehículo puede necesitar seguir otro rumbo. La derivada direccional mide la pendiente precisamente en el rumbo que elegimos.",
+      "steps": [
+        "Calculamos el producto punto entre el gradiente y un vector de dirección de longitud uno. La condición de longitud uno permite interpretar el resultado como cambio de altura por metro horizontal.",
+        "En cu elegimos la dirección uno, menos dos, y la dividimos entre la raíz de cinco. Esa división la normaliza: conserva el rumbo y hace que su longitud sea uno.",
+        "Después multiplicamos las componentes correspondientes y las sumamos. Obtenemos aproximadamente cero coma cero nueve cuatro ocho cinco metros de altura por cada metro horizontal. Enseguida lo expresaremos en centímetros para interpretarlo más fácilmente.",
+        "El resultado es positivo, así que avanzando en ese rumbo subimos. Si fuera negativo, bajaríamos. Un valor cero indicaría que la altura no cambia instantáneamente en esa dirección.",
+        "Dicho de una manera más fácil de visualizar, la subida es de unos nueve coma cuarenta y ocho centímetros por cada metro horizontal. Es la pendiente del rumbo elegido en cu, no la pendiente máxima del punto.",
+        "En pe usamos otro rumbo y obtenemos una bajada de unos uno coma ochenta y dos centímetros por metro. La conclusión es que importan tanto el punto donde estamos como la dirección en la que avanzamos."
+      ],
+      "model": [
+        {"topic":"Rumbo en Q","text":"Esta flecha muestra el rumbo elegido en cu. La lectura de referencia es positiva: subimos unos nueve coma cuarenta y ocho centímetros por metro horizontal. Al mover la dirección puede cambiar la pendiente, porque el suelo no sube igual hacia todos lados.","cue":"Señala el rumbo y el signo de la lectura. Para comparar, elige «Rumbo en P»."},
+        {"topic":"Rumbo en P","text":"En pe elegimos el vector tres quintos, cuatro quintos, que ya tiene longitud uno. El resultado es negativo: bajamos unos uno coma ochenta y dos centímetros por metro. El signo permite distinguir subida de bajada sin depender solo de la perspectiva del dibujo.","cue":"Compara las dos direccionales en sus respectivos puntos."}
+      ],
+      "defense":{"question":"¿Qué pasa si no normalizamos el vector?","answer":"El producto también se multiplica por la longitud del vector. Ya no representa directamente la pendiente por unidad de distancia horizontal."}
+    },
+    {
+      "scene": 8,
+      "speaker": "Davis",
+      "opening": "Hasta ahora elegimos un punto y un rumbo. Ahora seguimos un recorrido completo y preguntamos cómo cambia la altura mientras avanzamos por él. Aquí usamos la regla de la cadena.",
+      "steps": [
+        "La altura cambia porque cambian las dos coordenadas del camino. La regla de la cadena suma la contribución del movimiento en equis y la del movimiento en ye, cada una multiplicada por su pendiente.",
+        "La posición horizontal se describe con setenta y dos por coseno de te y setenta y dos por seno de te. Es una circunferencia de radio setenta y dos metros; el recorrido usa el intervalo declarado.",
+        "Sustituimos ese camino en la función del terreno. Así, la altura deja de escribirse con dos variables independientes y queda expresada en función del parámetro te.",
+        "Luego derivamos. Podemos hacerlo con la regla de la cadena y comprobarlo derivando la expresión de altura ya sustituida. Ambas formas deben dar el mismo cambio respecto de te.",
+        "El resultado combina un término con seno y otro con coseno. Según su signo, el rover está subiendo o bajando. Cuando vale cero, la altura deja de cambiar instantáneamente, aunque el rover puede seguir avanzando.",
+        "Aquí te es un ángulo, no un reloj. Para convertir este resultado en velocidad vertical física necesitamos decir cómo cambia ese ángulo con el tiempo. Esa distinción evita llamar metros por segundo a una medida que todavía depende de un parámetro."
+      ],
+      "model": [
+        {"topic":"Regla de la cadena","text":"Mientras el punto avanza por la ruta, la gráfica muestra cómo cambia su altura. La derivada positiva indica subida y la negativa indica bajada. Si la lectura pasa por cero, no significa que se detuvo: en ese instante se mueve sin cambio de altura en primer orden.","cue":"Observa el signo durante el avance. Pausa en un cambio de signo para explicarlo."}
+      ],
+      "defense":{"question":"¿Cómo obtendríamos una velocidad en metros por segundo?","answer":"Necesitamos una ley angular en función del tiempo. Multiplicamos la derivada respecto de te por la tasa de cambio de te respecto del tiempo físico."}
+    },
+    {
+      "scene": 9,
+      "speaker": "Davis",
+      "opening": "Ahora buscamos puntos donde las dos pendientes sean cero. Pueden parecerse al fondo de un valle, a una cima o a una silla de montar. Para distinguirlos no alcanza con saber que la pendiente se anuló.",
+      "steps": [
+        "Primero igualamos las dos derivadas parciales a cero. Después usamos las segundas derivadas para calcular el determinante del Hessiano. Esta prueba estudia la forma del terreno alrededor del punto.",
+        "Resolver el sistema del gradiente igual a cero nos da los candidatos. En este terreno encontramos tres puntos críticos. Todavía hay que clasificarlos; una pendiente cero no garantiza un mínimo.",
+        "Cuando el determinante es positivo, miramos el signo de la segunda derivada en equis. Si es positiva, el punto es un mínimo local; si es negativa, es un máximo local.",
+        "Cuando el determinante es negativo, aparece una silla: hay direcciones en las que el suelo sube y otras en las que baja. Por eso el punto no es ni una cima ni un valle local.",
+        "Los tres puntos del terreno se clasifican como un mínimo, un máximo y una silla. La prueba matemática respalda esas formas; no nos quedamos solo con la impresión de la vista en tres dimensiones.",
+        "Esta clasificación describe el relieve cerca de los puntos. Elegir una llegada es otra pregunta, porque queremos comparar lugares que cumplen una restricción. Ese problema es el que resolvemos a continuación."
+      ],
+      "model": [
+        {"topic":"Resolver el sistema crítico","text":"Estos marcadores localizan los puntos donde ambas pendientes son cero. Eso los convierte en candidatos a extremos, pero no los clasifica todavía. Para saber qué ocurre alrededor usamos el Hessiano.","cue":"Señala los tres puntos antes de abrir su clasificación."},
+        {"topic":"Mínimo libre","text":"Alrededor del mínimo local, los puntos suficientemente cercanos tienen mayor altura. El determinante del Hessiano es positivo y la segunda derivada en equis también. Esto explica la depresión visible, sin convertirla automáticamente en el mejor lugar de llegada.","cue":"Elige «Mínimo libre» y observa su entorno."},
+        {"topic":"Hessiano y silla","text":"La cima tiene determinante positivo y segunda derivada en equis negativa. En la silla, el determinante es negativo: una sección sube y otra baja. Ver las dos orientaciones ayuda a entender por qué la silla no es un extremo local.","cue":"Elige «Hessiano y silla» y compara las secciones."}
+      ],
+      "defense":{"question":"¿Qué pasa si el determinante del Hessiano vale cero?","answer":"Esta prueba no decide la clasificación. Haría falta estudiar el punto con otro argumento; no podemos declararlo mínimo o máximo solo por tener gradiente cero."}
+    },
+    {
+      "scene": 10,
+      "speaker": "Davis",
+      "opening": "Para escoger la llegada fijamos una condición: compararemos puntos sobre una circunferencia de radio setenta y dos metros. Dentro de esa frontera buscamos el lugar con menor pendiente máxima local.",
+      "steps": [
+        "Nuestra función objetivo es el cuadrado de la norma del gradiente. Mide la pendiente máxima local al cuadrado. Minimizar ese cuadrado lleva al mismo lugar que minimizar la pendiente y simplifica la derivación.",
+        "Así ponemos una medida concreta a la palabra conveniente. En esta comparación queremos menor pendiente; no estamos optimizando a la vez la resistencia del suelo, el costo o la distancia a todos los edificios.",
+        "Aplicamos multiplicadores de Lagrange. Igualamos el gradiente del objetivo a un múltiplo del gradiente de la restricción y resolvemos también la ecuación de la circunferencia. Esto produce los candidatos restringidos.",
+        "Después comparamos los valores de los candidatos. Llamamos be más al que da la menor pendiente y be menos al opuesto. Resolver Lagrange por sí solo no sustituye esta comparación final.",
+        "En be más, la pendiente es aproximadamente tres coma setecientos ochenta y ocho por ciento. En be menos es seis coma cuatrocientos setenta y dos por ciento. La reducción relativa entre esos valores es de alrededor del cuarenta y uno coma cuarenta y seis por ciento.",
+        "Por esa razón elegimos be más como llegada dentro de la circunferencia estudiada. Esto no significa que sea el mejor punto de todo el campus ni que el suelo esté certificado. El núcleo habitable conserva otra ubicación por la organización del conjunto."
+      ],
+      "model": [
+        {"topic":"Mínimo restringido","text":"Estos son los candidatos sobre la circunferencia de comparación. Be más tiene menor pendiente que be menos. La elección se refiere a esa frontera y a ese objetivo: reducir la pendiente máxima local de la llegada.","cue":"Señala B⁺, B⁻ y las pendientes. No llames carretera al círculo de comparación."},
+        {"topic":"Objetivo y frontera","text":"Aquí distinguimos qué medimos y dónde lo comparamos. El objetivo mide la pendiente; la restricción fija el radio. Si cambiamos la frontera o la función objetivo, debemos resolver otra vez el problema: la solución actual no responde automáticamente a esas otras condiciones.","cue":"Elige «Objetivo y frontera». Abre Lagrange si solicitan las ecuaciones."}
+      ],
+      "defense":{"question":"¿Por qué existe un mínimo sobre esa circunferencia?","answer":"La circunferencia es compacta y el objetivo es continuo. Por eso alcanza un mínimo y un máximo; luego identificamos cuál candidato corresponde a cada uno."}
+    },
+    {
+      "scene": 11,
+      "speaker": "Haroldo",
+      "opening": "Ahora veamos el recorrido del rover. Podemos imaginarlo como un hilo apoyado sobre una loma: para describirlo necesitamos saber dónde está en el mapa y a qué altura está el suelo.",
+      "steps": [
+        "La posición tiene tres componentes. Las primeras dos indican el lugar horizontal y la tercera calcula la altura con la misma función del terreno. Por eso el camino sigue el relieve.",
+        "Las primeras coordenadas describen el camino visto desde arriba. El radio es de setenta y dos metros y usamos el intervalo definido para la ruta principal de reconocimiento.",
+        "La tercera coordenada añade las subidas y las bajadas del suelo. Si solo dibujáramos la proyección horizontal, perderíamos esa parte del recorrido.",
+        "Al derivar la posición obtenemos el cambio del movimiento respecto del parámetro; al derivar otra vez obtenemos cómo cambia ese vector. La tangente unitaria conserva solo la dirección, con longitud uno. Davis puede desarrollar esas cuentas.",
+        "Con estas expresiones tenemos una ruta en tres dimensiones y vectores que permiten explicar su movimiento y su rumbo. Todos corresponden al mismo punto del recorrido.",
+        "La tangente muestra hacia dónde continúa el camino en cada lugar. Como el parámetro es angular, todavía necesitamos una relación con el tiempo para hablar de velocidad física. Ahora mediremos la longitud completa de la ruta."
+      ],
+      "model": [
+        {"topic":"Curva espacial","text":"El rover avanza sobre esta curva. Su posición horizontal viene del camino y su altura viene del terreno. Es la idea del hilo apoyado sobre una loma: el hilo sube y baja con ella.","cue":"Señala la ruta, el rover y el contacto con el relieve."},
+        {"topic":"Velocidad y aceleración","text":"Estas flechas representan la primera y la segunda derivada de la ruta respecto del parámetro. Ayudan a ver cómo cambia el movimiento. Para interpretarlas en segundos tendríamos que fijar primero cómo avanza el parámetro con el tiempo.","cue":"Elige «Velocidad y aceleración». Davis toma la derivación si la piden."},
+        {"topic":"Tangente unitario","text":"La tangente unitaria apunta hacia donde sigue la curva. Se obtiene dividiendo el vector derivada entre su longitud. Por eso tiene longitud uno y describe el rumbo, sin conservar la magnitud del vector original.","cue":"Elige «Tangente unitario» y señala la orientación sobre el rover."}
+      ],
+      "defense":{"question":"¿La ruta incluye el ramal al taller?","answer":"La curva matemática principal y el ramal al taller se describen y miden por separado. No debemos sumar el ramal a la cifra de la ruta principal sin decirlo."}
+    },
+    {
+      "scene": 12,
+      "speaker": "Haroldo",
+      "opening": "Para medir el camino podemos imaginar que ponemos un hilo sobre toda la ruta y luego lo estiramos. La integral de longitud hace esa misma idea, sumando tramos cada vez más pequeños.",
+      "steps": [
+        "Esta integral suma la longitud de todos los pedacitos del recorrido. Dentro aparece la longitud del vector derivada, que nos dice cuánto camino corresponde a un pequeño cambio del parámetro.",
+        "Primero derivamos la posición del rover. La derivada incluye tanto el cambio horizontal como el cambio de altura; así la medida corresponde a la curva espacial.",
+        "Después calculamos la longitud de ese vector. Con eso convertimos sus tres componentes en una sola cantidad positiva que podemos acumular a lo largo del recorrido.",
+        "Integramos esa cantidad desde el inicio hasta el final del intervalo. Al incluir todos los tramos obtenemos la longitud completa, sin tratar el camino como una línea recta entre sus extremos.",
+        "El resultado es aproximadamente doscientos veintiséis coma doscientos cinco metros. Esta cifra corresponde a la ruta principal sobre el terreno.",
+        "La longitud espacial es un poco mayor que su proyección horizontal porque también cuenta las subidas y las bajadas. El ramal al taller se mide aparte. Conocer la distancia sirve para otros estudios, pero no demuestra por sí sola la autonomía del rover."
+      ],
+      "model": [
+        {"topic":"Longitud 3D","text":"Mientras se recorre la curva podemos ver la distancia acumulada. La ruta completa mide aproximadamente doscientos veintiséis coma doscientos cinco metros. Si pausamos antes del final, la lectura acumulada será menor; la cifra del guion se refiere al recorrido completo.","cue":"Lleva el avance al final para mostrar la longitud total."},
+        {"topic":"Puntos de la ruta","text":"Estas marcas identifican el inicio, un punto de control y el final. No son caminos distintos: pertenecen a la misma curva. Ayudan a ubicar de qué parte del recorrido estamos hablando cuando revisamos posición, altura o distancia.","cue":"Elige «Puntos de la ruta» y señala las tres marcas."}
+      ],
+      "defense":{"question":"¿Por qué no medir solo desde el inicio hasta el final en línea recta?","answer":"Porque el rover sigue una curva que también cambia de altura. La distancia recta entre extremos no incluye todos esos tramos."}
+    },
+    {
+      "scene": 13,
+      "speaker": "Davis",
+      "opening": "Además de saber cuánto mide el camino, queremos saber qué tan cerrado es un giro. La curvatura mide cuánto cambia la dirección de la ruta por cada unidad de distancia recorrida.",
+      "steps": [
+        "Esta expresión combina la primera y la segunda derivada de la curva. Usamos la longitud de su producto cruz y la dividimos entre el cubo de la longitud de la primera derivada.",
+        "La primera derivada señala la dirección tangente. La segunda ayuda a describir cómo cambia ese vector. Su combinación permite medir el giro de la trayectoria espacial.",
+        "El resultado tiene unidades de uno sobre metro. Una curvatura mayor significa que la dirección cambia más rápido al recorrer la misma distancia.",
+        "Al invertir la curvatura obtenemos un radio local. Es el radio del círculo que mejor reproduce la forma de la curva cerca del punto considerado.",
+        "En el punto de referencia, el radio es de aproximadamente setenta y dos coma cero uno metros. Corresponde a una curvatura de unos cero coma cero trece ochocientos ochenta y seis por metro.",
+        "Un radio grande representa un giro más suave. Podemos usarlo para una estimación de velocidad de giro, pero esa estimación necesita un supuesto de aceleración lateral y no sustituye un estudio real de ruedas, suelo y obstáculos."
+      ],
+      "model": [
+        {"topic":"Curvatura","text":"Este círculo se adapta localmente al giro de la ruta. En el punto de referencia su radio es de unos setenta y dos coma cero uno metros. Al mover el rover debemos leer el valor del punto actual; el número de referencia no tiene por qué repetirse exactamente en todo el recorrido.","cue":"Señala el círculo y la normal. Pausa en el punto de referencia si comparas cifras."},
+        {"topic":"Límite de giro","text":"Esta estimación relaciona el radio con una aceleración lateral máxima supuesta. Permite comparar giros más suaves o más cerrados. No la presentamos como una velocidad segura certificada, porque faltan la fricción real, los obstáculos y la respuesta del vehículo.","cue":"Tema adicional: muestra también el supuesto de aceleración lateral."}
+      ],
+      "defense":{"question":"¿La curvatura y el radio son lo mismo?","answer":"No. Cuando la curvatura no es cero, el radio local es su inversa. Mayor curvatura significa menor radio y un giro más cerrado."}
+    },
+    {
+      "scene": 14,
+      "speaker": "Haroldo",
+      "opening": "Ahora definimos la región erre. Su forma se parece a una rebanada de dona: tiene un borde interior, un borde exterior y dos lados que marcan su apertura.",
+      "steps": [
+        "Las distancias al centro van de sesenta a setenta y dos metros. El ángulo va de menos cuarenta y cinco grados a cero. Así describimos exactamente qué parte del terreno vamos a estudiar.",
+        "Las dos distancias forman los bordes curvos: uno está a sesenta metros del centro y el otro a setenta y dos. La región queda entre ambos.",
+        "Los dos ángulos forman los lados rectos. La apertura es de cuarenta y cinco grados, es decir, una octava parte de una vuelta completa.",
+        "Para el área vista desde arriba restamos el sector del círculo interior al del exterior. Por eso aparecen los dos radios al cuadrado y el ángulo de apertura.",
+        "La proyección horizontal mide aproximadamente seiscientos veintidós coma cero treinta y cinco metros cuadrados. Esta es el área que veríamos en un plano desde arriba.",
+        "Esta medida todavía no incorpora la inclinación del suelo. Después calcularemos el área real del relieve sobre la misma región. También debemos distinguirla del tamaño de los paneles que coloquemos dentro."
+      ],
+      "model": [
+        {"topic":"Región, límites y orden","text":"Aquí se ve la rebanada completa. El borde interior está a sesenta metros, el exterior a setenta y dos y la apertura es de cuarenta y cinco grados. Para integrar recorremos primero la distancia radial y después el ángulo, cubriendo toda la región.","cue":"Señala los dos arcos y los dos lados rectos. Davis puede abrir los límites de integración."}
+      ],
+      "defense":{"question":"¿Por qué describirla con radios y ángulos?","answer":"Porque sus bordes ya son circulares y radiales. Las coordenadas polares expresan la región con límites constantes y fáciles de interpretar."}
+    },
+    {
+      "scene": 15,
+      "speaker": "Davis",
+      "opening": "Sobre esa región podemos sumar las alturas del terreno mediante una integral doble. Geométricamente, imaginamos muchas columnas pequeñas que van desde el plano de referencia hasta la superficie.",
+      "steps": [
+        "La integral toma la función de altura y la suma sobre toda erre. Como usamos coordenadas polares, sustituimos equis e ye por radio por coseno y radio por seno. También aparece el factor radial del área.",
+        "Cada columna tiene como altura el valor de la función. Su volumen es aproximadamente esa altura por el área pequeña de su base. Al hacer las bases cada vez más pequeñas llegamos a la integral.",
+        "El factor erre corrige el tamaño de las bases en coordenadas polares. Dos sectores con la misma apertura angular no tienen la misma área si están a distintas distancias del centro.",
+        "Integramos el radio entre sesenta y setenta y dos, y el ángulo entre menos pi cuartos y cero. Con esos límites sumamos todas las columnas de la región, sin incluir terreno exterior.",
+        "El volumen obtenido es de aproximadamente doce mil ciento diecinueve coma novecientos sesenta y dos metros cúbicos. Se mide entre el plano zeta igual a cero y el terreno, que es positivo en esta región.",
+        "Si dividimos ese volumen entre el área horizontal, obtenemos una altura media de unos diecinueve coma cuatrocientos ochenta y cuatro metros. El volumen no representa una excavación: depende del plano de referencia que elegimos."
+      ],
+      "model": [
+        {"topic":"Volumen sobre R","text":"Estas columnas muestran el volumen que se va acumulando bajo la superficie. El valor total corresponde a toda erre y al plano zeta igual a cero. La vista que permite ver debajo del terreno explica el sólido de la integral; no propone vaciar esa zona con una excavación.","cue":"Muestra el barrido y lleva el avance al final antes de leer el total."},
+        {"topic":"Altura media","text":"La altura media reparte el volumen total sobre el área horizontal de erre. Su valor es de unos diecinueve coma cuatrocientos ochenta y cuatro metros. Es una media del conjunto; no significa que cada punto del suelo esté exactamente a esa altura.","cue":"Elige «Altura media» y compara el nivel medio con el relieve."}
+      ],
+      "defense":{"question":"¿Cambiar el plano de referencia cambia este volumen?","answer":"Sí. Es el volumen entre ese plano y la superficie sobre erre. Por eso declaramos zeta igual a cero y no lo llamamos volumen de excavación."}
+    },
+    {
+      "scene": 16,
+      "speaker": "Davis",
+      "opening": "Una región inclinada ocupa más superficie que su sombra sobre un plano horizontal. Aquí distinguimos el área vista desde arriba del área que realmente sigue las subidas y bajadas del terreno.",
+      "steps": [
+        "Para el área real multiplicamos cada pequeña base horizontal por la raíz de uno más las dos pendientes al cuadrado. Ese factor incorpora la inclinación de la superficie.",
+        "La proyección horizontal usa solamente el área del mapa. En polares, ese pequeño elemento de área es radio por diferencial del radio por diferencial del ángulo.",
+        "La superficie real añade el factor de pendiente. Ese factor nunca es menor que uno. Si el suelo fuera completamente horizontal, valdría uno y ambas áreas coincidirían.",
+        "Integramos sobre los mismos límites de erre. Así, la diferencia entre las dos medidas se debe al relieve y no a que estemos comparando regiones distintas.",
+        "El área real resulta de aproximadamente seiscientos veintitrés coma trescientos sesenta y cinco metros cuadrados. Es algo mayor que los seiscientos veintidós coma cero treinta y cinco de la proyección horizontal.",
+        "La diferencia es de unos uno coma treinta y tres metros cuadrados, alrededor del cero coma doscientos catorce por ciento. Es pequeña en esta zona, pero está calculada. Ninguna de estas áreas equivale automáticamente al área activa de paneles o a su potencia."
+      ],
+      "model": [
+        {"topic":"Celda polar","text":"Estas celdas tienen el mismo ancho radial y la misma apertura angular. La que está más lejos del centro tiene un arco más largo y, por tanto, mayor área. Esa es la razón geométrica del factor radio en el jacobiano polar.","cue":"Compara las dos celdas. Esta demostración explica el cambio de coordenadas."},
+        {"topic":"Suelo y proyección","text":"Aquí comparamos la misma región sobre el suelo y sobre el plano horizontal. El relieve aporta unos uno coma treinta y tres metros cuadrados adicionales. La corrección depende de las pendientes, aunque desde esta vista la diferencia parezca pequeña.","cue":"Elige «Suelo y proyección» para mostrar el resultado principal de esta lámina."},
+        {"topic":"Paneles y potencia","text":"Este estudio adicional muestra que la potencia de los paneles depende también de su orientación, la luz recibida y los supuestos del equipo. El área del terreno no basta para calcular electricidad ni demuestra que la colonia sea autosuficiente.","cue":"Tema adicional: separa área del terreno, área de paneles y potencia eléctrica."}
+      ],
+      "defense":{"question":"¿Por qué el área real no puede ser menor que su proyección?","answer":"Porque el factor que incorpora la inclinación es la raíz de uno más dos cuadrados. Es al menos uno en cada punto de la región."}
+    },
+    {
+      "scene": 17,
+      "speaker": "Davis",
+      "opening": "Pasamos al depósito. Su forma se puede imaginar como media pelota estirada: más larga en una dirección que en otra y cortada por su base. El nombre matemático de esa forma es semielipsoide.",
+      "steps": [
+        "Esta desigualdad describe todos los puntos que están dentro del depósito, incluida su superficie. La condición de altura mayor o igual que cero selecciona solamente la mitad superior.",
+        "Para hacer las cuentas colocamos un origen local en el centro de la base. Llamamos u y ve a las dos direcciones horizontales, y doble u a la altura medida desde esa base.",
+        "Los semiejes son dieciocho, catorce y ocho metros. Un semieje mide del centro hasta el borde en su dirección; no siempre representa la dimensión completa del objeto.",
+        "Tomamos la mitad superior. Por eso duplicamos dieciocho y catorce para el largo y el ancho, pero la altura sobre la base sigue siendo ocho metros.",
+        "Las dimensiones completas del depósito son treinta y seis metros de largo, veintiocho de ancho y ocho de altura. Estas medidas definen el sólido que integraremos.",
+        "La forma matemática permite calcular una capacidad geométrica. Eso todavía no determina el espesor de una pared, la presión admisible o la resistencia de una estructura real. Ahora simplificaremos las coordenadas para integrar ese volumen."
+      ],
+      "model": [
+        {"topic":"Sólido y límites","text":"El corte deja ver la región interior que vamos a integrar. Es la mitad superior de una pelota estirada, con base elíptica. Las alturas locales empiezan en la base del depósito, aunque el depósito completo esté colocado a otra altura sobre el terreno.","cue":"Señala base, interior y altura. No mezcles coordenadas locales con la posición global."}
+      ],
+      "defense":{"question":"¿Por qué usamos otras letras para las coordenadas?","answer":"Para distinguir las coordenadas locales del depósito de las del terreno. El depósito está ubicado globalmente en otra posición, pero sus integrales se hacen respecto de su propia base."}
+    },
+    {
+      "scene": 18,
+      "speaker": "Davis",
+      "opening": "Integrar directamente esta forma es posible, pero sus límites se vuelven largos. Usamos una idea más sencilla: partir de media esfera de radio uno y estirarla hasta obtener el depósito.",
+      "steps": [
+        "Estas tres expresiones hacen el estiramiento. La coordenada horizontal u se multiplica por dieciocho, la otra por catorce y la vertical por ocho. El radio y los dos ángulos permiten recorrer el interior.",
+        "El radio ro va de cero a uno. El ángulo fi va desde la vertical hasta el plano de la base, es decir, de cero a pi medios. Con eso cubrimos solamente la mitad superior.",
+        "El ángulo theta da la vuelta completa alrededor del eje vertical, desde cero hasta dos pi. Junto con ro y fi, recorre todo el depósito sin incluir su mitad inferior.",
+        "Al cambiar de coordenadas también cambia el tamaño de cada pedacito de volumen. El jacobiano es el factor que corrige ese tamaño; cambiar solo las coordenadas sin él daría una integral incorrecta.",
+        "El estiramiento aporta dieciocho por catorce por ocho, que da dos mil dieciséis. A eso se multiplica el factor esférico: ro al cuadrado por seno de fi. Ese es nuestro jacobiano completo.",
+        "La ventaja es que ahora los tres límites son constantes. Estamos describiendo el mismo sólido con otra herramienta, de modo que el volumen físico debe coincidir. La forma más sencilla de los límites facilita demostrar el cálculo paso a paso."
+      ],
+      "model": [
+        {"topic":"Celda y jacobiano","text":"La celda permite ver que un pequeño cambio de los parámetros no produce siempre el mismo volumen físico. El jacobiano combina ese cambio con el estiramiento de los tres ejes. Por eso aparece multiplicando dentro de la integral.","cue":"Señala la celda y los factores del jacobiano."},
+        {"topic":"Estirar la semiesfera","text":"Esta figura muestra cómo una semiesfera se transforma en el depósito al estirar cada dirección. La figura de comparación puede estar ampliada para verse; su escala visual está rotulada y no cambia los límites de la semiesfera unitaria usada en la cuenta.","cue":"Elige «Estirar la semiesfera» y distingue la ampliación visual de los factores matemáticos."},
+        {"topic":"Comparar coordenadas","text":"Ambas descripciones representan el mismo depósito. En cartesianas aparecen raíces y límites que dependen de otras coordenadas; en las coordenadas transformadas usamos intervalos constantes. El cambio simplifica la cuenta, no aumenta ni reduce el volumen real.","cue":"Elige «Comparar coordenadas» y señala el mismo sólido en ambas descripciones."}
+      ],
+      "defense":{"question":"¿De dónde sale el dos mil dieciséis?","answer":"Del producto de los tres factores de estiramiento: dieciocho por catorce por ocho. Se multiplica por el jacobiano esférico, ro al cuadrado por seno de fi."}
+    },
+    {
+      "scene": 19,
+      "speaker": "Davis",
+      "opening": "Con el sólido, los límites y el jacobiano definidos, ya podemos demostrar la capacidad. Vamos a evaluar las tres integrales, para que el resultado no quede presentado solo como un número del programa.",
+      "steps": [
+        "Integramos el jacobiano sobre todo el rango del radio y de los dos ángulos. El integrando se separa en factores y los límites son independientes, así que podemos evaluar cada parte y luego multiplicar.",
+        "Primero integramos ro al cuadrado entre cero y uno. Su primitiva es ro al cubo dividido entre tres. Al evaluar los extremos obtenemos un tercio.",
+        "Después integramos seno de fi entre cero y pi medios. Su primitiva es menos coseno de fi. En los extremos obtenemos cero menos menos uno, que da uno.",
+        "La última integral suma el giro completo. Integramos uno respecto de theta, de cero a dos pi, y obtenemos dos pi.",
+        "Multiplicamos dos mil dieciséis por un tercio, por uno y por dos pi. El resultado exacto es mil trescientos cuarenta y cuatro pi metros cúbicos, aproximadamente cuatro mil doscientos veintidós coma trescientos un metros cúbicos.",
+        "Esta es la capacidad geométrica cuando tomamos lleno todo el sólido definido. Si el depósito se llenara solo hasta cierta altura, tendríamos que cambiar la región de integración. La cifra completa no serviría automáticamente para ese caso."
+      ],
+      "model": [
+        {"topic":"Volumen paso a paso","text":"La región que crece muestra cómo vamos cubriendo el depósito. Cada etapa corresponde al radio, al ángulo vertical o al giro completo. Al terminar, la suma da mil trescientos cuarenta y cuatro pi metros cúbicos. La animación ilustra la integral; el valor exacto proviene del producto que acabamos de resolver.","cue":"Repite desde el inicio si explicas el orden. Lleva al final antes de comparar la capacidad total."}
+      ],
+      "defense":{"question":"¿Cómo podemos comprobar ese volumen por otra vía?","answer":"El volumen de un elipsoide completo es cuatro tercios de pi por sus tres semiejes. Tomar la mitad da dos tercios de pi por dieciocho por catorce por ocho: mil trescientos cuarenta y cuatro pi."}
+    },
+    {
+      "scene": 20,
+      "speaker": "Davis",
+      "opening": "El volumen dice cuánto espacio hay. Para saber la masa del contenido necesitamos además su densidad: cuánta masa corresponde a cada metro cúbico. Aquí suponemos que la densidad cambia con la posición.",
+      "steps": [
+        "Esta función parte de novecientos veinte kilogramos por metro cúbico y añade variaciones pequeñas. La densidad aumenta hacia el lado positivo de u y disminuye al subir. Es una hipótesis del modelo, no la medición de un material real.",
+        "Primero comprobamos que la densidad sea positiva dentro de todo el depósito. Su mínimo calculado es de unos ochocientos cincuenta y tres coma seiscientos cincuenta y ocho kilogramos por metro cúbico. Así evitamos que la fórmula asigne densidades negativas.",
+        "Después integramos la densidad por cada pequeño volumen. La suma da la masa total. Como la densidad no es constante, no basta con multiplicar el volumen por el valor de un punto cualquiera.",
+        "El término lineal en u se cancela en la masa total por la simetría del sólido: a cada aporte de un lado le corresponde otro opuesto. El término vertical no se cancela, porque solo tenemos la mitad superior.",
+        "La masa calculada es aproximadamente tres coma setecientos noventa y siete millones de kilogramos. Corresponde al contenido supuesto en el depósito completo y a esta distribución de densidad.",
+        "Podemos conservar el mismo volumen y obtener otra masa si cambiamos la densidad. Por eso distinguimos capacidad y cantidad de materia. Además, conocer esta masa no demuestra que las paredes o la base soporten la carga: eso requiere un análisis estructural."
+      ],
+      "model": [
+        {"topic":"Masa y simetría","text":"La distribución de masa se obtiene sumando densidad por volumen en todo el interior. Aunque una variación en u se cancele en la masa total por simetría, todavía puede desplazar el centro de masa hacia un lado. Eso se estudia con los momentos.","cue":"Señala el interior completo y la masa total. Después puedes abrir la distribución de densidad."},
+        {"topic":"Distribución de densidad","text":"Los colores ayudan a comparar zonas más y menos densas según la función supuesta. No representan otra pared ni una temperatura medida. La comprobación de positividad asegura que toda la región tenga una densidad físicamente admisible dentro de esta hipótesis.","cue":"Elige «Distribución de densidad» y señala la leyenda y su mínimo."}
+      ],
+      "defense":{"question":"Si el término en u se cancela, ¿por qué desplaza el centro de masa?","answer":"En la masa total aparece un término proporcional a u, que es impar. En el momento para la coordenada u se multiplica otra vez por u y aparece u al cuadrado; ese aporte ya no se cancela."}
+    },
+    {
+      "scene": 21,
+      "speaker": "Davis",
+      "opening": "La masa total no nos dice dónde está concentrada. Para localizar el centro de masa hacemos una media de las posiciones, dando más peso a las zonas que contienen más masa.",
+      "steps": [
+        "Calculamos tres primeros momentos: uno para cada coordenada. En cada integral multiplicamos la posición por la densidad y por el pequeño volumen. Después dividimos esos tres resultados entre la masa total.",
+        "Los momentos distinguen masa cercana y lejana al plano de referencia. Una misma masa aporta más al momento si está más lejos. Es la razón por la que necesitamos posición además de cantidad de materia.",
+        "En la dirección ve hay simetría: la densidad y el sólido se reflejan de la misma forma a ambos lados. Los aportes opuestos se cancelan, de modo que la coordenada central en esa dirección es cero.",
+        "Dividir los momentos entre la masa convierte esas sumas en coordenadas promedio. Las unidades también lo confirman: cada primer momento se mide en kilogramos multiplicados por metros. Al dividirlo entre kilogramos, quedan metros.",
+        "El centro queda, en coordenadas locales, aproximadamente a cero coma ciento cuarenta y siete metros hacia u, a cero en ve y a dos coma novecientos setenta y un metros sobre la base. El pequeño desplazamiento lateral refleja la densidad mayor hacia ese lado.",
+        "La altura es aproximadamente el treinta y siete coma catorce por ciento de los ocho metros del depósito. Su proyección queda dentro de la base. Es una comprobación geométrica favorable, pero no certifica resistencia, cimentación o respuesta a fuerzas externas."
+      ],
+      "model": [
+        {"topic":"Masa y centro","text":"El punto calculado está a unos dos coma novecientos setenta y un metros sobre la base. Con densidad uniforme, el centro estaría a tres metros y no tendría desplazamiento lateral. La diferencia se amplía treinta y cinco veces para poder verla; las coordenadas mostradas son las reales del cálculo.","cue":"Señala centro calculado, centro uniforme y proyección. La ampliación ×35 solo ayuda a comparar."},
+        {"topic":"Distancias y momentos","text":"En este tema vemos por qué no basta con contar masa: también importa dónde está. Multiplicar cada pequeña masa por su coordenada produce el primer momento. Al sumar y dividir por la masa total obtenemos la posición media ponderada del contenido.","cue":"Elige «Distancias y momentos». Distingue primer momento de masa, momento de inercia y torque."}
+      ],
+      "defense":{"question":"¿Centro de masa bajo significa estructura segura?","answer":"No. La posición del centro y su proyección son solo parte del análisis. También faltan las fuerzas externas, los apoyos, el material, el suelo y la respuesta dinámica."}
+    },
+    {
+      "scene": 22,
+      "speaker": "Los tres",
+      "opening": "Para cerrar, reunimos las decisiones principales. Todo el recorrido parte de la misma función del terreno y mantiene las mismas coordenadas. Así podemos relacionar lo que calculamos con el lugar donde aparece en el modelo.",
+      "steps": [
+        "Nuestros resultados se organizan en cuatro partes: la llegada, el camino, la región de terreno y el depósito. Cada una responde una pregunta diferente y tiene una cifra que podemos justificar.",
+        "En la llegada escogemos be más por su pendiente de aproximadamente tres coma setecientos ochenta y ocho por ciento. La elección se hace sobre la circunferencia de comparación y con un objetivo de pendiente definido.",
+        "El camino principal mide aproximadamente doscientos veintiséis coma doscientos cinco metros. La región erre tiene unos seiscientos veintitrés coma trescientos sesenta y cinco metros cuadrados de suelo real. Distancia y superficie representan medidas distintas del diseño.",
+        "Para la reserva obtenemos unos cuatro mil doscientos veintidós coma tres metros cúbicos de capacidad y un centro de masa a unos dos coma novecientos setenta y un metros sobre su base, usando la densidad supuesta.",
+        "Estas cifras forman un diseño coherente dentro de nuestro modelo. Podemos seguir el procedimiento de cada resultado y localizarlo en la escena correspondiente. Esa relación entre cálculo, significado y objeto es el aporte del proyecto.",
+        "El alcance sigue siendo académico: el terreno es sintético y los servicios y las cargas son parciales. Una construcción real necesitaría mediciones e ingeniería adicional. Con esto terminamos la explicación y dejamos el modelo disponible para revisar las preguntas."
+      ],
+      "model": [
+        {"topic":"Resultados integrados","text":"Aquí reunimos las decisiones: llegada con menor pendiente dentro de la comparación, ruta medida sobre el relieve, área real de erre y capacidad del depósito. Todas se explican con las cuentas del proyecto y se ubican en este mismo terreno.","cue":"Cierre compartido: Juan Carlos resume el terreno, Haroldo la ruta y R, y Davis la reserva y el alcance."},
+        {"topic":"Pendiente y acceso","text":"Esta ubicación corresponde al mínimo de pendiente que comparamos sobre la circunferencia. El resultado justifica esa elección geométrica. No significa que hayamos optimizado todas las necesidades del campus ni certificado la capacidad del suelo.","cue":"Tema de respaldo para preguntas sobre la llegada."},
+        {"topic":"Suelo de R","text":"La región conserva el mismo borde al comparar proyección y relieve. El área real incorpora las pendientes y mide unos seiscientos veintitrés coma trescientos sesenta y cinco metros cuadrados. La superficie activa de los paneles es otro dato.","cue":"Tema de respaldo para preguntas sobre áreas."},
+        {"topic":"Descenso del terreno","text":"La flecha opuesta al gradiente indica la bajada local más rápida. Sirve para interpretar la forma del suelo y orientar un estudio de drenaje. No sustituye una simulación de agua con caudal, infiltración y condiciones reales del terreno.","cue":"Tema de respaldo: distingue dirección geométrica de un estudio hidráulico completo."},
+        {"topic":"Alcance del modelo","text":"La conclusión es que el proyecto mantiene coherencia matemática y permite defender sus decisiones con procedimientos. La construcción real todavía requiere geotecnia, estructura y validación de servicios. Presentamos una propuesta conceptual con límites claros, no una colonia certificada.","cue":"Deja esta vista para preguntas al terminar el cierre."}
+      ],
+      "defense":{"question":"¿Qué aporta el proyecto además de la imagen 3D?","answer":"Una cadena comprobable entre pregunta, modelo matemático, procedimiento, resultado e interpretación. Podemos mostrar de dónde sale cada cifra y qué condiciones limitan su uso."}
+    }
+  ]
+}

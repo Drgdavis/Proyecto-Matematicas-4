@@ -367,7 +367,7 @@ No. Es favorable, pero faltan cargas externas, resistencia, apoyo, vibración y 
 
 ## 8. Ensayo mínimo obligatorio
 
-1. Cada persona ejecuta su tramo completo sin leer y mide cuánto tarda realmente.
+1. Cada persona ensaya su tramo completo con el guion oral de la cabina y mide cuánto tarda realmente. Después explica con sus palabras la idea principal para comprobar que entiende lo que está leyendo.
 2. Cada persona resuelve en papel un paso de su parte.
 3. Un compañero hace cinco preguntas aleatorias de otra sección.
 4. Practican las 22 escenas, los temas destacados y la apertura de los PDF; cada persona sabe localizar las otras demostraciones de su fase en la misma escena.
