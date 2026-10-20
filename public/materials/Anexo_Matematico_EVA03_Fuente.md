@@ -1,6 +1,6 @@
 # EVA03 — anexo matemático: procedimientos reproducibles
 
-**Estado:** fuente editable de `Anexo_Matematico_EVA03_Final.pdf`, exportado el 12/10/2026. Usa las coordenadas vigentes del depósito, punto decimal en ecuaciones y unidades SI; distingue cifras redondeadas de identidades exactas. El eje y matemático es Norte y el eje vertical matemático es z. En Three.js la terna se coloca como `(x,z,y)`. Carnés, sección y contribuciones reales del equipo siguen pendientes de confirmar.
+**Estado:** fuente editable de `Anexo_Matematico_EVA03_Final.pdf`, revisado el 19/10/2026. Usa las coordenadas vigentes del depósito, punto decimal en ecuaciones y unidades SI; distingue cifras redondeadas de identidades exactas. El eje y matemático es Norte y el eje vertical matemático es z. En Three.js la terna se coloca como `(x,z,y)`. Carnés, sección y contribuciones reales del equipo siguen pendientes de confirmar.
 
 ## A1. Función, parámetros, dominio y tres evaluaciones
 
@@ -183,7 +183,7 @@ Son **primeros momentos**, no momentos de inercia. Dividir cada uno por M produc
 
 Los objetos usan el mismo D y la misma f. B⁺ decide solo llegada; el núcleo (−8,8) y los 16 módulos se justifican por circulación. R decide suelo e integral doble, y los 20 paneles dentro de R no deben intercambiarse con los 24 auxiliares externos. E decide la integral triple; mover su origen global a (0,−94) no cambia V, M ni el centro **local**. La ruta r(t) es un semicírculo matemático; el ramal físico hacia el taller se mide por separado. Ninguna integral aporta por sí misma potabilidad, energía para todas las cargas, seguridad geotécnica o autosuficiencia.
 
-Verificadores asociados: `verify-mars.mjs` (derivadas, integrales y cambios), `verify-region.mjs` (R y área), `verify-demonstrations.mjs` (secuencia matemática), `verify-systems.mjs` (escenario de servicios), `verify-traceability.mjs` (inventario y cifras), más verificadores de accesos/maniobra compilados por `verify-project.mjs`. Las pruebas numéricas verifican tolerancias; las identidades analíticas anteriores explican el procedimiento.
+Verificadores asociados: `verify-mars.mjs` (derivadas, integrales y cambios), `verify-region.mjs` (R y área), `verify-demonstrations.mjs` (secuencia matemática), `verify-systems.mjs` (escenario de servicios), más verificadores de accesos/maniobra compilados por `verify-project.mjs`. Las pruebas numéricas verifican tolerancias; las identidades analíticas anteriores explican el procedimiento.
 
 ## A22. Balance complementario de energía y agua (supuestos de diseño)
 
@@ -228,4 +228,4 @@ Desde una semilla p₀ del disco, un paso de longitud horizontal tentativa `Δs=
 - PDF oficial *Proyecto Integrador Matemática IV — Mars Math Base*, §4–11 y lista de verificación §14.
 - Fuentes numéricas activas: `src/data/marsMath.ts`, `src/data/campusServiceBalance.ts`, `src/data/projectFacts.ts`, `src/data/mathSolutions.ts` y `src/data/academicDevelopment.ts`.
 - Escenarios exploratorios separados: `src/data/researchScenarios.ts` y `src/data/marsSystems.ts`. Sus parámetros de polvo, hielo, oxígeno, blindaje y energía del rover son supuestos del programa, no medidas obtenidas de las referencias contextuales NASA listadas en el informe.
-- Interpretación y decisiones: `Informe_Tecnico_EVA03_Fuente.md` y `Auditoria_EVA03_Maestra.md`. Esta última es la única auditoría operativa; el presente archivo es un anexo académico, no un plan.
+- Interpretación y decisiones: informe técnico y su fuente editable `Informe_Tecnico_EVA03_Fuente.md`, incluidos junto a este anexo.

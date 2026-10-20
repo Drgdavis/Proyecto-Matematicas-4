@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {trackModelAssets} from '../src/components/modelAssets.ts';
+
+const states=[],tracker=trackModelAssets(state=>states.push(state)),manager=tracker.manager;
+manager.itemStart('/models/building.glb');
+manager.itemStart('/textures/building.png');
+manager.itemEnd('/textures/building.png');
+assert.equal(states.at(-1).status,'loading','A model must not be ready before its parse finishes.');
+manager.itemEnd('/models/building.glb');
+assert.deepEqual(states.at(-1),{status:'ready',completed:2,total:2,failed:[]});
+manager.itemStart('/models/survey.glb');
+assert.equal(states.at(-1).status,'loading','Additional resources must suspend readiness.');
+manager.itemError('/models/survey.glb');
+manager.itemEnd('/models/survey.glb');
+assert.equal(states.at(-1).status,'failed','Ending a failed request must not turn the model green.');
+assert.deepEqual(states.at(-1).failed,['survey.glb']);
+manager.itemStart('/models/other.glb');manager.itemEnd('/models/other.glb');
+assert.equal(states.at(-1).status,'failed','Later success must preserve an earlier missing model.');
+const count=states.length;tracker.dispose();manager.itemStart('/disposed.png');manager.itemEnd('/disposed.png');
+assert.equal(states.length,count,'Disposed scenes must not update React.');
+console.log('PASS: loading, dependent resources, parse completion, named failures and disposal.');

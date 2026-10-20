@@ -62,6 +62,8 @@ node static-server.cjs
 
 El modelo requiere WebGL 2 y aceleración gráfica. Puede comprobarse en [la prueba de WebGL 2](https://get.webgl.org/webgl2/). Los controladores y la configuración del navegador influyen en su disponibilidad.
 
+Los datos académicos de portada se completan en `public/materials/Identificacion_Equipo.json`. Después se regeneran informe y anexo con `python scripts/build-final-materials.py`. Los datos sin confirmar permanecen señalados en las portadas.
+
 ## Código y verificación
 
 - React y TypeScript: interfaz y navegación.

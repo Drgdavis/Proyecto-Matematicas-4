@@ -1,4 +1,5 @@
 import { assetUrl } from './utils/assetUrl';
+import {INITIAL_MODEL_ASSETS,type ModelAssets} from './components/modelAssets';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Beaker, BookOpen, Eye, List, Maximize, Pause, Play, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react';
@@ -77,6 +78,7 @@ export default function Expedition({onBackSolar}:{onBackSolar?:()=>void}){
  const reducedMotion=useReducedMotion();
  const [step,setStep]=useState<EvaStep>(firstStep);
  const [parameter,setParameter]=useState(.5),[telemetry,setTelemetry]=useState<Telemetry>({value:firstStep.result,detail:firstStep.why}),[error,setError]=useState('');
+ const [assets,setAssets]=useState<ModelAssets>(INITIAL_MODEL_ASSETS);
  const [library,setLibrary]=useState(false),[sources,setSources]=useState(false),[audit,setAudit]=useState(false);
  const [paused,setPaused]=useState(false);
  const [solutionOpen,setSolutionOpen]=useState(false);
@@ -176,7 +178,7 @@ export default function Expedition({onBackSolar}:{onBackSolar?:()=>void}){
   const params=new URLSearchParams(window.location.search),requested=Number(params.get('scene')),demo=Number(params.get('demo')??1)-1;
   const index=Number.isFinite(requested)&&requested>=1?Math.min(TV_ROUTE.length,Math.floor(requested))-1:0;
   try{
-   const scene=createMarsScene(host.current,setTelemetry,setParameter,undefined,()=>setPaused(true));
+   const scene=createMarsScene(host.current,setTelemetry,setParameter,undefined,()=>setPaused(true),setAssets);
    engine.current=scene;goTv(index,scene,demo);
    const inspection:{[key:string]:[number,number,number]}={
     ring:[-8,24,8],north:[-8,23,70],west:[-62,21,8],industry:[31,24,41],greenhouse:[-8,22,-62],treatment:[24,21,-58],workshop:[-16,24,-31],logistics:[-91,21,-45],habitat:[31,23,-30],laboratories:[91,24,-36],solar:[64,22,-16],
@@ -196,6 +198,7 @@ export default function Expedition({onBackSolar}:{onBackSolar?:()=>void}){
  return <main className={`expedition presentation-mode tv-mode ${research?'research-mode':''} ${cinematic?'cinematic-mode':''}`}>
   <header className="topbar"><a className="brand" href="#" onClick={e=>{e.preventDefault();research?closeResearch():goTv(0);}}><span className="brandmark">E / 03</span><span>HABITAR MARTE<small>MATEMÁTICAS IV · MODELO INTERACTIVO</small></span></a><div className="header-actions">{research&&<button onClick={closeResearch}><ArrowLeft size={15}/> Volver a EVA03</button>}<button className={sceneMode?'mode-active':''} title={sceneMode?'Recorrer los 53 temas uno por uno':'Volver a la presentación agrupada'} onClick={toggleRoute}>{sceneMode?'Presentación · 22 escenas':'Explorar · 53 temas'}</button><button onClick={()=>setLibrary(true)}><List size={16}/> Índice y respaldo</button><button onClick={()=>toggleCinematic(true)}><Eye size={16}/> Solo modelo 3D</button><button aria-label="Alternar pantalla completa" onClick={()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>{});}}><Maximize size={18}/></button></div></header>
   <div className="workspace"><section className="world"><div ref={host} className="canvas" aria-label="Modelo tridimensional sincronizado con la presentación"/>{error&&<p role="alert" className="error">{error}</p>}
+   {!error&&assets.status!=='ready'&&<div className="model-load-status" role={assets.status==='failed'?'alert':'status'}><b>{assets.status==='failed'?'El modelo está incompleto':'Cargando el modelo 3D…'}</b><span>{assets.status==='failed'?`No se pudo cargar: ${assets.failed.join(', ')}.`:`Recursos cargados: ${assets.completed}/${assets.total}.`}</span>{assets.status==='failed'&&<><span>Comprueba la conexión y vuelve a cargar. Los cálculos siguen disponibles.</span><button onClick={()=>location.reload()}>Volver a cargar</button></>}</div>}
    <AnimatePresence>{callouts.map(item=><motion.div key={item.id} data-callout-id={item.id} data-callout-dock={item.dock??''} ref={element=>{if(element)annotationElements.current.set(item.id,element);else annotationElements.current.delete(item.id);}} className={`scene-callout ${item.tone}`} initial={reducedMotion?false:{opacity:0,scale:.88}} animate={{opacity:1,scale:1}} exit={reducedMotion?{opacity:0}:{opacity:0,scale:.9}} transition={{duration:reducedMotion?0:.3}}><svg className="scene-connector" aria-hidden="true"><line/><circle r="4"/></svg><span>{item.title}</span><strong>{item.value}</strong><small>{item.detail}</small></motion.div>)}</AnimatePresence>
    {research&&<div className="curvature-overlay research-overlay"><span>ESTUDIO {researchIndex!+1} · {research.step.name.toUpperCase()}</span>
     {research.id==='dust'&&<><strong>{dustReading.power.toFixed(2)} kW · balance {dustReading.balance>=0?'+':''}{dustReading.balance.toFixed(2)} kW</strong><small>I₀ = 590 W/m² · τ = {dustReading.tau.toFixed(2)} · transmisión {(dustReading.transmission*100).toFixed(1)} %.</small><small>I = {dustReading.irradiance.toFixed(1)} W/m² → 120 m² de paneles → η=24 % → factor 0.86.</small><div className="research-meter"><span>GENERACIÓN / CARGA DE 12 kW</span><div><i style={{width:`${Math.min(1,dustReading.power/12)*100}%`,background:dustReading.balance<0?'#ff7770':'#84f0a3'}}/></div></div><small>La barra compara potencia eléctrica instantánea con la carga crítica. Incidencia solar fija para aislar el efecto del polvo.</small></>}

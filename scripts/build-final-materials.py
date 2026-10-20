@@ -7,6 +7,7 @@ la sección, la fecha de entrega y las contribuciones reales se completan despu�
 from __future__ import annotations
 
 import html
+import json
 import math
 import re
 from pathlib import Path
@@ -27,6 +28,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 ROOT = Path(__file__).resolve().parents[1]
 MATERIALS = ROOT / "public" / "materials"
+TEAM = json.loads((MATERIALS / "Identificacion_Equipo.json").read_text(encoding="utf-8"))
 PAPER = colors.HexColor("#173434")
 ACCENT = colors.HexColor("#B76542")
 SOFT = colors.HexColor("#EAF0EC")
@@ -37,6 +39,7 @@ pdfmetrics.registerFont(TTFont("ArialEVA", "C:/Windows/Fonts/arial.ttf"))
 pdfmetrics.registerFont(TTFont("ArialEVABold", "C:/Windows/Fonts/arialbd.ttf"))
 pdfmetrics.registerFontFamily("ArialEVA", normal="ArialEVA", bold="ArialEVABold")
 dejavu_candidates = (
+    ROOT / "public" / "assets" / "fonts" / "DejaVuSans.ttf",
     Path("C:/Windows/Fonts/DejaVuSans.ttf"),
     Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
     Path("/usr/share/fonts/dejavu/DejaVuSans.ttf"),
@@ -372,21 +375,35 @@ def markdown_story(text: str, kind: str):
     return out
 
 
+def team_identification():
+    rows = [f'{TEAM["curso"]} · Docente: {TEAM["docente"]}',
+            f'Sección: {TEAM.get("seccion") or "por confirmar"} · Entrega: {TEAM.get("fecha_entrega") or "por confirmar"}']
+    for person in TEAM["integrantes"]:
+        rows.append(f'{person["nombre"]} · Carné: {person.get("carne") or "por confirmar"}')
+        rows.append(f'Responsabilidad real: {person.get("responsabilidad_real") or "por confirmar con el integrante"}')
+    return [Paragraph(html.escape(row), ST["EVACoverInfo"]) for row in rows]
+
+
 def make_pdf(kind: str, source: Path, output: Path):
+    content=source.read_text(encoding="utf-8")
+    glyphs=pdfmetrics.getFont("DejaVuEVA").face.charToGlyph
+    missing=sorted({ord(c) for c in content+json.dumps(TEAM,ensure_ascii=False) if ord(c)>32 and ord(c) not in glyphs})
+    if missing:
+        raise ValueError("La fuente no cubre estos símbolos: "+", ".join(f"U+{cp:04X}" for cp in missing))
     title="INFORME TÉCNICO" if kind=="informe" else "ANEXO MATEMÁTICO"
     subtitle="Habitar Marte · diseño conceptual mediante cálculo multivariable"
     story=[Spacer(1,100),Paragraph("EVA03  /  MATEMÁTICA IV",ST["EVASub"]),
            Paragraph(title,ST["EVATitle"]),Paragraph(subtitle,ST["EVASub"]),
            Spacer(1,28),
-           Paragraph("Universidad Mesoamericana · Facultad de Ingeniería",ST["EVACoverInfo"]),
-           Paragraph("Juan Carlos Boteo · Haroldo Rodriguez · Davis Javier Rivera Aroche",ST["EVACoverInfo"]),
-           Paragraph("Carnés, sección y fecha de entrega: por completar con el equipo.",ST["EVACoverInfo"]),
+           Paragraph(html.escape(TEAM["universidad"]+" · "+TEAM["facultad"]),ST["EVACoverInfo"]),
+           Paragraph(html.escape(" · ".join(p["nombre"] for p in TEAM["integrantes"])),ST["EVACoverInfo"]),
+           *team_identification(),
            Spacer(1,32),
-           Paragraph("Versión técnica de 14 de octubre de 2026. Terreno y servicios de carácter académico y sintético; los límites físicos y operativos se declaran en el texto.",ST["EVABody"]),
+           Paragraph(html.escape("Versión técnica de "+TEAM["version_tecnica"]+". Terreno y servicios de carácter académico y sintético; los límites físicos y operativos se declaran en el texto."),ST["EVABody"]),
            PageBreak(),Paragraph("Índice",ST["EVATitle"])]
     toc=TableOfContents();toc.levelStyles=[ST["EVATOC"],ST["EVATOC"]]
     story.extend((toc,PageBreak()))
-    story.extend(markdown_story(source.read_text(encoding="utf-8"),kind))
+    story.extend(markdown_story(content,kind))
     doc=EVADoc(str(output),title=title,author="Equipo EVA03",subject="Proyecto Integrador Matemática IV")
     doc.multiBuild(story)
 

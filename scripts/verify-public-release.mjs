@@ -17,4 +17,9 @@ assert.ok(!publicFiles.some(f=>/Guia_|Guion_|Auditoria_|\.pptx$/.test(f)));
 const expedition=fs.readFileSync(path.join(root,'src/Expedition.tsx'),'utf8');
 for(const m of expedition.matchAll(/assetUrl\('([^']+)'\)/g))if(m[1].startsWith('/materials/'))assert.ok(fs.existsSync(path.join(root,'public',m[1].slice(1))),m[1]);
 assert.ok(!fs.readFileSync(path.join(root,'src/main.tsx'),'utf8').includes('CabinRoot'));
+for(const name of ['Anexo_Matematico_EVA03_Fuente.md','Informe_Tecnico_EVA03_Fuente.md']){
+ const text=fs.readFileSync(path.join(root,'public/materials',name),'utf8');
+ assert.ok(!/Auditoria_EVA03|verify-traceability|PDF oficial conservado en la raíz/.test(text),name+' contiene referencias retiradas');
+}
+assert.ok(fs.existsSync(path.join(root,'public/materials/Identificacion_Equipo.json')));
 console.log('PASS: presentación visual de 22 láminas, documentos enlazados y ausencia de guiones, notas y consola privada.');

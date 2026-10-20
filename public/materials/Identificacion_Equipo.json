@@ -1,0 +1,14 @@
+{
+  "universidad": "Universidad Mesoamericana",
+  "facultad": "Facultad de Ingeniería",
+  "curso": "Matemática IV",
+  "docente": "ScD. Juan Carlos Ruiz Castillo",
+  "seccion": null,
+  "fecha_entrega": null,
+  "version_tecnica": "19 de octubre de 2026",
+  "integrantes": [
+    {"nombre": "Juan Carlos Boteo", "carne": null, "responsabilidad_real": null},
+    {"nombre": "Haroldo Rodriguez", "carne": null, "responsabilidad_real": null},
+    {"nombre": "Davis Javier Rivera Aroche", "carne": null, "responsabilidad_real": null}
+  ]
+}
