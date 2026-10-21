@@ -24,10 +24,10 @@ El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo*
 - [Informe técnico](public/materials/Informe_Tecnico_EVA03_Final.pdf).
 - [Anexo matemático](public/materials/Anexo_Matematico_EVA03_Final.pdf).
 - [Plano integrado](public/materials/Plano_Integrado_EVA03_Final.pdf).
-- [Presentación visual de 22 láminas](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html).
+- [Presentación visual de 44 láminas](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html).
 - [Presentación en PDF](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf).
 
-La presentación HTML revela fórmula con los datos del caso, tres cuentas con sustituciones numéricas, resultado e interpretación con las flechas o la barra espaciadora. **F** activa pantalla completa. El PDF conserva las láminas como respaldo fijo.
+La presentación tiene **44 láminas organizadas en 22 bloques**. Cada bloque empieza con una guía de símbolos, unidades y objetivo, y sigue con su cálculo. La cuenta revela fórmula con los datos del caso, tres sustituciones numéricas, resultado e interpretación con las flechas o la barra espaciadora. Las letras se definen de nuevo donde se usan con redacción formal. Las fórmulas, los datos, los procedimientos y los resultados se componen desde LaTeX mediante KaTeX, con fuentes incrustadas para abrir el HTML sin conexión. **F** activa pantalla completa. El PDF conserva las láminas como respaldo fijo.
 
 ## Resultados de referencia
 
