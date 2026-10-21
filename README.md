@@ -27,7 +27,7 @@ El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo*
 - [Presentación visual de 22 láminas](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html).
 - [Presentación en PDF](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf).
 
-La presentación HTML revela fórmula, tres pasos, resultado e interpretación con las flechas o la barra espaciadora. **F** activa pantalla completa. El PDF conserva las láminas como respaldo fijo.
+La presentación HTML revela fórmula con los datos del caso, tres cuentas con sustituciones numéricas, resultado e interpretación con las flechas o la barra espaciadora. **F** activa pantalla completa. El PDF conserva las láminas como respaldo fijo.
 
 ## Resultados de referencia
 
