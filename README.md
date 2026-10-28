@@ -37,10 +37,10 @@ La presentación abre directamente en **22 desarrollos principales**, con fórmu
 | Longitud de la ruta principal | 226.205 m |
 | Área real del terreno en R | 623.365 m² |
 | Capacidad geométrica de E | 1344π ≈ 4 222.301 m³ |
-| Masa con la densidad supuesta | 3 797 114.863 kg |
+| Masa con la densidad definida | 3 797 114.863 kg |
 | Altura local del centro de masa | 2.970844 m |
 
-B⁺ optimiza la pendiente sobre la circunferencia de comparación, no todo el campus. La ruta principal se mide por separado del ramal al taller. El volumen bajo el terreno respecto de z=0 no representa excavación. La densidad del depósito es una hipótesis declarada.
+B⁺ es el óptimo de pendiente sobre la circunferencia de comparación. La ruta principal y el ramal al taller se miden por separado. El volumen bajo el terreno se refiere al plano z=0. La masa y el centro se calculan con la función de densidad declarada en el anexo.
 
 ## Ejecutar el proyecto
 
@@ -79,10 +79,12 @@ Los datos académicos de portada se completan en `public/materials/Identificacio
 npm run audit
 ```
 
-Este comando comprueba tipos, resultados numéricos, aspectos geométricos, contenido de la entrega y compilación. Las comprobaciones automáticas no sustituyen la inspección visual ni certifican una instalación real. GitHub Pages publica el build de `main` mediante el workflow del repositorio.
+Este comando comprueba tipos, resultados numéricos, aspectos geométricos, contenido de la entrega y compilación. La verificación combina comprobaciones automáticas del modelo con revisión visual del recorrido. GitHub Pages publica el build de `main` mediante el workflow del repositorio.
 
 ## Alcance y recursos
 
-El relieve es sintético. Las conexiones, los servicios y las cargas tienen un alcance conceptual y parcial. La propuesta no acredita autosuficiencia, geotecnia, resistencia estructural o soporte vital de una colonia real.
+El relieve se define mediante una función sintética y los servicios se evalúan con las cargas indicadas en el modelo. Los resultados son reproducibles bajo esas condiciones. Una aplicación constructiva incorpora además estudios geotécnicos, estructurales y de operación de cada sistema.
 
 Los créditos de la textura de roca están en [SOURCE.txt](public/materials/SOURCE.txt) y los de las texturas planetarias en [ATTRIBUTION.md](public/textures/ATTRIBUTION.md). El informe documenta las fuentes y los permisos de recursos que todavía requieren comprobación individual. La autoría del proyecto no transfiere derechos sobre los activos externos.
+
+Las fuentes Inter y JetBrains Mono se incluyen localmente; sus orígenes y licencias están en [los créditos tipográficos](public/assets/fonts/CREDITOS.md). La interfaz mantiene su tipografía sin solicitar Google Fonts.

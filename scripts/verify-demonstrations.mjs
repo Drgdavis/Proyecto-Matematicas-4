@@ -124,6 +124,6 @@ assert.match(sceneProgressResult(stepByName('Momentos'), 1), /Mᵧ𝓏=.*Mₓ�
 assert.match(sceneProgressResult(stepByName('Masa paso a paso'), 1), /M=\(920−20\.7\)V=.*kg.*término impar/, 'La masa debe mostrar su propia integral y la cancelación por simetría.');
 assert.match(sceneProgressResult(stepByName('Reserva y estabilidad'), 1), /V=.*m³.*M≈.*kg.*CM vertical=/, 'La síntesis del depósito debe mostrar volumen, masa y centro de masa.');
 assert.match(sceneProgressResult(stepByName('Superficie de R'), 1), /área real.*proyectada.*no equivale a energía/, 'El área de R no debe confundirse con producción energética.');
-assert.match(sceneProgressResult(stepByName('Limitaciones'), 1), /terreno sintético.*no sustituye geotecnia/, 'El cierre debe declarar el alcance real del modelo.');
+assert.match(sceneProgressResult(stepByName('Limitaciones'), 1), /terreno sintético.*cargas ideales.*geotecnia.*cimentación/, 'El cierre debe declarar el alcance real del modelo.');
 assert.match(sceneProgressResult(stepByName('Comprobación tecnológica'), 1), /Malla z=f\(x,y\).*contrastados analíticamente/, 'La comprobación debe señalar la concordancia de malla, ruta y cálculo.');
 console.log(`Verified: key PDF requirements highlighted, P/Q directions, Lagrange, and all ${reached.size} topics within twenty-two scenes.`);

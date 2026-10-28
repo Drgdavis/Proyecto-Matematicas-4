@@ -160,7 +160,7 @@ export function sceneCallouts(step:EvaStep,progress:number):SceneCallout[]{
   const tPar=START+Math.PI*t;
   const {speed:vmax}=safeRoverSpeed(tPar);
   const [rx,ry]=[72*Math.cos(tPar),72*Math.sin(tPar)];
-  return [point('route-vmax','vₘₐₓ(κ)',`≈ ${vmax.toFixed(2)} m/s`,'Hipótesis a_lat_máx = 0.55 m/s². NO es una velocidad operativa certificada.',rx,ry,'green')];
+  return [point('route-vmax','vₘₐₓ(κ)',`≈ ${vmax.toFixed(2)} m/s`,'Límite calculado con a_lat_máx = 0.55 m/s²; su aplicación considera tracción, obstáculos y control.',rx,ry,'green')];
  }
  // ---- Escenas 11-13 · Integrales dobles ----
  if(step.target==='solarRegion'){
@@ -259,7 +259,7 @@ export function sceneProgressResult(step:EvaStep,progress:number):string|undefin
  if(step.name==='Masa paso a paso')return `M=(920−20.7)V=899.3V≈${MASS.toFixed(3)} kg · término impar en u = 0`;
  if(step.name==='Reserva y estabilidad')return `V=${VOLUME.toFixed(3)} m³ · M≈${(MASS/1e6).toFixed(3)} × 10⁶ kg · CM vertical=${CM[2].toFixed(3)} m (37.14 % de h)`;
  if(step.name==='Superficie de R')return 'R: área real 623.365 m² − proyectada 622.035 m² = 1.330 m² (0.214 %); no equivale a energía producida';
- if(step.name==='Limitaciones')return 'Modelo sobre terreno sintético y cargas ideales · no sustituye geotecnia ni certificación';
+ if(step.name==='Limitaciones')return 'Condiciones: terreno sintético y cargas ideales · aplicación constructiva sujeta a geotecnia, cargas y cimentación';
  if(step.name==='Comprobación tecnológica')return 'Malla z=f(x,y) · ruta con z=f(r(t)) · valores contrastados analíticamente';
  // --- Fase I ---
  if(step.target==='axes')return 'Ejes cartesianos · 1 unidad = 1 m · Origen = centro del cráter';

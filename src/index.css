@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/InterVariable.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/assets/fonts/JetBrainsMono-Variable.ttf') format('truetype')}
 
 /* ==========================================================================
    SOLAR MATH III — DEEP SPACE DESIGN SYSTEM (v2: paleta sobria "NASA Eyes")
