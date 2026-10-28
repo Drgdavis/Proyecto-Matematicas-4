@@ -8,6 +8,7 @@ const deck=fs.readFileSync(path.join(root,'public/materials/Presentacion_EVA03_D
 new Script(deck.match(/<script>([\s\S]*?)<\/script>/)[1]);
 const slides=JSON.parse(deck.match(/const slides=(\[[\s\S]*?\]);\s*const cues=/)[1]);
 assert.equal(slides.length,44);assert.ok(slides.every((s,i)=>s.scene===Math.floor(i/2)+1&&!Object.hasOwn(s,'notes')));assert.equal(slides.filter(s=>s.kind==='context'&&s.symbols.length>=6).length,22);assert.equal(slides.filter(s=>s.kind==='calculation'&&s.steps.length===3).length,22);
+assert.ok(slides.filter(s=>s.kind==='calculation').every(s=>s.reveals[0]===1&&s.reveals.at(-1)===6&&s.stageLabels.length===s.reveals.length));
 assert.ok(!/notes|cabina|Notas del expositor/.test(deck));
 const list=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?list(path.join(dir,e.name)):[path.join(dir,e.name)]);
 assert.ok(!fs.existsSync(path.join(root,'src/presenter')));
@@ -22,4 +23,4 @@ for(const name of ['Anexo_Matematico_EVA03_Fuente.md','Informe_Tecnico_EVA03_Fue
  assert.ok(!/Auditoria_EVA03|verify-traceability|PDF oficial conservado en la raíz/.test(text),name+' contiene referencias retiradas');
 }
 assert.ok(fs.existsSync(path.join(root,'public/materials/Identificacion_Equipo.json')));
-console.log('PASS: presentación visual de 44 láminas para 22 escenas, documentos enlazados y ausencia de guiones, notas y consola privada.');
+console.log('PASS: 22 desarrollos principales, 22 fichas opcionales, documentos enlazados y ausencia de guiones, notas y consola privada.');
