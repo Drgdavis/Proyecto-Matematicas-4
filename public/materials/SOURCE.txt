@@ -7,3 +7,8 @@ Resolution: 2048 x 2048 pixels, JPEG
 Physical tile width: 1.5 m (official asset page)
 Maps: diffuse (sRGB color); nor_gl (OpenGL normal, linear); rough (linear).
 Use: dry stratified cliff rock, no vegetation; tint toward warm iron oxide for Mars.
+
+Fotografía del equipo Habitar Marte
+Proporcionada por los integrantes el 30/10/2026 para la identificación del proyecto.
+Uso: portadas de la entrega académica, página del equipo y créditos del recorrido.
+Se conserva la fotografía original; los nombres se presentan como lista de integrantes.

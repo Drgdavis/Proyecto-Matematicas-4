@@ -5,10 +5,10 @@
   "docente": "ScD. Juan Carlos Ruiz Castillo",
   "seccion": null,
   "fecha_entrega": null,
-  "version_tecnica": "19 de octubre de 2026",
+  "version_tecnica": "30 de octubre de 2026",
   "integrantes": [
-    {"nombre": "Juan Carlos Boteo", "carne": null, "responsabilidad_real": null},
-    {"nombre": "Haroldo Rodriguez", "carne": null, "responsabilidad_real": null},
-    {"nombre": "Davis Javier Rivera Aroche", "carne": null, "responsabilidad_real": null}
+    {"nombre": "Juan Carlos Boteo Granados", "carne": "202558502", "responsabilidad_real": null},
+    {"nombre": "Carlos Haroldo Rodriguez Fuentes", "carne": "202574501", "responsabilidad_real": null},
+    {"nombre": "Davis Javier Rivera Aroche", "carne": "202558500", "responsabilidad_real": null}
   ]
 }

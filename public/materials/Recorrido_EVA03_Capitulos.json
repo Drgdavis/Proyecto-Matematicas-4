@@ -1,0 +1,428 @@
+{
+  "version": 1,
+  "duracionSegundos": 651.9,
+  "resolucion": [
+    1600,
+    900
+  ],
+  "fotogramasPorSegundo": 20,
+  "temasMatematicos": 53,
+  "estudiosComplementarios": 5,
+  "capitulos": [
+    {
+      "titulo": "Del Sistema Solar a Marte",
+      "inicioSegundos": 0
+    },
+    {
+      "titulo": "Marte: destino del proyecto",
+      "inicioSegundos": 13.15
+    },
+    {
+      "titulo": "Viajar a Marte",
+      "inicioSegundos": 24.9
+    },
+    {
+      "titulo": "¿Qué resuelve Habitar Marte?",
+      "inicioSegundos": 33.9
+    },
+    {
+      "titulo": "Mapa del sistema",
+      "inicioSegundos": 46.7,
+      "tema53": 1,
+      "escena": 1,
+      "apartado": 1
+    },
+    {
+      "titulo": "Terreno y cálculo",
+      "inicioSegundos": 55.65,
+      "tema53": 2,
+      "escena": 1,
+      "apartado": 2
+    },
+    {
+      "titulo": "Funciones del sistema",
+      "inicioSegundos": 64.35,
+      "tema53": 3,
+      "escena": 1,
+      "apartado": 3
+    },
+    {
+      "titulo": "Función del terreno",
+      "inicioSegundos": 73.3,
+      "tema53": 4,
+      "escena": 2,
+      "apartado": 1
+    },
+    {
+      "titulo": "Ejes y escala",
+      "inicioSegundos": 81.85,
+      "tema53": 5,
+      "escena": 2,
+      "apartado": 2
+    },
+    {
+      "titulo": "Dominio físico",
+      "inicioSegundos": 90.45,
+      "tema53": 6,
+      "escena": 2,
+      "apartado": 3
+    },
+    {
+      "titulo": "Curvas de nivel",
+      "inicioSegundos": 98.8,
+      "tema53": 7,
+      "escena": 3,
+      "apartado": 1
+    },
+    {
+      "titulo": "Cortes verticales",
+      "inicioSegundos": 107.2,
+      "tema53": 8,
+      "escena": 3,
+      "apartado": 2
+    },
+    {
+      "titulo": "Alturas A · P · B",
+      "inicioSegundos": 115.5,
+      "tema53": 9,
+      "escena": 3,
+      "apartado": 3
+    },
+    {
+      "titulo": "Interpretar el relieve",
+      "inicioSegundos": 124.05,
+      "tema53": 10,
+      "escena": 3,
+      "apartado": 4
+    },
+    {
+      "titulo": "Plano en P",
+      "inicioSegundos": 132.85,
+      "tema53": 11,
+      "escena": 4,
+      "apartado": 1
+    },
+    {
+      "titulo": "Normal al suelo",
+      "inicioSegundos": 141.65,
+      "tema53": 12,
+      "escena": 4,
+      "apartado": 2
+    },
+    {
+      "titulo": "Segundas parciales",
+      "inicioSegundos": 150.05,
+      "tema53": 13,
+      "escena": 4,
+      "apartado": 3
+    },
+    {
+      "titulo": "Linealización y error",
+      "inicioSegundos": 158.4,
+      "tema53": 14,
+      "escena": 5,
+      "apartado": 1
+    },
+    {
+      "titulo": "Cortes y tasas",
+      "inicioSegundos": 166.9,
+      "tema53": 15,
+      "escena": 6,
+      "apartado": 1
+    },
+    {
+      "titulo": "Direcciones en P",
+      "inicioSegundos": 175.2,
+      "tema53": 16,
+      "escena": 6,
+      "apartado": 2
+    },
+    {
+      "titulo": "Direcciones en Q",
+      "inicioSegundos": 183.55,
+      "tema53": 17,
+      "escena": 6,
+      "apartado": 3
+    },
+    {
+      "titulo": "Ascenso y nivel",
+      "inicioSegundos": 191.9,
+      "tema53": 18,
+      "escena": 6,
+      "apartado": 4
+    },
+    {
+      "titulo": "Rumbo en Q",
+      "inicioSegundos": 200.2,
+      "tema53": 19,
+      "escena": 7,
+      "apartado": 1
+    },
+    {
+      "titulo": "Rumbo en P",
+      "inicioSegundos": 208.5,
+      "tema53": 20,
+      "escena": 7,
+      "apartado": 2
+    },
+    {
+      "titulo": "Regla de la cadena",
+      "inicioSegundos": 219.35,
+      "tema53": 21,
+      "escena": 8,
+      "apartado": 1
+    },
+    {
+      "titulo": "Resolver ∇f=0",
+      "inicioSegundos": 235.15,
+      "tema53": 22,
+      "escena": 9,
+      "apartado": 1
+    },
+    {
+      "titulo": "Mínimo libre",
+      "inicioSegundos": 248.85,
+      "tema53": 23,
+      "escena": 9,
+      "apartado": 2
+    },
+    {
+      "titulo": "Hessiano y silla",
+      "inicioSegundos": 257.1,
+      "tema53": 24,
+      "escena": 9,
+      "apartado": 3
+    },
+    {
+      "titulo": "Mínimo restringido",
+      "inicioSegundos": 265.6,
+      "tema53": 25,
+      "escena": 10,
+      "apartado": 1
+    },
+    {
+      "titulo": "Objetivo y frontera",
+      "inicioSegundos": 279.25,
+      "tema53": 26,
+      "escena": 10,
+      "apartado": 2
+    },
+    {
+      "titulo": "Curva espacial",
+      "inicioSegundos": 288.15,
+      "tema53": 27,
+      "escena": 11,
+      "apartado": 1
+    },
+    {
+      "titulo": "Velocidad y aceleración",
+      "inicioSegundos": 296.8,
+      "tema53": 28,
+      "escena": 11,
+      "apartado": 2
+    },
+    {
+      "titulo": "Tangente unitario",
+      "inicioSegundos": 305.35,
+      "tema53": 29,
+      "escena": 11,
+      "apartado": 3
+    },
+    {
+      "titulo": "Longitud 3D",
+      "inicioSegundos": 313.9,
+      "tema53": 30,
+      "escena": 12,
+      "apartado": 1
+    },
+    {
+      "titulo": "Puntos de la ruta",
+      "inicioSegundos": 327.4,
+      "tema53": 31,
+      "escena": 12,
+      "apartado": 2
+    },
+    {
+      "titulo": "Curvatura",
+      "inicioSegundos": 335.9,
+      "tema53": 32,
+      "escena": 13,
+      "apartado": 1
+    },
+    {
+      "titulo": "Límite de giro",
+      "inicioSegundos": 349.35,
+      "tema53": 33,
+      "escena": 13,
+      "apartado": 2
+    },
+    {
+      "titulo": "Región, límites y orden",
+      "inicioSegundos": 358,
+      "tema53": 34,
+      "escena": 14,
+      "apartado": 1
+    },
+    {
+      "titulo": "Volumen sobre R",
+      "inicioSegundos": 366.5,
+      "tema53": 35,
+      "escena": 15,
+      "apartado": 1
+    },
+    {
+      "titulo": "Altura media",
+      "inicioSegundos": 379.9,
+      "tema53": 36,
+      "escena": 15,
+      "apartado": 2
+    },
+    {
+      "titulo": "Celda polar",
+      "inicioSegundos": 388.25,
+      "tema53": 37,
+      "escena": 16,
+      "apartado": 1
+    },
+    {
+      "titulo": "Suelo y proyección",
+      "inicioSegundos": 401.9,
+      "tema53": 38,
+      "escena": 16,
+      "apartado": 2
+    },
+    {
+      "titulo": "Paneles y potencia",
+      "inicioSegundos": 415.4,
+      "tema53": 39,
+      "escena": 16,
+      "apartado": 3
+    },
+    {
+      "titulo": "Sólido y límites",
+      "inicioSegundos": 424.45,
+      "tema53": 40,
+      "escena": 17,
+      "apartado": 1
+    },
+    {
+      "titulo": "Celda y jacobiano",
+      "inicioSegundos": 433.65,
+      "tema53": 41,
+      "escena": 18,
+      "apartado": 1
+    },
+    {
+      "titulo": "Estirar la semiesfera",
+      "inicioSegundos": 447.2,
+      "tema53": 42,
+      "escena": 18,
+      "apartado": 2
+    },
+    {
+      "titulo": "Comparar coordenadas",
+      "inicioSegundos": 460.7,
+      "tema53": 43,
+      "escena": 18,
+      "apartado": 3
+    },
+    {
+      "titulo": "Volumen paso a paso",
+      "inicioSegundos": 469.35,
+      "tema53": 44,
+      "escena": 19,
+      "apartado": 1
+    },
+    {
+      "titulo": "Masa y simetría",
+      "inicioSegundos": 482.7,
+      "tema53": 45,
+      "escena": 20,
+      "apartado": 1
+    },
+    {
+      "titulo": "Distribución de densidad",
+      "inicioSegundos": 496.1,
+      "tema53": 46,
+      "escena": 20,
+      "apartado": 2
+    },
+    {
+      "titulo": "Masa y centro",
+      "inicioSegundos": 504.45,
+      "tema53": 47,
+      "escena": 21,
+      "apartado": 1
+    },
+    {
+      "titulo": "Distancias y momentos",
+      "inicioSegundos": 517.95,
+      "tema53": 48,
+      "escena": 21,
+      "apartado": 2
+    },
+    {
+      "titulo": "Resultados integrados",
+      "inicioSegundos": 531.55,
+      "tema53": 49,
+      "escena": 22,
+      "apartado": 1
+    },
+    {
+      "titulo": "Pendiente y acceso",
+      "inicioSegundos": 540.15,
+      "tema53": 50,
+      "escena": 22,
+      "apartado": 2
+    },
+    {
+      "titulo": "Suelo de R",
+      "inicioSegundos": 548.65,
+      "tema53": 51,
+      "escena": 22,
+      "apartado": 3
+    },
+    {
+      "titulo": "Descenso del terreno",
+      "inicioSegundos": 557.15,
+      "tema53": 52,
+      "escena": 22,
+      "apartado": 4
+    },
+    {
+      "titulo": "Alcance del modelo",
+      "inicioSegundos": 565.6,
+      "tema53": 53,
+      "escena": 22,
+      "apartado": 5
+    },
+    {
+      "titulo": "Tormenta y potencia solar",
+      "inicioSegundos": 574.65
+    },
+    {
+      "titulo": "Hielo subsuperficial y ubicación",
+      "inicioSegundos": 584.45
+    },
+    {
+      "titulo": "Balance de oxígeno y reserva",
+      "inicioSegundos": 594.1
+    },
+    {
+      "titulo": "Blindaje de radiación",
+      "inicioSegundos": 603.65
+    },
+    {
+      "titulo": "Rover: energía y riesgo",
+      "inicioSegundos": 613.35
+    },
+    {
+      "titulo": "Un modelo conectado",
+      "inicioSegundos": 623.55
+    },
+    {
+      "titulo": "Equipo del proyecto",
+      "inicioSegundos": 635.95
+    }
+  ]
+}

@@ -35,7 +35,7 @@ export const RESEARCH_SCENARIOS:ResearchScenario[]=[
     id:'dust',
     step:{name:'Tormenta y potencia solar',eq:'I(τ)=I₀e^{-τ}',result:'La tormenta reduce la potencia fotovoltaica disponible frente a una carga crítica de 12 kW.',why:'Relaciona opacidad atmosférica, irradiancia transmitida y potencia eléctrica instantánea.',point:[64,26,-18],tag:'POLVO → ENERGÍA',target:'dustResilience',working:['Se fija I₀=590 W/m² como irradiancia de referencia sobre el panel; este escenario mantiene fija la incidencia solar.','La transmitancia atmosférica es e^{-τ}.','La potencia calculada se compara con una carga crítica de 12 kW.']},
     question:'¿La potencia solar instantánea cubre la carga crítica durante una tormenta?',
-    formula:'\\begin{aligned}I(\\tau)&=590e^{-\\tau}\\,\\mathrm{W/m^2}\\\\P(\\tau)&=I(\\tau)(120)(0.24)(0.86),\\quad P_c=12\\,\\mathrm{kW}\\end{aligned}',
+    formula:'\\begin{aligned}I(\\tau)&=590e^{-\\tau}\\,\\mathrm{W/m^2}\\\\P(\\tau)&=\\frac{I(\\tau)(120)(0.24)(0.86)}{1000}\\,\\mathrm{kW},\\quad P_c=12\\,\\mathrm{kW}\\end{aligned}',
     variable:'Opacidad óptica τ',range:[0,4],unit:'',
     evidence:['Los rayos muestran la atenuación de irradiancia al aumentar τ.','El flujo 3D conecta el campo fotovoltaico con la carga de referencia.','La barra compara potencia instantánea con 12 kW.'],
     decision:'Si P<12 kW, el escenario presenta un déficit instantáneo. No se simula batería, autonomía ni almacenamiento.',

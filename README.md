@@ -4,7 +4,17 @@ Proyecto académico de una colonia científica conceptual sobre un terreno sint�
 
 **[Abrir el modelo interactivo](https://drgdavis.github.io/Proyecto-Matematicas-4/)**
 
-**Equipo:** Juan Carlos Boteo, Haroldo Rodriguez y Davis Javier Rivera Aroche.
+El enlace abre primero el **Sistema Solar**. **Viajar a Marte** inicia el descenso a la base EVA03. **Ver entrega final** reúne el recorrido en video, la identificación del equipo y los documentos.
+
+**[Ver la entrega y el video](https://drgdavis.github.io/Proyecto-Matematicas-4/materials/Entrega_EVA03.html)**
+
+| Integrante | Carné |
+|---|---|
+| Carlos Haroldo Rodriguez Fuentes | 202574501 |
+| Juan Carlos Boteo Granados | 202558502 |
+| Davis Javier Rivera Aroche | 202558500 |
+
+<img src="public/materials/Foto_Equipo_EVA03.png" width="320" alt="Equipo Habitar Marte">
 
 ## Contenido
 
@@ -21,6 +31,8 @@ El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo*
 
 ## Documentos
 
+- [Video del recorrido completo, formato MP4](public/materials/Video_Recorrido_EVA03.mp4).
+- [Entrega con reproductor de video y fotografía del equipo](public/materials/Entrega_EVA03.html).
 - [Informe técnico](public/materials/Informe_Tecnico_EVA03_Final.pdf).
 - [Anexo matemático](public/materials/Anexo_Matematico_EVA03_Final.pdf).
 - [Plano integrado](public/materials/Plano_Integrado_EVA03_Final.pdf).

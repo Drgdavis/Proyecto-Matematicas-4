@@ -1,6 +1,6 @@
 # EVA03 — anexo matemático: procedimientos reproducibles
 
-**Estado:** fuente editable de `Anexo_Matematico_EVA03_Final.pdf`, revisado el 19/10/2026. Usa las coordenadas vigentes del depósito, punto decimal en ecuaciones y unidades SI; distingue cifras redondeadas de identidades exactas. El eje y matemático es Norte y el eje vertical matemático es z. En Three.js la terna se coloca como `(x,z,y)`. Carnés, sección y contribuciones reales del equipo siguen pendientes de confirmar.
+**Estado:** fuente editable de `Anexo_Matematico_EVA03_Final.pdf`, actualizada el 30/10/2026 con los nombres completos, carnés y fotografía confirmados. Usa las coordenadas vigentes del depósito, punto decimal en ecuaciones y unidades SI; distingue cifras redondeadas de identidades exactas. El eje y matemático es Norte y el eje vertical matemático es z. En Three.js la terna se coloca como `(x,z,y)`.
 
 ## A1. Función, parámetros, dominio y tres evaluaciones
 

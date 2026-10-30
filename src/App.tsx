@@ -8,6 +8,7 @@ import { FinalDashboard } from './components/FinalDashboard';
 import { PLANETS_DATA, EARTH_MASS_KG, EARTH_RADIUS_KM } from './data/planets';
 import { PhysicalData, ModifiedPhysicalData, CameraMode, CometState, AlertState, CollisionState } from './types';
 import { ShieldAlert, Sparkles, Zap, BarChart3, Rocket, RotateCcw, MapPin } from 'lucide-react';
+import { assetUrl } from './utils/assetUrl';
 
 export default function App() {
   const [selectedPlanetName, setSelectedPlanetName] = useState<string>('earth');
@@ -70,7 +71,7 @@ export default function App() {
   const [isCollisionModalOpen, setIsCollisionModalOpen] = useState<boolean>(false);
   const [isFinalDashboardOpen, setIsFinalDashboardOpen] = useState<boolean>(false);
   const [experiencePhase, setExperiencePhase] = useState<'solar' | 'descent' | 'surface'>(() =>
-    new URLSearchParams(window.location.search).get('eva01') === 'solar' ? 'solar' : 'surface'
+    new URLSearchParams(window.location.search).get('eva01') === 'surface' ? 'surface' : 'solar'
   );
 
   useEffect(() => {
@@ -224,8 +225,8 @@ export default function App() {
             <span className="relative w-1.5 h-1.5 bg-[var(--accent-cyan)] rounded-full shadow-[0_0_8px_var(--accent-cyan-glow)]" />
           </div>
           <h1 className="hud-title tracking-[0.18em] text-[13px] sm:text-[15px] flex items-baseline gap-2">
-            SOLAR&nbsp;MATH&nbsp;III&nbsp;×&nbsp;EVA03
-            <span className="hud-eyebrow !text-[9px] opacity-60 font-normal tracking-widest">MISIÓN INTEGRADA</span>
+            HABITAR&nbsp;MARTE
+            <span className="hud-eyebrow !text-[9px] opacity-60 font-normal tracking-widest">MATEMÁTICA IV · SISTEMA SOLAR</span>
           </h1>
         </div>
         <div className="hidden sm:flex gap-7">
@@ -244,6 +245,7 @@ export default function App() {
             <span className="telemetry-value text-[11px] text-[var(--accent-cyan)] font-semibold">J2000.0 + {(simulatedDays / 365.25).toFixed(1)}y</span>
           </div>
           <div className="w-px self-stretch bg-[var(--panel-border)]" />
+          <a href={assetUrl('/materials/Entrega_EVA03.html')} target="_blank" rel="noreferrer" className="text-[11px] text-white underline underline-offset-4">VER ENTREGA FINAL</a>
           <button className="eva03-mission-cta" onClick={startEvaDescent} title="Iniciar la transición del Sistema Solar a la base marciana">
             <Rocket size={15} /> VIAJAR A MARTE
           </button>

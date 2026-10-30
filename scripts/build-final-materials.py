@@ -1,8 +1,8 @@
 """Regenera informe, anexo y plano desde las fuentes académicas vigentes.
 
 Uso: python scripts/build-final-materials.py
-Las identidades se limitan a los nombres facilitados por el equipo; los carnés,
-la sección, la fecha de entrega y las contribuciones reales se completan después.
+La identificación usa los nombres y carnés confirmados por el equipo.
+Los campos opcionales sin confirmar se conservan vacíos en la fuente.
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import (
-    BaseDocTemplate, Flowable, Frame, KeepTogether, LongTable, PageBreak,
+    BaseDocTemplate, Flowable, Frame, Image, KeepTogether, LongTable, PageBreak,
     PageTemplate, Paragraph, Spacer, TableStyle,
 )
 from reportlab.platypus.tableofcontents import TableOfContents
@@ -29,10 +29,10 @@ from reportlab.platypus.tableofcontents import TableOfContents
 ROOT = Path(__file__).resolve().parents[1]
 MATERIALS = ROOT / "public" / "materials"
 TEAM = json.loads((MATERIALS / "Identificacion_Equipo.json").read_text(encoding="utf-8"))
-PAPER = colors.HexColor("#173434")
-ACCENT = colors.HexColor("#B76542")
-SOFT = colors.HexColor("#EAF0EC")
-MUTED = colors.HexColor("#536260")
+PAPER = colors.HexColor("#2D4E68")
+ACCENT = colors.HexColor("#4B2D68")
+SOFT = colors.HexColor("#E3F1FF")
+MUTED = colors.HexColor("#587FA0")
 WIDTH, HEIGHT = A4
 
 pdfmetrics.registerFont(TTFont("ArialEVA", "C:/Windows/Fonts/arial.ttf"))
@@ -376,11 +376,15 @@ def markdown_story(text: str, kind: str):
 
 
 def team_identification():
-    rows = [f'{TEAM["curso"]} · Docente: {TEAM["docente"]}',
-            f'Sección: {TEAM.get("seccion") or "por confirmar"} · Entrega: {TEAM.get("fecha_entrega") or "por confirmar"}']
+    rows = [f'{TEAM["curso"]} · Docente: {TEAM["docente"]}']
+    if TEAM.get('seccion'):
+        rows.append(f'Sección: {TEAM["seccion"]}')
+    if TEAM.get('fecha_entrega'):
+        rows.append(f'Entrega: {TEAM["fecha_entrega"]}')
     for person in TEAM["integrantes"]:
         rows.append(f'{person["nombre"]} · Carné: {person.get("carne") or "por confirmar"}')
-        rows.append(f'Responsabilidad real: {person.get("responsabilidad_real") or "por confirmar con el integrante"}')
+        if person.get('responsabilidad_real'):
+            rows.append(f'Responsabilidad real: {person["responsabilidad_real"]}')
     return [Paragraph(html.escape(row), ST["EVACoverInfo"]) for row in rows]
 
 
@@ -392,13 +396,14 @@ def make_pdf(kind: str, source: Path, output: Path):
         raise ValueError("La fuente no cubre estos símbolos: "+", ".join(f"U+{cp:04X}" for cp in missing))
     title="INFORME TÉCNICO" if kind=="informe" else "ANEXO MATEMÁTICO"
     subtitle="Habitar Marte · diseño conceptual mediante cálculo multivariable"
-    story=[Spacer(1,100),Paragraph("EVA03  /  MATEMÁTICA IV",ST["EVASub"]),
+    photo=MATERIALS/'Foto_Equipo_EVA03.png'
+    photo_block=[Image(str(photo),width=126,height=168),Spacer(1,16)] if photo.is_file() else []
+    story=[Spacer(1,18),Paragraph("EVA03  /  MATEMÁTICA IV",ST["EVASub"]),
            Paragraph(title,ST["EVATitle"]),Paragraph(subtitle,ST["EVASub"]),
-           Spacer(1,28),
+           *photo_block,
            Paragraph(html.escape(TEAM["universidad"]+" · "+TEAM["facultad"]),ST["EVACoverInfo"]),
-           Paragraph(html.escape(" · ".join(p["nombre"] for p in TEAM["integrantes"])),ST["EVACoverInfo"]),
            *team_identification(),
-           Spacer(1,32),
+           Spacer(1,18),
            Paragraph(html.escape("Versión técnica de "+TEAM["version_tecnica"]+". Terreno y servicios de carácter académico y sintético; los límites físicos y operativos se declaran en el texto."),ST["EVABody"]),
            PageBreak(),Paragraph("Índice",ST["EVATitle"])]
     toc=TableOfContents();toc.levelStyles=[ST["EVATOC"],ST["EVATOC"]]
