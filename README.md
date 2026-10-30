@@ -6,6 +6,8 @@ Proyecto académico de una colonia científica conceptual sobre un terreno sint�
 
 El enlace abre primero el **Sistema Solar**. **Viajar a Marte** inicia el descenso a la base EVA03. **Ver entrega final** reúne el recorrido en video, la identificación del equipo y los documentos.
 
+En celular y tablet, **Controles** y **Datos del planeta** abren los paneles del sistema solar. En Marte, el modelo y su explicación se distribuyen según el ancho disponible y los botones Anterior/Siguiente permanecen accesibles. Las láminas se adaptan a lectura vertical; las expresiones largas pueden desplazarse horizontalmente.
+
 **[Ver la entrega y el video](https://drgdavis.github.io/Proyecto-Matematicas-4/materials/Entrega_EVA03.html)**
 
 | Integrante | Carné |

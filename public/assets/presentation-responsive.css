@@ -1,0 +1,38 @@
+/* Conserva el formato de proyección; en vertical permite leer sin reducir toda la lámina. */
+@media(max-width:1100px) and (orientation:portrait), (max-width:600px), (max-width:1199px) and (max-height:500px){
+ .app{height:100dvh;grid-template-rows:minmax(0,1fr) auto}
+ .stage{display:block;overflow:auto;overscroll-behavior:contain;padding:12px;min-width:0}
+ .slide{width:100%;aspect-ratio:auto;min-height:100%;overflow:visible;padding:24px 20px;display:flex;flex-direction:column;gap:18px;container-type:normal}
+ .slide:before{height:4px}
+ .slide>*{position:static;inset:auto;width:auto;height:auto;min-width:0;max-width:100%;margin:0}
+ .phase,.count,.lesson-stage,.eyebrow,.procedure-label,.meaning-label,.result-label{font-size:11px;line-height:1.5;letter-spacing:.06em}
+ .count{color:var(--blue);order:-1}
+ .title{font-size:clamp(25px,5vw,34px);line-height:1.12;letter-spacing:-.035em}
+ .lesson-stage{font-size:13px;font-weight:600;text-transform:none}
+ .formula-wrap{display:flex;flex-direction:column;gap:18px;padding:16px;border-left-width:3px}
+ .relation{gap:10px}.relation .formula{font-size:18px!important;overflow:auto;padding:4px 0 8px}
+ .given{border-left:0;border-top:1px solid var(--line);padding:14px 0 0;gap:8px}
+ .given-line{font-size:15px;line-height:1.5;overflow-x:auto;padding-bottom:4px}
+ .steps,.slide[data-scene="21"] .steps{display:flex;flex-direction:column;gap:0;height:auto}
+ .step{display:grid;grid-template-columns:26px minmax(0,1fr);padding:16px 0;gap:10px;font-size:16px;line-height:1.5}
+ .step-index{font-size:16px}.step-body{overflow-x:auto;padding:5px 0 10px}
+ .step .katex-display>.katex{white-space:nowrap}
+ .result{padding:18px;gap:10px;flex-shrink:0}
+ .slide .result-value,.slide[data-scene="4"] .result-value{font-size:21px!important;overflow-x:auto;padding:6px 0}
+ .result-caption{font-size:15px;line-height:1.4;overflow-x:auto}
+ .meaning,.context .meaning{padding-top:16px;gap:8px;flex-shrink:0}
+ .meaning-text,.context .meaning-text{font-size:16px;line-height:1.5;overflow-x:auto}
+ .context-goal{font-size:19px;line-height:1.45}
+ .symbol-table{display:flex;gap:0}
+ .symbol-head{display:none}.symbol-row{grid-template-columns:minmax(65px,25%) minmax(0,1fr);gap:8px 12px;padding:16px 0;font-size:15px;line-height:1.5}
+ .symbol-name{font-size:18px;padding:0;overflow-x:auto}.symbol-meaning{padding:0}.symbol-unit{grid-column:2;font-size:13px;padding:0;overflow-x:auto;color:var(--blue)}
+ .controls{height:auto;min-height:110px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:8px;flex-wrap:wrap;align-content:center}
+ .control-group{flex-wrap:wrap;gap:8px;min-width:0}.control-group:first-child{flex:1 1 100%}
+ .controls button{min-height:44px;padding:8px 10px;font-size:13px}.controls #status{font-size:12px;flex:1 1 100%;order:-1}
+ .controls .hint,.controls .progress,.controls .cue{display:none}
+ .reveal{transform:none;filter:none;transition:opacity .2s}
+}
+@media(max-height:500px) and (orientation:landscape){
+ .controls{height:48px;padding:4px 10px;gap:8px}.controls button{min-height:36px;padding:4px 8px;font-size:11px}
+ .controls .hint,.controls .progress,.controls .cue{display:none}.controls #status{font-size:11px}
+}

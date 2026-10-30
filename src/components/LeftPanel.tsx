@@ -3,6 +3,7 @@ import { Play, Pause, RefreshCw, Eye, Camera, Search, Compass, Layers, BarChart3
 import { PhysicalData, CameraMode } from '../types';
 
 interface LeftPanelProps {
+  compact?: boolean;
   planets: PhysicalData[];
   selectedPlanet: string;
   onSelectPlanet: (name: string) => void;
@@ -51,11 +52,13 @@ export function LeftPanel({
   onScreenshot,
   globalPlanetSize,
   onGlobalPlanetSizeChange,
-  onOpenDashboard
+  onOpenDashboard,
+  compact = false
 }: LeftPanelProps) {
   const [searchQuery, setSearchQuery] = useState('');
   // --- Estado puramente visual: colapso del panel de telemetría (no afecta física/estado de simulación) ---
   const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => { if (compact) setCollapsed(false); }, [compact]);
   const miniMapCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Parse simulated day counter (epoch starting Jan 1, 2000 J2000.0)

@@ -32,7 +32,7 @@ export function FinalDashboard({ isOpen, onClose, planetModifiers }: FinalDashbo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md font-mono">
+    <div className="solar-dashboard fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md font-mono" role="dialog" aria-modal="true" aria-label="Resumen del sistema solar">
       <div className="w-full max-w-7xl h-[95vh] mx-4 flex flex-col glass-panel-strong rounded-2xl border border-[var(--accent-cyan)]/25 shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--panel-border)] bg-gradient-to-r from-[var(--accent-cyan)]/[0.08] to-transparent">
@@ -57,7 +57,7 @@ export function FinalDashboard({ isOpen, onClose, planetModifiers }: FinalDashbo
           </button>
         </div>
 
-        <div className="flex-1 flex overflow-hidden">
+        <div className="solar-dashboard-content flex-1 flex overflow-hidden">
           {/* Left: Planet Selector */}
           <div className="w-64 glass-panel border-r border-[var(--panel-border)] p-4 overflow-y-auto scrollbar-hud">
             <h3 className="hud-eyebrow !text-[10px] !text-[var(--accent-cyan)] mb-3">

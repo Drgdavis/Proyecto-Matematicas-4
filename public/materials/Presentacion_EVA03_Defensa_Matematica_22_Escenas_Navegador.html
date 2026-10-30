@@ -95,6 +95,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 -->
+<link rel="stylesheet" href="../assets/presentation-responsive.css">
 </head>
 <body>
 <div class="app">
@@ -123,10 +124,11 @@ const el=document.getElementById('slide'), status=document.getElementById('statu
 const params=new URLSearchParams(location.search);
 let index=Math.max(0,Math.min(slides.length-1,params.has('slide')?Number(params.get('slide'))-1:2*(Number(params.get('scene')||1)-1)+(params.get('reference')==='1'?0:1))), reveal=Math.max(0,Math.min(6,Number(params.get('reveal')||1))),returnReveal=1;
 const E=(tag,className,text)=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n};
-const M=(className,html,fallback)=>{const n=E('div',className,fallback);if(html)n.innerHTML=html;return n};
+const M=(className,html,fallback)=>{const n=E('div',className,fallback);if(html)n.innerHTML=html;if(['formula','step-body','result-value','symbol-name','symbol-unit'].includes(className)){n.tabIndex=0;n.setAttribute('aria-label','Expresión matemática; se puede desplazar horizontalmente si excede el ancho.');}return n};
 const levels=d=>d.reveals||[1,4,6];
 const reference=E('button','','Consultar símbolos');reference.id='reference';document.getElementById('full').before(reference);
 reference.onclick=()=>{if(slides[index].kind==='context'){index++;reveal=returnReveal;}else{returnReveal=reveal;index--;reveal=0;}draw();};
+let previousView='',previousReveal=0;
 function draw(){
  const d=slides[index],context=d.kind==='context';if(context)reveal=0;else reveal=Math.max(1,reveal);
  el.className='slide'+(context?' context':'');el.dataset.scene=String(d.scene);el.replaceChildren();
@@ -153,6 +155,9 @@ function draw(){
  reference.textContent=context?'Volver al desarrollo':'Consultar símbolos';
  document.getElementById('next').textContent=context?'Volver al desarrollo →':reveal<6?'Continuar →':'Siguiente desarrollo →';
  const p=new URLSearchParams(location.search);p.set('scene',String(d.scene));p.set('slide',String(index+1));p.set('reveal',String(reveal));if(context)p.set('reference','1');else p.delete('reference');history.replaceState(null,'','?'+p);
+ const view=d.scene+':'+context,vertical=matchMedia('(max-width:1100px) and (orientation:portrait), (max-width:600px), (max-width:1199px) and (max-height:500px)').matches;
+ if(vertical&&previousView){if(previousView!==view)document.querySelector('.stage').scrollTop=0;else if(previousReveal!==reveal)el.querySelector(reveal>=6?'.result':reveal>=4?'.steps':'.formula-wrap')?.scrollIntoView({block:'start'});}
+ previousView=view;previousReveal=reveal;
 }
 function forward(){if(slides[index].kind==='context'){index++;reveal=returnReveal;}else{const next=levels(slides[index]).find(v=>v>reveal);if(next!==undefined)reveal=next;else if(index<slides.length-1){index+=2;reveal=1;}}draw();}
 function back(){if(slides[index].kind==='context'){index++;reveal=returnReveal;}else{const prev=levels(slides[index]).findLast(v=>v<reveal);if(prev!==undefined)reveal=prev;else if(index>1){index-=2;reveal=6;}}draw();}

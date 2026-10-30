@@ -6,6 +6,7 @@ import { GravityGraph, LeibnizPiGraph, EllipseGeometryCanvas } from './MathCanva
 import { VISUAL_SCALE, G_CONSTANT, MASS_OF_SUN, AU_IN_KM, EARTH_MASS_KG } from '../data/planets';
 
 interface RightPanelProps {
+  compact?: boolean;
   planet: PhysicalData;
   allPlanets: PhysicalData[];
   onSelectPlanet: (name: string) => void;
@@ -34,7 +35,8 @@ export function RightPanel({
   onTriggerCollision,
   cometState,
   collisionState,
-  onResetCollision
+  onResetCollision,
+  compact = false
 }: RightPanelProps) {
   const [activeTab, setActiveTab] = useState<'calculus' | 'series' | 'vectors' | 'manipulation'>('calculus');
   const [leibnizTerms, setLeibnizTerms] = useState<number>(1000);
@@ -44,6 +46,7 @@ export function RightPanel({
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   // --- Overhaul: panel colapsable (vista limpia del sistema solar) ----------
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  useEffect(() => { if (compact) { setCollapsed(false); setIsExpanded(false); } }, [compact]);
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
 
   // Seleccionar un planeta conserva el ancho actual. La consola completa solo

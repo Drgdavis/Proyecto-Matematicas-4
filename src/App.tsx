@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LeftPanel } from './components/LeftPanel';
 import { RightPanel } from './components/RightPanel';
 import { SolarSystem3D } from './components/SolarSystem3D';
@@ -7,10 +7,35 @@ import { CollisionModal } from './components/CollisionModal';
 import { FinalDashboard } from './components/FinalDashboard';
 import { PLANETS_DATA, EARTH_MASS_KG, EARTH_RADIUS_KM } from './data/planets';
 import { PhysicalData, ModifiedPhysicalData, CameraMode, CometState, AlertState, CollisionState } from './types';
-import { ShieldAlert, Sparkles, Zap, BarChart3, Rocket, RotateCcw, MapPin } from 'lucide-react';
+import { ShieldAlert, Sparkles, Zap, BarChart3, Rocket, RotateCcw, MapPin, SlidersHorizontal, X } from 'lucide-react';
 import { assetUrl } from './utils/assetUrl';
 
 export default function App() {
+  const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 1199px)').matches);
+  const [mobilePanel, setMobilePanel] = useState<'controls' | 'data' | null>(null);
+  const panelTrigger = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1199px)');
+    const update = () => { setCompact(media.matches); if (!media.matches) setMobilePanel(null); };
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    if (!mobilePanel || !compact) return;
+    const panel = document.getElementById(`solar-panel-${mobilePanel}`);
+    panel?.querySelector<HTMLButtonElement>('button')?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); setMobilePanel(null); }
+      if (event.key === 'Tab' && panel) {
+        const items = [...panel.querySelectorAll<HTMLElement>('button,input,select,a[href],[tabindex="0"]')].filter(el => !el.hasAttribute('disabled') && el.getClientRects().length);
+        const first = items[0], last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('keydown', onKey); panelTrigger.current?.focus(); };
+  }, [mobilePanel, compact]);
   const [selectedPlanetName, setSelectedPlanetName] = useState<string>('earth');
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(10.0);
@@ -90,6 +115,7 @@ export default function App() {
   const currentPlanet = PLANETS_DATA.find(p => p.name === selectedPlanetName) || PLANETS_DATA[2];
 
   const handlePlanetSelect = (name: string) => {
+    setMobilePanel(null);
     setSelectedPlanetName(name);
     setSelectedMoonInfo(null);
     setCameraMode('follow');
@@ -152,6 +178,7 @@ export default function App() {
 
   // Trigger collision modal
   const handleCollisionTrigger = (planetA: string, planetB: string) => {
+    setMobilePanel(null);
     setIsCollisionModalOpen(true);
   };
 
@@ -171,6 +198,7 @@ export default function App() {
   };
 
   const startEvaDescent = () => {
+    setMobilePanel(null);
     setSelectedPlanetName('mars');
     setSelectedMoonInfo(null);
     setComparisonMode(false);
@@ -218,7 +246,7 @@ export default function App() {
       )}
 
       {/* 1. TOP HUD BAR — telemetría de misión */}
-      <header className="h-12 shrink-0 border-b border-[var(--panel-border)] glass-panel-strong flex items-center justify-between px-6 z-50 relative">
+      <header className="solar-header h-12 shrink-0 border-b border-[var(--panel-border)] glass-panel-strong flex items-center justify-between px-6 z-50 relative">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center justify-center w-2.5 h-2.5">
             <span className="absolute w-2.5 h-2.5 bg-[var(--accent-cyan)] rounded-full animate-ping opacity-40" />
@@ -229,28 +257,28 @@ export default function App() {
             <span className="hud-eyebrow !text-[9px] opacity-60 font-normal tracking-widest">MATEMÁTICA IV · SISTEMA SOLAR</span>
           </h1>
         </div>
-        <div className="hidden sm:flex gap-7">
-          <div className="flex flex-col gap-0.5">
+        <div className="solar-header-actions flex gap-7">
+          <div className="solar-telemetry flex flex-col gap-0.5">
             <span className="hud-eyebrow">Motor de Render</span>
             <span className="telemetry-value text-[11px] text-white font-semibold">Three.js · PBR</span>
           </div>
-          <div className="w-px self-stretch bg-[var(--panel-border)]" />
-          <div className="flex flex-col gap-0.5">
+          <div className="solar-telemetry w-px self-stretch bg-[var(--panel-border)]" />
+          <div className="solar-telemetry flex flex-col gap-0.5">
             <span className="hud-eyebrow">Modo Físico</span>
             <span className="telemetry-value text-[11px] text-white font-semibold">Kepleriano Elíptico</span>
           </div>
-          <div className="w-px self-stretch bg-[var(--panel-border)]" />
-          <div className="flex flex-col gap-0.5">
+          <div className="solar-telemetry w-px self-stretch bg-[var(--panel-border)]" />
+          <div className="solar-telemetry flex flex-col gap-0.5">
             <span className="hud-eyebrow">Tiempo Sim.</span>
             <span className="telemetry-value text-[11px] text-[var(--accent-cyan)] font-semibold">J2000.0 + {(simulatedDays / 365.25).toFixed(1)}y</span>
           </div>
-          <div className="w-px self-stretch bg-[var(--panel-border)]" />
+          <div className="solar-telemetry w-px self-stretch bg-[var(--panel-border)]" />
           <a href={assetUrl('/materials/Entrega_EVA03.html')} target="_blank" rel="noreferrer" className="text-[11px] text-white underline underline-offset-4">VER ENTREGA FINAL</a>
           <button className="eva03-mission-cta" onClick={startEvaDescent} title="Iniciar la transición del Sistema Solar a la base marciana">
             <Rocket size={15} /> VIAJAR A MARTE
           </button>
-          <div className="w-px self-stretch bg-[var(--panel-border)]" />
-          <div className="flex flex-col gap-0.5 items-end justify-center">
+          <div className="solar-telemetry w-px self-stretch bg-[var(--panel-border)]" />
+          <div className="solar-telemetry flex flex-col gap-0.5 items-end justify-center">
             <div className="live-indicator">
               <span className="live-dot" />
               <span className="live-label">{isPaused ? 'EN PAUSA' : 'LIVE'}</span>
@@ -260,9 +288,17 @@ export default function App() {
       </header>
 
       {/* 2. MAIN WORKSPACE CONTENT CONTAINER */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <nav className="solar-mobile-nav" aria-label="Herramientas del sistema solar">
+        <button aria-expanded={mobilePanel === 'controls'} aria-controls="solar-panel-controls" onClick={event => { panelTrigger.current = event.currentTarget; setMobilePanel('controls'); }}><SlidersHorizontal size={17}/> Controles</button>
+        <span>{currentPlanet.displayName}</span>
+        <button aria-expanded={mobilePanel === 'data'} aria-controls="solar-panel-data" onClick={event => { panelTrigger.current = event.currentTarget; setMobilePanel('data'); }}><BarChart3 size={17}/> Datos del planeta</button>
+      </nav>
+      {compact && mobilePanel && <button className="solar-panel-scrim" aria-label="Cerrar panel" tabIndex={-1} onClick={() => setMobilePanel(null)}/>}
+      <div className="solar-workspace flex-1 flex overflow-hidden relative">
         
         {/* LEFT PANEL - SIMULATION CONTROLS */}
+        <aside id="solar-panel-controls" className="solar-panel-slot solar-controls-slot" data-open={mobilePanel === 'controls'} role={compact ? 'dialog' : undefined} aria-modal={compact && mobilePanel === 'controls' ? true : undefined} aria-label="Controles del sistema solar">
+        <button className="solar-panel-close" onClick={() => setMobilePanel(null)}><X size={18}/> Cerrar controles</button>
         <LeftPanel
           planets={PLANETS_DATA}
           selectedPlanet={selectedPlanetName}
@@ -282,11 +318,12 @@ export default function App() {
           onScreenshot={handleScreenshot}
           globalPlanetSize={globalPlanetSize}
           onGlobalPlanetSizeChange={setGlobalPlanetSize}
-          onOpenDashboard={() => setIsFinalDashboardOpen(true)}
-        />
+          onOpenDashboard={() => { setMobilePanel(null); setIsFinalDashboardOpen(true); }}
+          compact={compact}
+        /></aside>
 
         {/* CENTER - 3D THREEPORT VIEWPORT */}
-        <div className="flex-1 h-full relative" id="solar_system_3d_container">
+        <div className="flex-1 h-full relative" id="solar_system_3d_container" inert={compact && mobilePanel ? true : undefined}>
           <SolarSystem3D
             planets={PLANETS_DATA}
             selectedPlanet={selectedPlanetName}
@@ -416,6 +453,8 @@ export default function App() {
         </div>
 
         {/* 3. RIGHT PANEL - MATHEMATICAL WORKSPACES */}
+        <aside id="solar-panel-data" className="solar-panel-slot solar-data-slot" data-open={mobilePanel === 'data'} role={compact ? 'dialog' : undefined} aria-modal={compact && mobilePanel === 'data' ? true : undefined} aria-label="Datos del planeta">
+        <button className="solar-panel-close" onClick={() => setMobilePanel(null)}><X size={18}/> Cerrar datos</button>
         <RightPanel
           planet={currentPlanet}
           allPlanets={PLANETS_DATA}
@@ -430,7 +469,8 @@ export default function App() {
           cometState={cometState}
           collisionState={collisionState}
           onResetCollision={handleResetCollision}
-        />
+          compact={compact}
+        /></aside>
 
       </div>
 

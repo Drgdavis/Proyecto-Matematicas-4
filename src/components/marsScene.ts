@@ -1238,7 +1238,13 @@ export function createMarsScene(host:HTMLDivElement,onTelemetry:(t:Telemetry)=>v
  const keyDown=(e:KeyboardEvent)=>{if((e.target as HTMLElement).matches('input,textarea,select'))return;if(e.key.toLowerCase()==='g'&&!e.repeat){if(!logisticsPreview)gateTarget=1-gateTarget;return;}if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(e.key.toLowerCase())){keys.add(e.key.toLowerCase());if(mode==='walk')e.preventDefault();}};
  const keyUp=(e:KeyboardEvent)=>keys.delete(e.key.toLowerCase());const blur=()=>keys.clear();window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);window.addEventListener('blur',blur);
  let dragging=false,lastX=0,lastY=0,yaw=0,pitch=0;const down=(e:PointerEvent)=>{if(mode!=='walk')return;dragging=true;lastX=e.clientX;lastY=e.clientY;renderer.domElement.setPointerCapture(e.pointerId);};const move=(e:PointerEvent)=>{if(!dragging)return;yaw-=(e.clientX-lastX)*.004;pitch=Math.max(-1.15,Math.min(1.15,pitch-(e.clientY-lastY)*.003));lastX=e.clientX;lastY=e.clientY;};const up=()=>{dragging=false;};renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);
- const resize=()=>{camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();renderer.setSize(host.clientWidth,host.clientHeight);composer.setSize(host.clientWidth,host.clientHeight);applyDay();};const ro=new ResizeObserver(resize);ro.observe(host);resize();
+ const resize=()=>{
+  const width=Math.max(1,host.clientWidth),height=Math.max(1,host.clientHeight);
+  camera.aspect=width/height;
+  // Conserva el campo horizontal al girar a vertical, sin reiniciar el zoom ni la escena.
+  camera.fov=T.MathUtils.radToDeg(2*Math.atan(Math.tan(T.MathUtils.degToRad(52)/2)/Math.min(1,camera.aspect/1.2)));
+  camera.updateProjectionMatrix();renderer.setSize(width,height);composer.setSize(width,height);applyDay();
+ };const ro=new ResizeObserver(resize);ro.observe(host);resize();
  const emitDust=(position:T.Vector3)=>{trailPositions[trailIndex*3]=position.x+(seeded(trailIndex+performance.now())-.5)*1.3;trailPositions[trailIndex*3+1]=position.y+.15;trailPositions[trailIndex*3+2]=position.z+(seeded(trailIndex+74)-.5)*1.3;trailIndex=(trailIndex+1)%96;trailGeometry.attributes.position.needsUpdate=true;};
  let annotationItems:SceneAnnotation[]=[];
  const annotationVector=new T.Vector3();

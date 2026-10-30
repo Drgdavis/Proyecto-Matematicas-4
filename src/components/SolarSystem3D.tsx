@@ -1857,7 +1857,7 @@ export function SolarSystem3D({
       )}
 
       {/* Floating coordinates indicator in bottom left corner */}
-      <div className="absolute bottom-4 left-[295px] pointer-events-none z-10 flex flex-col gap-1 text-[10px] font-mono text-[#6688aa] bg-black/60 p-2 border border-gray-800 rounded backdrop-blur">
+      <div className="solar-camera-info absolute bottom-4 left-[295px] pointer-events-none z-10 flex flex-col gap-1 text-[10px] font-mono text-[#6688aa] bg-black/60 p-2 border border-gray-800 rounded backdrop-blur">
         <div className="text-[#00ff88] font-bold">INFO DE CÁMARA</div>
         <div>Modo: {cameraMode.toUpperCase()}</div>
         <div>Fondo estelar: 24,000 pts calibrados</div>

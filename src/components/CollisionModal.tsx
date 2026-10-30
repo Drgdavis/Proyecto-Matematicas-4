@@ -519,7 +519,7 @@ export function CollisionModal({ isOpen, onClose, earthModifier, planetModifiers
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-md">
+    <div className="solar-collision fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-md" role="dialog" aria-modal="true" aria-label="Simulación de colisión">
       <div className="w-full h-[98vh] mx-2 flex flex-col glass-panel-strong rounded-3xl border-2 border-[var(--accent-danger)]/30 shadow-[0_0_25px_rgba(255,77,94,0.1)] overflow-hidden font-mono">
         {/* Header */}
         <div className="flex items-center justify-between px-8 py-5 border-b border-[var(--accent-danger)]/20 bg-gradient-to-r from-red-950/30 via-black/40 to-orange-950/20">

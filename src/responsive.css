@@ -1,0 +1,122 @@
+/* El lienzo conserva su espacio; las herramientas se abren sobre él en pantallas compactas. */
+#app_root_layout{width:100%;height:100dvh;min-height:0}
+.solar-workspace,#solar_system_3d_container{min-width:0;min-height:0}
+.solar-panel-slot{display:flex;flex-shrink:0;min-width:0}
+.solar-mobile-nav,.solar-panel-close,.solar-panel-scrim{display:none}
+.expedition,.workspace,.story,.story-scroll,.tv-card{min-width:0}
+.expedition{min-height:0}
+.tv-result strong,.tv-observation,.tv-question,.modal p{overflow-wrap:anywhere}
+.modal{overscroll-behavior:contain}
+@media(min-width:1200px) and (max-width:1399px){
+ .solar-header-actions{gap:16px;align-items:center}.solar-header-actions .solar-telemetry{display:none}.solar-header h1{white-space:nowrap}.solar-header .eva03-mission-cta{min-height:36px}
+}
+
+@media(max-width:1199px){
+ .solar-header{height:auto;min-height:62px;gap:12px;padding:10px 16px}
+ .solar-header h1{flex-direction:column;gap:3px;letter-spacing:.08em;font-size:14px}
+ .solar-header-actions{gap:14px;align-items:center}
+ .solar-header-actions .solar-telemetry{display:none}
+ .solar-header .eva03-mission-cta{min-height:44px}
+ .solar-mobile-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:50px;padding:4px 14px;background:#101216;border-bottom:1px solid #ffffff20;flex-shrink:0;z-index:35}
+ .solar-mobile-nav button,.solar-panel-close{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:1px solid #536575;background:#19212a;color:#eaf4fc;padding:8px 12px;font-size:13px;cursor:pointer}
+ .solar-mobile-nav>span{font-size:12px;color:#a8bfd1}
+ .solar-panel-slot{display:none}
+ .solar-panel-slot[data-open=true]{display:flex;flex-direction:column;position:fixed;top:0;bottom:0;width:min(400px,100%);z-index:75;background:#101216;box-shadow:0 0 60px #0008;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+ .solar-controls-slot{left:0}.solar-data-slot{right:0}
+ .solar-panel-slot>div{width:100%!important;min-width:0!important;max-width:none!important;height:auto;flex:1;min-height:0;transition:none}
+ .solar-panel-close{flex-shrink:0;justify-content:space-between;border:0;border-bottom:1px solid #536575;margin:0;padding:12px 18px;min-height:52px}
+ .solar-panel-scrim{display:block;position:fixed;inset:0;z-index:70;border:0;background:#0009;backdrop-filter:blur(3px)}
+ .solar-panel-slot button[title="Colapsar panel"],.solar-panel-slot button[title="Ampliar Consola Matemática"]{display:none}
+ #bottom_hud_bar{height:48px;padding-bottom:env(safe-area-inset-bottom)}
+ .solar-camera-info{left:12px;bottom:12px}
+ .solar-panel-slot input:not([type=checkbox]),.solar-panel-slot select{min-height:36px}
+ .solar-panel-slot button{min-height:44px}
+ .solar-panel-slot label,.solar-panel-slot p{font-size:13px}
+ .solar-panel-slot input[type=text],.solar-panel-slot input[type=search],.solar-panel-slot select{font-size:16px}
+ .tv-mode .topbar{height:auto;min-height:76px;gap:12px;padding:12px 18px;flex-wrap:wrap}
+ .tv-mode .header-actions{gap:5px;flex-wrap:wrap}
+ .header-actions button{min-height:42px}
+}
+@media(min-width:901px) and (max-width:1199px){
+ .tv-mode .workspace{grid-template-columns:minmax(0,1fr) minmax(340px,42%)}
+ .tv-mode .story-scroll{padding:18px 22px}
+}
+@media(max-width:600px){
+ .solar-header{padding:8px 12px;gap:8px;flex-wrap:wrap}
+ .solar-header h1{font-size:13px}.solar-header h1 span{font-size:8px!important;letter-spacing:.04em}
+ .solar-header-actions{gap:8px;margin-left:auto}
+ .solar-header-actions>a{font-size:9px!important;max-width:65px;text-align:center}
+ .solar-header .eva03-mission-cta{padding:0 9px;font-size:9px;letter-spacing:0}
+ .solar-mobile-nav{padding:4px 8px}.solar-mobile-nav>span{display:none}
+ #bottom_hud_bar>div{gap:10px}#bottom_hud_bar>div>div:last-child>span:first-child,#bottom_hud_bar .live-indicator,#bottom_hud_bar>div>div:last-child>div{display:none}
+ #bottom_hud_bar>div>div:last-child{font-size:9px;gap:0}
+ .solar-camera-info{display:none}
+ .galaxy-view-button{top:10px;min-width:0;width:max-content;max-width:calc(100% - 24px);padding:8px 12px}
+ .galaxy-view-button small{display:none}
+ .galaxy-context-card{bottom:12px;padding:10px}
+ .eva01-orbit-card{bottom:12px;padding:12px;width:calc(100% - 24px)}
+ .eva01-orbit-card dl{gap:8px}.eva01-orbit-card dd{font-size:13px}
+ #moon_info_card{top:58px;right:12px;width:calc(100% - 24px);max-height:calc(100% - 70px);overflow:auto}
+ .planet-comparison-readout>div{grid-template-columns:1fr;gap:4px}.planet-comparison-readout>div>i{display:none}
+ .eva01-descent-copy h2{font-size:clamp(27px,7vw,48px)}
+}
+/* En vertical, modelo arriba y desarrollo legible debajo. La navegación sigue a mano. */
+@media(max-width:900px){
+ .solar-dashboard>div,.solar-collision>div{height:calc(100dvh - 16px);margin:8px;min-width:0}
+ .solar-dashboard>div>div:first-child,.solar-collision>div>div:first-child{padding:12px;gap:8px;flex-wrap:wrap;flex-shrink:0}
+ .solar-dashboard>div>div:first-child>div,.solar-collision>div>div:first-child>div{gap:8px;min-width:0;flex-wrap:wrap}
+ .solar-dashboard h1,.solar-collision h2{font-size:17px;letter-spacing:0}
+ .solar-dashboard-content{overflow:auto;display:block}
+ .solar-dashboard-content>div{width:100%;overflow:visible}
+ .solar-dashboard-content>div:first-child>div:first-of-type{display:flex;gap:8px;overflow-x:auto}
+ .solar-dashboard-content>div:first-child>div:first-of-type>button{width:auto;flex-shrink:0;min-height:44px}
+ .solar-dashboard-content>div:first-child>div:last-child{display:none}
+ .solar-dashboard-content>div:last-child>div:last-child{overflow:visible;padding:16px}
+ .solar-dashboard-content .grid{grid-template-columns:1fr;gap:12px}
+ .solar-dashboard-content>div:last-child>div:first-child{flex-wrap:wrap}
+ .solar-collision>div>div:nth-child(2){display:block;overflow:auto}
+ .solar-collision>div>div:nth-child(2)>div{width:100%;height:auto;min-width:0;padding:12px}
+ .solar-collision>div>div:nth-child(2)>div:first-child>div:nth-child(2){height:340px;flex:none}
+ .solar-collision h2{overflow-wrap:anywhere}.solar-collision>div>div:first-child button{padding:8px;font-size:11px;min-height:44px}
+ .expedition:not(.cinematic-mode){height:auto;min-height:100dvh;padding-bottom:78px}
+ .tv-mode:not(.cinematic-mode) .workspace{display:flex;flex-direction:column;flex:none;min-height:0}
+ .tv-mode:not(.cinematic-mode) .world{height:clamp(340px,52svh,560px);min-height:340px;flex:none;width:100%}
+ .tv-mode:not(.cinematic-mode) .story{overflow:visible;border-left:0;border-top:1px solid #a7cce8}
+ .tv-mode .story-scroll{padding:22px 20px;overflow:visible}
+ .tv-mode .tv-card{height:auto;min-height:0}
+ .tv-mode .story-footer{position:fixed;bottom:0;left:0;right:0;z-index:18;padding:10px 16px calc(10px + env(safe-area-inset-bottom));min-height:68px;gap:10px}
+ .tv-mode .story-footer button{min-height:44px}.tv-mode .story-footer .next{padding:10px 16px;font-size:14px}
+ .tv-mode .topbar{padding:12px 16px;gap:12px}.brand{font-size:13px}.brand small{font-size:9px;letter-spacing:.05em}.brandmark{padding:9px}
+ .header-actions{width:100%;justify-content:flex-start}.header-actions button{font-size:12px;padding:8px 10px}
+ .scene-tools button{min-height:44px;padding:8px 10px}.tv-mode .scene-tools{bottom:12px;left:12px;gap:6px}
+ .scene-caption{display:none}
+ .curvature-overlay{top:12px;left:12px;right:12px;max-width:none;padding:10px 12px;max-height:38%;overflow:auto;pointer-events:auto}
+ .curvature-overlay strong{font-size:15px}.curvature-overlay small{font-size:11px}
+ .jacobian-overlay{left:12px;right:12px;max-width:none}
+ .scene-callout{width:160px;padding:7px 9px}.scene-callout>strong{font-size:13px}.scene-callout>small{display:none}
+ .auto-focus{display:none}
+ .chain-profile{left:12px;bottom:68px;width:min(320px,calc(100% - 24px));padding:9px 12px}.chain-profile svg{height:110px}
+ .chain-profile small{display:none}
+ .tv-card h2{font-size:30px;line-height:1.12}.tv-card .tv-question{font-size:19px!important;line-height:1.4}
+ .tv-observation,.tv-points li{font-size:14px;line-height:1.5}
+ .tv-demo-controls button{min-height:44px;font-size:13px}
+ .tv-result strong{font-size:19px}.tv-actions button{min-height:44px}
+ .modal-backdrop{padding:12px}.modal{max-height:calc(100dvh - 24px);padding:28px 20px;min-width:0}
+ .modal h2{font-size:26px}.solution-modal .math-typeset{font-size:20px}.solution-modal .procedure-title h5{font-size:16px}
+ .math-procedure>header,.procedure-navigation{flex-wrap:wrap}.procedure-navigation button{min-height:44px}
+ .cinematic-mode .world{height:100dvh;min-height:100dvh}
+ .cinematic-exit{top:12px;right:12px;min-height:44px;opacity:1;font-size:11px}
+ .cinematic-controls{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));opacity:1}.cinematic-controls button{width:44px;height:44px}
+ .cinematic-evidence{top:auto;bottom:80px;left:12px;right:auto;width:min(300px,calc(100% - 24px));max-height:30dvh;overflow:auto}
+ .cinematic-evidence p{display:none}.cinematic-demos{max-width:calc(100% - 24px);max-height:24dvh;overflow:auto}
+}
+@media(max-width:400px){
+ .tv-mode .story-scroll{padding:20px 16px}.tv-mode .story-footer{padding-left:12px;padding-right:12px}.story-footer span{font-size:12px}
+ .tv-mode .story-footer .next{gap:6px;padding:10px 12px}.header-actions button{font-size:11px;padding:8px}
+ .tv-card h2{font-size:27px}.focus-grid{grid-template-columns:1fr}
+}
+@media(max-height:500px) and (max-width:1199px) and (orientation:landscape){
+ .solar-header{min-height:48px;padding:4px 12px}.solar-mobile-nav{min-height:42px;padding:0 12px}.solar-mobile-nav button{min-height:38px}#bottom_hud_bar{height:36px}
+ .eva01-orbit-card{bottom:6px;max-height:calc(100% - 50px);overflow:auto}.solar-camera-info{display:none}
+ .tv-mode:not(.cinematic-mode) .world{height:80svh;min-height:300px}
+}
