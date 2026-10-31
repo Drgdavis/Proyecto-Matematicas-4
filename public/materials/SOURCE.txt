@@ -18,5 +18,6 @@ NASA’s Goddard Space Flight Center / Conceptual Image Lab.
 Página de origen y créditos: https://svs.gsfc.nasa.gov/14930/
 Archivo: https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014930/Westerlund_1_illustration_Plan_Unlabeled.jpg
 Descargado el 30/10/2026, sin modificar. Uso: contexto galáctico del explorador.
+Su luminancia y color guían la distribución de puntos 3D, con profundidad ilustrativa y brillo difuso.
 El marcador solar se sitúa por referencia a la versión anotada del mismo recurso.
 La fotosfera, corona y marcadores se dibujan por código como representaciones ilustrativas.

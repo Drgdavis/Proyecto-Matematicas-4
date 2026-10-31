@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 
 const TRANSIT_STARS=60000, SPIRAL_STARS=120000, DISTANT_GALAXIES=7000;
-function pointMaterial(size:number){
+function pointMaterial(size:number, diffuse=false){
  return new THREE.ShaderMaterial({
-  uniforms:{opacity:{value:0},pointSize:{value:size}},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-  vertexShader:`attribute vec3 starColor;attribute float brightness;varying vec3 tint;uniform float opacity;uniform float pointSize;
-   void main(){vec4 v=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(pointSize*brightness*900./max(1.,-v.z),.55,3.2);tint=starColor*opacity;}`,
-  fragmentShader:`varying vec3 tint;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;float a=pow(1.-r,1.7);gl_FragColor=vec4(tint,a);}`,
+  uniforms:{opacity:{value:0},pointSize:{value:size},maximum:{value:diffuse?48:3.2},diffuse:{value:diffuse?1:0}},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+  vertexShader:`attribute vec3 starColor;attribute float brightness;varying vec3 tint;uniform float opacity;uniform float pointSize;uniform float maximum;
+   void main(){vec4 v=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(pointSize*brightness*900./max(1.,-v.z),.55,maximum);tint=starColor*opacity;}`,
+  fragmentShader:`varying vec3 tint;uniform float diffuse;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;float a=mix(pow(1.-r,1.7),exp(-r*r*6.)*(1.-smoothstep(.75,1.,r)),diffuse);gl_FragColor=vec4(tint,a);}`,
  });
 }
 
@@ -40,6 +40,9 @@ export function createGalacticField(){
  }
  spiralGeometry.setAttribute('position',new THREE.BufferAttribute(spiralPositions,3));spiralGeometry.setAttribute('starColor',new THREE.BufferAttribute(spiralColors,3));spiralGeometry.setAttribute('brightness',new THREE.BufferAttribute(spiralBrightness,1));
  const spiralMaterial=pointMaterial(4),spiral=new THREE.Points(spiralGeometry,spiralMaterial);spiral.frustumCulled=false;group.add(spiral);
+ const hazeCount=5200,hazeGeometry=new THREE.BufferGeometry(),hazePositions=new Float32Array(hazeCount*3),hazeColors=new Float32Array(hazeCount*3),hazeBrightness=new Float32Array(hazeCount);
+ hazeGeometry.setAttribute('position',new THREE.BufferAttribute(hazePositions,3));hazeGeometry.setAttribute('starColor',new THREE.BufferAttribute(hazeColors,3));hazeGeometry.setAttribute('brightness',new THREE.BufferAttribute(hazeBrightness,1));
+ const hazeMaterial=pointMaterial(190,true),haze=new THREE.Points(hazeGeometry,hazeMaterial);haze.visible=false;haze.frustumCulled=false;group.add(haze);
  const distantGeometry=new THREE.BufferGeometry(),farPositions=new Float32Array(DISTANT_GALAXIES*3),farColors=new Float32Array(DISTANT_GALAXIES*3),farBrightness=new Float32Array(DISTANT_GALAXIES);
  for(let i=0;i<DISTANT_GALAXIES;i++){
   const r=14000+Math.pow(random(),.7)*175000,a=random()*Math.PI*2,c=random()*2-1,s=Math.sqrt(1-c*c);
@@ -57,11 +60,31 @@ export function createGalacticField(){
     const x=Math.max(0,Math.min(511,Math.floor((.5+positions[i*3]/7200)*512))),y=Math.max(0,Math.min(511,Math.floor((.68+positions[i*3+2]/7200)*512))),offset=(y*512+x)*4;
     colors.set([.18+pixels[offset]/255*.42,.22+pixels[offset+1]/255*.46,.3+pixels[offset+2]/255*.55],i*3);
    }
+   // La referencia aporta densidad, color y calles oscuras; cada punto tiene profundidad propia.
+   // El desplazamiento aleatorio dentro de cada píxel evita cuadrículas y patrones repetitivos.
+   let filled=0;
+   for(let tries=0;filled<SPIRAL_STARS&&tries<SPIRAL_STARS*80;tries++){
+    const u=random(),v=random(),offset=(Math.floor(v*512)*512+Math.floor(u*512))*4;
+    const r=pixels[offset]/255,g=pixels[offset+1]/255,b=pixels[offset+2]/255,l=.2126*r+.7152*g+.0722*b;
+    if(l<.035||random()>Math.pow(l,1.15))continue;
+    const x=(u-.5)*7200,z=(v-.68)*7200,radial=Math.hypot(x,z+1296),bulge=Math.exp(-((radial/510)**2));
+    const y=(random()+random()+random()+random()-2)*(22+230*bulge+35*Math.exp(-radial/1400));
+    spiralPositions.set([x,y,z],filled*3);
+    const light=.5+random()*.5;spiralColors.set([Math.pow(r,.8)*light,Math.pow(g,.8)*light,Math.pow(b,.8)*light],filled*3);
+    spiralBrightness[filled]=random()<.006?3.2:.35+random()*1.05;
+    if(filled<hazeCount){hazePositions.set([x,y*.6,z],filled*3);hazeColors.set([r*.7,g*.7,b*.78],filled*3);hazeBrightness[filled]=.6+random()*.8;}
+    filled++;
+   }
+   spiralGeometry.attributes.position.needsUpdate=true;spiralGeometry.attributes.starColor.needsUpdate=true;spiralGeometry.attributes.brightness.needsUpdate=true;
+   spiralGeometry.computeBoundingSphere();
+   for(const attribute of Object.values(hazeGeometry.attributes))attribute.needsUpdate=true;
+   hazeGeometry.computeBoundingSphere();haze.visible=true;
    geometry.attributes.position.needsUpdate=true;geometry.attributes.starColor.needsUpdate=true;geometry.computeBoundingSphere();
   },
   update(distance:number){
    material.uniforms.opacity.value=THREE.MathUtils.smoothstep(distance,180,460)*(1-THREE.MathUtils.smoothstep(distance,1500,3400))*.7;
    spiralMaterial.uniforms.opacity.value=THREE.MathUtils.smoothstep(distance,450,1800)*.75;
+   hazeMaterial.uniforms.opacity.value=THREE.MathUtils.smoothstep(distance,650,2100)*.035;
    farMaterial.uniforms.opacity.value=THREE.MathUtils.smoothstep(distance,3500,22000)*.8;
    stars.visible=distance>180&&distance<3400;spiral.visible=distance>450;geometry.setDrawRange(0,TRANSIT_STARS);
   },

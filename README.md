@@ -10,7 +10,7 @@ En celular y tablet, **Controles** y **Datos del planeta** abren los paneles del
 
 El explorador solar ofrece acercamiento progresivo con rueda, gesto de pinza, botones y regulador de zoom. **Sol**, el planeta seleccionado, **Sistema** y **Galaxia** cambian el encuadre con transiciones suaves. En escritorio, **Mostrar paneles** recupera las herramientas. El tamaño de los cuerpos y las distancias se adaptan para la visualización; la vista galáctica usa una ilustración de contexto de [NASA GSFC / Conceptual Image Lab](https://svs.gsfc.nasa.gov/14930/).
 
-La galaxia se dibuja con 120 000 puntos en brazos y núcleo tridimensionales; otros 60 000 forman el campo del tramo intermedio. Las posiciones individuales son ilustrativas y no corresponden a un catálogo astronómico. El modelo métrico de Marte conserva sus cálculos y dimensiones.
+La galaxia se dibuja con 120 000 puntos cuya densidad y color siguen la ilustración de referencia, con espesor del disco, núcleo y brillo difuso. Otros 60 000 forman el campo del tramo intermedio. Las posiciones individuales son ilustrativas y no corresponden a un catálogo astronómico. El modelo métrico de Marte conserva sus cálculos y dimensiones.
 
 **[Ver la entrega y el video](https://drgdavis.github.io/Proyecto-Matematicas-4/materials/Entrega_EVA03.html)**
 
@@ -42,6 +42,7 @@ El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo*
 - [Entrega con reproductor de video y fotografía del equipo](public/materials/Entrega_EVA03.html).
 - [Informe técnico](public/materials/Informe_Tecnico_EVA03_Final.pdf).
 - [Anexo matemático](public/materials/Anexo_Matematico_EVA03_Final.pdf).
+- [Cinco estudios aplicados: datos, procedimientos y gráficas](public/materials/Cinco_Estudios_Aplicados_EVA03.pdf).
 - [Plano integrado](public/materials/Plano_Integrado_EVA03_Final.pdf).
 - [Presentación visual de 22 desarrollos](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Navegador.html).
 - [Presentación en PDF](public/materials/Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf).

@@ -1664,7 +1664,7 @@ export function SolarSystem3D({
       if(Math.abs(camera.far-far)>100||camera.near!==near){camera.far=far;camera.near=near;camera.updateProjectionMatrix();}
       galacticField.update(distanceFromSun);
       const galacticBlend = THREE.MathUtils.smoothstep(distanceFromSun, 700, 2800);
-      galaxyMaterial.opacity = galacticBlend * .045;
+      galaxyMaterial.opacity = galacticBlend * .32;
       galaxyPlane.visible = galacticBlend > .008;
       starMaterial.opacity = THREE.MathUtils.lerp(.38, .2, galacticBlend);
       starfield.position.copy(camera.position);

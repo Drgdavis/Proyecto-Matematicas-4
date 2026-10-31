@@ -5,7 +5,7 @@ import json
 
 ROOT=Path(__file__).resolve().parents[1]
 MATERIALS=ROOT/'public/materials'
-PDFS=['Informe_Tecnico_EVA03_Final.pdf','Anexo_Matematico_EVA03_Final.pdf','Plano_Integrado_EVA03_Final.pdf','Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf']
+PDFS=['Informe_Tecnico_EVA03_Final.pdf','Anexo_Matematico_EVA03_Final.pdf','Plano_Integrado_EVA03_Final.pdf','Presentacion_EVA03_Defensa_Matematica_22_Escenas_Respaldo.pdf','Cinco_Estudios_Aplicados_EVA03.pdf']
 team=json.loads((MATERIALS/'Identificacion_Equipo.json').read_text(encoding='utf-8'))
 for name in PDFS:
     assert (MATERIALS/name).read_bytes().startswith(b'%PDF-'),name
@@ -27,6 +27,7 @@ Documentos incluidos:
 - Anexo matemático: formulación, procedimientos y resultados.
 - Plano integrado: distribución de la base.
 - Presentación de apoyo en PDF.
+- Cinco estudios aplicados: datos, cálculos, gráficas y sensibilidad.
 - Fotografía del equipo e identificación de integrantes.
 
 La presentación interactiva, las animaciones y el video están en la página de entrega.
@@ -40,5 +41,5 @@ with ZipFile(target,'w',ZIP_DEFLATED,compresslevel=6) as archive:
     archive.writestr('Integrantes.txt',identification.encode('utf-8'))
 with ZipFile(target) as archive:
     assert archive.testzip() is None
-    assert len(archive.namelist())==7
-print(f'Entrega: {target.name} · {target.stat().st_size:,} bytes · 4 PDF, fotografía, integrantes y enlaces.')
+    assert len(archive.namelist())==8
+print(f'Entrega: {target.name} · {target.stat().st_size:,} bytes · 5 PDF, fotografía, integrantes y enlaces.')
