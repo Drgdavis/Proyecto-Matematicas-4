@@ -1,0 +1,27 @@
+.solar-navigation{position:absolute;z-index:24;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:3px;max-width:calc(100% - 24px);padding:5px;background:#091017e8;border:1px solid #748a9c55;border-radius:9px;backdrop-filter:blur(12px);box-shadow:0 12px 36px #0004}
+.solar-navigation button{min-height:38px;padding:8px 16px;border:0;border-radius:5px;background:transparent;color:#c6d6e1;font-size:12px;cursor:pointer;letter-spacing:.04em}
+.solar-navigation button:hover,.solar-navigation button:focus-visible,.solar-navigation button[aria-pressed=true]{background:#203544;color:#fff}
+.solar-navigation button:first-child{color:#f6cf8d}
+.solar-sun-label{position:absolute;display:flex;align-items:center;gap:9px;z-index:21;border:0;background:transparent;color:#ffe6a7;font:700 12px var(--font-mono);letter-spacing:.2em;padding:12px;transform:translate(12px,-50%);text-shadow:0 2px 10px #000;cursor:pointer;white-space:nowrap}
+.solar-sun-label i{width:5px;height:5px;flex-shrink:0;border-radius:50%;background:#ffe7aa;box-shadow:0 0 10px #ffe4a6}
+.solar-zoom{position:absolute;z-index:24;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;padding:5px;background:#091017bd;border:1px solid #748a9c55;border-radius:9px;backdrop-filter:blur(12px)}
+.solar-zoom button{width:40px;min-height:40px;font:300 28px/1 Inter,sans-serif;background:transparent;color:#e2edf5;border:0;border-radius:5px;cursor:pointer}.solar-zoom button:hover{background:#203544}
+.solar-zoom input{writing-mode:vertical-lr;direction:rtl;width:20px;height:115px;accent-color:#c1d9eb;cursor:pointer}
+.solar-scale-readout{position:absolute;left:22px;bottom:22px;z-index:20;display:grid;gap:5px;padding:12px 16px;border-left:2px solid #b9cfdf;background:linear-gradient(90deg,#071016bf,transparent);pointer-events:none}
+.solar-scale-readout span{font:600 9px var(--font-mono);letter-spacing:.18em;color:#8da5b8}.solar-scale-readout strong{font:500 18px Inter,sans-serif;color:#e3eef5}.solar-scale-readout small{font-size:11px;color:#9db1bf}
+.solar-camera-info{display:none}
+.galaxy-context-card{bottom:115px;left:22px;transform:none;width:min(330px,calc(100% - 96px));background:#060e16d9;border-left-color:#9cb8cd;box-shadow:none}
+.galaxy-context-card>span{color:#a3bfd3}.galaxy-context-card strong{font-size:13px;line-height:1.4}
+.solar-desktop-toggle{min-height:38px;padding:8px 12px;border:1px solid #748a9c66;border-radius:5px;color:#d4e2eb;background:#14212c;font-size:11px;cursor:pointer;white-space:nowrap}
+@media(min-width:1200px){.solar-immersive .solar-panel-slot{display:none}.solar-immersive .solar-telemetry{display:none}}
+@media(max-width:1199px){.solar-desktop-toggle{display:none}}
+@media(max-width:600px){
+ .solar-navigation{top:12px;padding:4px;gap:0;width:max-content}.solar-navigation button{padding:8px 9px;min-height:40px;font-size:11px}
+ .solar-zoom{right:8px;padding:2px;gap:3px}.solar-zoom button{width:40px;min-height:44px}.solar-zoom input{height:80px}
+ .solar-scale-readout{bottom:14px;left:14px;padding:8px 12px}.solar-scale-readout strong{font-size:15px}.solar-scale-readout small{font-size:10px}
+ .solar-sun-label{font-size:10px;letter-spacing:.12em;padding:8px;gap:5px}
+ .galaxy-context-card{bottom:102px;left:14px;padding:10px;width:calc(100% - 82px)}
+ .galaxy-context-card p{font-size:9px}.galaxy-context-card strong{font-size:12px}
+ .eva01-orbit-card{bottom:90px;width:calc(100% - 76px);left:14px;transform:none}
+}
+@media(max-height:500px){.solar-zoom input{height:55px}.solar-scale-readout{bottom:12px}.galaxy-context-card{bottom:90px;padding:8px}.galaxy-context-card strong{display:none}}

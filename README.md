@@ -4,9 +4,13 @@ Proyecto académico de una colonia científica conceptual sobre un terreno sint�
 
 **[Abrir el modelo interactivo](https://drgdavis.github.io/Proyecto-Matematicas-4/)**
 
-El enlace abre primero el **Sistema Solar**. **Viajar a Marte** inicia el descenso a la base EVA03. **Ver entrega final** reúne el recorrido en video, la identificación del equipo y los documentos.
+El enlace abre el explorador astronómico desde la **Vía Láctea**. Al acercarse se atraviesa un campo estelar y se llega al **Sistema Solar**. **Viajar a Marte** inicia el descenso a la base EVA03. **Ver entrega final** reúne el video, la identificación del equipo y los documentos.
 
 En celular y tablet, **Controles** y **Datos del planeta** abren los paneles del sistema solar. En Marte, el modelo y su explicación se distribuyen según el ancho disponible y los botones Anterior/Siguiente permanecen accesibles. Las láminas se adaptan a lectura vertical; las expresiones largas pueden desplazarse horizontalmente.
+
+El explorador solar ofrece acercamiento progresivo con rueda, gesto de pinza, botones y regulador de zoom. **Sol**, el planeta seleccionado, **Sistema** y **Galaxia** cambian el encuadre con transiciones suaves. En escritorio, **Mostrar paneles** recupera las herramientas. El tamaño de los cuerpos y las distancias se adaptan para la visualización; la vista galáctica usa una ilustración de contexto de [NASA GSFC / Conceptual Image Lab](https://svs.gsfc.nasa.gov/14930/).
+
+La galaxia se dibuja con 120 000 puntos en brazos y núcleo tridimensionales; otros 60 000 forman el campo del tramo intermedio. Las posiciones individuales son ilustrativas y no corresponden a un catálogo astronómico. El modelo métrico de Marte conserva sus cálculos y dimensiones.
 
 **[Ver la entrega y el video](https://drgdavis.github.io/Proyecto-Matematicas-4/materials/Entrega_EVA03.html)**
 
@@ -33,6 +37,7 @@ El modelo contiene 22 escenas y permite explorar 53 temas. **Índice y respaldo*
 
 ## Documentos
 
+- [Documentación final completa en ZIP](public/materials/Documentacion_Final_EVA03.zip).
 - [Video del recorrido completo, formato MP4](public/materials/Video_Recorrido_EVA03.mp4).
 - [Entrega con reproductor de video y fotografía del equipo](public/materials/Entrega_EVA03.html).
 - [Informe técnico](public/materials/Informe_Tecnico_EVA03_Final.pdf).

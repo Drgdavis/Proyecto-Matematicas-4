@@ -13,6 +13,9 @@ import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { PhysicalData, ModifiedPhysicalData, CameraMode, CometState } from '../types';
 import { VISUAL_SCALE, G_CONSTANT, MASS_OF_SUN, AU_IN_KM } from '../data/planets';
 import { getModifiedProps } from '../utils/mathFormulas';
+import { createSolarStar, SUN_VISUAL_RADIUS } from './solarSun';
+import { createGalacticField } from './galacticField';
+import { logarithmicDistance, distanceToZoom, zoomToDistance, SOLAR_MAX_DISTANCE, SOLAR_SYSTEM_DISTANCE, SOLAR_GALAXY_DISTANCE, SOLAR_PANORAMA_DISTANCE, type SolarDestination } from '../utils/solarNavigation';
 
 interface SolarSystem3DProps {
   planets: PhysicalData[];
@@ -87,9 +90,11 @@ export function SolarSystem3D({
   const arrowHelpersRef = useRef<Record<string, THREE.ArrowHelper>>({});
   const moonsMeshesRef = useRef<Record<string, THREE.Mesh[]>>({});
   const labelsContainerRef = useRef<HTMLDivElement>(null);
-  const galaxyJumpRef = useRef<(() => void) | null>(null);
-  const galacticViewRef = useRef(false);
-  const [galacticView, setGalacticView] = useState(false);
+  const navigationRef = useRef<{focus:(view:SolarDestination)=>void;zoom:(factor:number)=>void;level:(value:number)=>void}|null>(null);
+  const sunLabelRef = useRef<HTMLButtonElement>(null);
+  const [navigation, setNavigation] = useState({focus:'Sol',scale:'Vía Láctea',zoom:distanceToZoom(SOLAR_GALAXY_DISTANCE,SUN_VISUAL_RADIUS*1.18)});
+  const galacticViewRef = useRef(true);
+  const [galacticView, setGalacticView] = useState(true);
   const trailGeometriesRef = useRef<Record<string, { geometry: THREE.BufferGeometry; positions: number[] }>>({});
   const trailLinesRef = useRef<Record<string, THREE.Line>>({});
 
@@ -111,7 +116,6 @@ export function SolarSystem3D({
   const cometPositionsRef = useRef<number[]>([]);
   const gravityGridRef = useRef<THREE.Mesh | null>(null);
   const eclipticGridRef = useRef<THREE.GridHelper | null>(null);
-  const sunCoronaRef = useRef<THREE.Mesh | null>(null);
 
   // Collision animation references
   const collisionExplosionRef = useRef<THREE.Mesh | null>(null);
@@ -135,6 +139,7 @@ export function SolarSystem3D({
   const descentStartRef = useRef<number | null>(null);
   const descentCameraStartRef = useRef<THREE.Vector3 | null>(null);
   const descentTargetStartRef = useRef<THREE.Vector3 | null>(null);
+  const descentFovStartRef = useRef(52);
 
   const onSelectPlanetRef = useRef(onSelectPlanet);
   const onSelectMoonRef = useRef(onSelectMoon);
@@ -200,13 +205,13 @@ export function SolarSystem3D({
     const width = mountRef.current.clientWidth || 800;
     const height = mountRef.current.clientHeight || 600;
     containerSizeRef.current = { width, height };
-    const camera = new THREE.PerspectiveCamera(60, width / height, 0.01, 5200);
-    camera.position.set(0, 63, 105);
+    const camera = new THREE.PerspectiveCamera(52, width / height, 0.01, 30000);
+    camera.position.set(.1,.95,1).normalize().multiplyScalar(Math.min(SOLAR_MAX_DISTANCE,SOLAR_GALAXY_DISTANCE*Math.max(1,1/camera.aspect)));
 
     // 3. WebGL Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth<1200?1.5:2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setClearColor(0x000000, 1); // fondo 100% negro
@@ -250,7 +255,7 @@ export function SolarSystem3D({
     const bloomComposer = new EffectComposer(renderer);
     bloomComposer.renderToScreen = false;
     bloomComposer.addPass(new RenderPass(scene, camera));
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.62, 0.42, 0.38);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.38, 0.55, 0.95);
     bloomComposer.addPass(bloomPass);
 
     const mixPass = new ShaderPass(
@@ -291,23 +296,44 @@ export function SolarSystem3D({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxDistance = 1750;
-    controls.minDistance = 0.04;
+    controls.maxDistance = SOLAR_MAX_DISTANCE;
+    controls.minDistance = SUN_VISUAL_RADIUS * 1.18;
+    controls.zoomSpeed = .75;
     controls.target.set(0, 0, 0);
 
-    let galaxyFly = 1;
-    const galaxyCameraStart = new THREE.Vector3(), galaxyCameraEnd = new THREE.Vector3();
-    galaxyJumpRef.current = () => {
-      const entering = !galacticViewRef.current;
-      galacticViewRef.current = entering;
-      setGalacticView(entering);
-      galaxyCameraStart.copy(camera.position);
-      const direction = camera.position.clone().normalize();
-      if (direction.lengthSq() < .01) direction.set(.35, .72, 1).normalize();
-      galaxyCameraEnd.copy(direction.multiplyScalar(entering ? 1380 : 118));
-      controls.target.set(0, 0, 0);
-      galaxyFly = 0;
+    let galaxyFly=1,flightDuration=2,desiredDistance:number|null=null,focusName='Sol',lastReadout=0;
+    let flightStartDistance=SOLAR_SYSTEM_DISTANCE,flightEndDistance=SOLAR_SYSTEM_DISTANCE;
+    const flightLookStart=new THREE.Vector3(),flightLookEnd=new THREE.Vector3(),flightDirection=new THREE.Vector3();
+    const flyTo=(target:THREE.Vector3,distance:number)=>{
+      desiredDistance=null;flightLookStart.copy(controls.target);flightLookEnd.copy(target);
+      flightDirection.subVectors(camera.position,controls.target).normalize();
+      if(flightDirection.lengthSq()<.1)flightDirection.set(.25,.65,1).normalize();
+      flightStartDistance=camera.position.distanceTo(controls.target);flightEndDistance=distance;
+      flightDuration=Math.min(3,1.3+Math.abs(Math.log(distance/Math.max(.05,flightStartDistance)))*.28);galaxyFly=0;
     };
+    const focus=(view:SolarDestination)=>{
+      if(descentActiveRef.current)return;
+      if(view==='planet'){
+        desiredDistance=null;galaxyFly=1;focusName=planets.find(p=>p.name===selectedPlanetRef.current)?.displayName||'Planeta';
+        lastFollowedNameRef.current=null;cameraModeRef.current='follow';onCameraModeChange('follow');return;
+      }
+      focusName='Sol';cameraModeRef.current='free';onCameraModeChange('free');
+      if(view==='galaxy')flightDirection.set(.15,.85,1);
+      const distance=(view==='sun'?20:view==='galaxy'?SOLAR_GALAXY_DISTANCE:view==='panorama'?SOLAR_PANORAMA_DISTANCE:SOLAR_SYSTEM_DISTANCE)*Math.max(1,1/camera.aspect);
+      flyTo(new THREE.Vector3(),Math.min(SOLAR_MAX_DISTANCE,distance));
+      if(view==='galaxy'||view==='panorama')flightDirection.set(.1,.95,1).normalize();
+    };
+    const zoom=(factor:number)=>{
+      if(descentActiveRef.current)return;galaxyFly=1;
+      if(cameraModeRef.current==='follow')followTransitionRef.current=1;
+      if(cameraModeRef.current!=='follow'){cameraModeRef.current='free';onCameraModeChange('free');}
+      desiredDistance=THREE.MathUtils.clamp((desiredDistance??camera.position.distanceTo(controls.target))*factor,controls.minDistance,SOLAR_MAX_DISTANCE);
+    };
+    navigationRef.current={focus,zoom,level(value){const distance=zoomToDistance(value,controls.minDistance);zoom(distance/(desiredDistance??camera.position.distanceTo(controls.target)));}};
+    const cancelFlight=()=>{galaxyFly=1;desiredDistance=null;followTransitionRef.current=1;if(cameraModeRef.current==='zenith'||cameraModeRef.current==='ecliptic'){cameraModeRef.current='free';onCameraModeChange('free');}};
+    controls.addEventListener('start',cancelFlight);
+    const wheel=(event:WheelEvent)=>{event.preventDefault();event.stopImmediatePropagation();zoom(Math.exp(THREE.MathUtils.clamp(event.deltaY*(event.deltaMode===1?16:1),-240,240)*.0018));};
+    renderer.domElement.addEventListener('wheel',wheel,{passive:false,capture:true});
 
     // 5. Lighting Setup
     // Glow of entire solar system (PointLight inside the Sun)
@@ -336,7 +362,7 @@ export function SolarSystem3D({
     const starGeometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starsCount * 3);
     const starColors = new Float32Array(starsCount * 3);
-    const SKYBOX_RADIUS = 3200; // radio único y fijo de la esfera celeste
+    const SKYBOX_RADIUS = 18000;
 
     for (let i = 0; i < starsCount; i++) {
       // Distribute uniformly on the surface of a single fixed-radius sphere (skybox)
@@ -391,12 +417,14 @@ export function SolarSystem3D({
     // Nivel galáctico: plano físico fijo, no una cartelera que siga a la cámara.
     // La geometría se traslada para que el marcador "Sun" de la lámina coincida
     // con el origen real; OrbitControls permite verla de frente, oblicua o de canto.
-    const galaxyTexture = new THREE.TextureLoader().load(assetUrl('/assets/nasa/milky-way-and-our-location.jpg'));
+    const galacticField=createGalacticField();scene.add(galacticField.group);
+    const galaxyTexture = new THREE.TextureLoader().load(assetUrl('/assets/nasa/milky-way-unlabeled.jpg'),texture=>galacticField.sample(texture.image));
     galaxyTexture.colorSpace = THREE.SRGBColorSpace;
-    const galaxyMaterial = new THREE.MeshBasicMaterial({ map: galaxyTexture, transparent: true, opacity: 0, depthWrite: false, depthTest: false, toneMapped: false, side: THREE.DoubleSide });
-    const GALAXY_SIZE = 1420;
+    const galaxyMaterial = new THREE.MeshBasicMaterial({ map: galaxyTexture, transparent: true, opacity: 0, blending:THREE.AdditiveBlending, depthWrite: false, depthTest: false, toneMapped: false, side: THREE.DoubleSide });
+    const GALAXY_SIZE = 7200;
     const galaxyGeometry = new THREE.PlaneGeometry(GALAXY_SIZE, GALAXY_SIZE);
-    galaxyGeometry.translate(-(.524 - .5) * GALAXY_SIZE, -(.31 - .5) * GALAXY_SIZE, 0);
+    // Posición solar de la versión anotada del mismo recurso de NASA SVS 14930.
+    galaxyGeometry.translate(0, .18 * GALAXY_SIZE, 0);
     galaxyGeometry.rotateX(-Math.PI / 2);
     const galaxyPlane = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
     galaxyPlane.renderOrder = -2;
@@ -405,43 +433,15 @@ export function SolarSystem3D({
     scene.add(galaxyPlane);
 
     // 7. Sun and Pulsing Corona
-    const sunGeom = new THREE.SphereGeometry(3.5, 48, 48);
-    // --- Overhaul Visual: material fotorrealista del Sol, no afectado por tone-mapping
-    // para garantizar que siempre cruce el umbral de brillo del Bloom selectivo ---
-    const sunMat = new THREE.MeshBasicMaterial({ color: 0xfff1c2 });
-    sunMat.toneMapped = false;
-    const sunMesh = new THREE.Mesh(sunGeom, sunMat);
-    sunMesh.layers.enable(BLOOM_LAYER);
-    scene.add(sunMesh);
-
-    // Corona Sphere
-    const coronaGeom = new THREE.SphereGeometry(4.2, 48, 48);
-    const coronaMat = new THREE.MeshBasicMaterial({
-      color: 0xff8800,
-      transparent: true,
-      opacity: 0.20,
-      side: THREE.BackSide
-    });
-    coronaMat.toneMapped = false;
-    const coronaMesh = new THREE.Mesh(coronaGeom, coronaMat);
-    coronaMesh.layers.enable(BLOOM_LAYER);
-    scene.add(coronaMesh);
-    sunCoronaRef.current = coronaMesh;
-
-    // 7.05 Halo exterior adicional del Sol — capa extra de resplandor cálido
-    // (puramente decorativa, alimenta el Bloom para un "glow" más amplio y suave)
-    const sunHaloGeom = new THREE.SphereGeometry(5.4, 48, 48);
-    const sunHaloMat = new THREE.MeshBasicMaterial({
-      color: 0xffae42,
-      transparent: true,
-      opacity: 0.09,
-      side: THREE.BackSide,
-      depthWrite: false
-    });
-    sunHaloMat.toneMapped = false;
-    const sunHaloMesh = new THREE.Mesh(sunHaloGeom, sunHaloMat);
-    sunHaloMesh.layers.enable(BLOOM_LAYER);
-    scene.add(sunHaloMesh);
+    const solarStar=createSolarStar(BLOOM_LAYER);
+    scene.add(solarStar.group);
+    const sunMesh=solarStar.mesh;
+    const markerCanvas=document.createElement('canvas');markerCanvas.width=64;markerCanvas.height=64;
+    const markerContext=markerCanvas.getContext('2d')!,gradient=markerContext.createRadialGradient(32,32,1,32,32,32);
+    gradient.addColorStop(0,'#fff7da');gradient.addColorStop(.25,'#ffe4a6');gradient.addColorStop(1,'#ffe4a600');markerContext.fillStyle=gradient;markerContext.fillRect(0,0,64,64);
+    const markerMaterial=new THREE.PointsMaterial({map:new THREE.CanvasTexture(markerCanvas),color:0xffe4a6,size:14,sizeAttenuation:false,transparent:true,opacity:0,depthTest:false,depthWrite:false});
+    const sunMarker=new THREE.Points(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3()]),markerMaterial);
+    sunMarker.layers.enable(BLOOM_LAYER);sunMarker.renderOrder=4;scene.add(sunMarker);
 
     // 7.1 Collision Explosion Mesh (hidden initially)
     const explosionGeom = new THREE.SphereGeometry(1.0, 32, 32);
@@ -782,13 +782,13 @@ export function SolarSystem3D({
       orbitGeometry.setPositions(orbitPositions);
       const isSelectedInit = selectedPlanetRef.current === p.name;
       orbitGeometry.setColors(
-        buildOrbitGradientColors(pointsCoords.length - 1, new THREE.Color(0xffffff))
+        buildOrbitGradientColors(pointsCoords.length - 1, new THREE.Color(p.color))
       );
 
       const orbitMat = new LineMaterial({
-        linewidth: isSelectedInit ? 1.5 : 0.9,
+        linewidth: isSelectedInit ? 1.2 : 0.7,
         transparent: true,
-        opacity: isSelectedInit ? 0.75 : 0.22,
+        opacity: isSelectedInit ? 0.68 : 0.32,
         vertexColors: true,
         worldUnits: false,
         alphaToCoverage: true,
@@ -910,7 +910,7 @@ export function SolarSystem3D({
 
       const asteroidGeom = new THREE.IcosahedronGeometry(1, 0);
       applyProceduralRelief(asteroidGeom, 0.45, 3.1);
-      const asteroidMat = new THREE.MeshStandardMaterial({ color: 0x8a7f73, roughness: 0.96, metalness: 0.04 });
+      const asteroidMat = new THREE.MeshStandardMaterial({ color: 0x514c46, roughness: 0.96, metalness: 0.04 });
       const asteroidBelt = new THREE.InstancedMesh(asteroidGeom, asteroidMat, ASTEROID_COUNT);
       asteroidBelt.frustumCulled = false;
 
@@ -930,7 +930,7 @@ export function SolarSystem3D({
 
         const angle = Math.random() * Math.PI * 2;
         const yOff = (Math.random() - 0.5) * 2.4; // dispersión vertical (inclinaciones reales variadas)
-        const scale = 0.05 + Math.random() * 0.17;
+        const scale = 0.02 + Math.random() * 0.065;
         const spinAxis = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
         const spinSpeed = (Math.random() - 0.5) * 3.5;
 
@@ -1043,7 +1043,11 @@ export function SolarSystem3D({
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
+    let pointerStart={x:0,y:0};
+    const rememberPointer=(event:PointerEvent)=>{pointerStart={x:event.clientX,y:event.clientY};};
+    renderer.domElement.addEventListener('pointerdown',rememberPointer);
     const handleCanvasClick = (event: MouseEvent) => {
+      if(Math.hypot(event.clientX-pointerStart.x,event.clientY-pointerStart.y)>6)return;
       if (!rendererRef.current) return;
       // Get click position relative to canvas bounds
       const rect = rendererRef.current.domElement.getBoundingClientRect();
@@ -1062,11 +1066,12 @@ export function SolarSystem3D({
           }
         });
       });
-      const allTargets = [...targetMeshes.map(t => t.mesh as THREE.Object3D), ...moonMeshes.map(m => m.mesh)];
+      const allTargets = [sunMesh,...targetMeshes.map(t => t.mesh as THREE.Object3D), ...moonMeshes.map(m => m.mesh)];
       const intersects = raycaster.intersectObjects(allTargets, false);
 
       if (intersects.length > 0) {
         const hitMesh = intersects[0].object;
+        if(hitMesh===sunMesh){focus('sun');return;}
         const matchedMoon = moonMeshes.find(mm => mm.mesh === hitMesh);
         if (matchedMoon) {
           onSelectMoonRef.current?.(matchedMoon.name, matchedMoon.parentPlanet);
@@ -1117,6 +1122,11 @@ export function SolarSystem3D({
 
     renderer.domElement.addEventListener('mousemove', handleMouseMove);
 
+    const orbitalGroup=new THREE.Group();
+    const backgroundObjects=new Set<THREE.Object3D>([starfield,galaxyPlane,solarStar.group,sunMarker,galacticField.group]);
+    for(const child of [...scene.children])if(!backgroundObjects.has(child)&&!(child instanceof THREE.Light))orbitalGroup.add(child);
+    scene.add(orbitalGroup);
+
     // 13. High FPS Animate loop
     let lastTime = 0;
     let animeFrameId = 0;
@@ -1125,7 +1135,8 @@ export function SolarSystem3D({
       animeFrameId = requestAnimationFrame(animate);
 
       if (!lastTime) lastTime = timestamp;
-      const deltaSec = (timestamp - lastTime) / 1000;
+      const elapsedSec = Math.max(0,(timestamp - lastTime) / 1000);
+      const deltaSec = Math.min(.05,elapsedSec);
       lastTime = timestamp;
 
       // Update simulation time if playing
@@ -1137,11 +1148,7 @@ export function SolarSystem3D({
 
       const tSim = timeRef.current;
 
-      // Animate solar corona pulsing
-      if (sunCoronaRef.current) {
-        const pulseRatio = 1.0 + Math.sin(timestamp * 0.003) * 0.06;
-        sunCoronaRef.current.scale.set(pulseRatio, pulseRatio, pulseRatio);
-      }
+      solarStar.update(camera,timestamp/1000,1);
 
       // Animate planets
       planets.forEach(p => {
@@ -1264,11 +1271,11 @@ export function SolarSystem3D({
 
           const isSelectedNow = selectedPlanetRef.current === p.name;
           (orbitLine.geometry as LineGeometry).setColors(
-            buildOrbitGradientColors(pts.length - 1, new THREE.Color(0xffffff))
+            buildOrbitGradientColors(pts.length - 1, new THREE.Color(p.color))
           );
           const lm = orbitLine.material as LineMaterial;
-          lm.opacity = isSelectedNow ? 0.75 : 0.22;
-          lm.linewidth = isSelectedNow ? 1.5 : 0.9;
+          lm.opacity = isSelectedNow ? 0.68 : 0.32;
+          lm.linewidth = isSelectedNow ? 1.2 : 0.7;
         }
 
         // Render moons orbits
@@ -1333,7 +1340,7 @@ export function SolarSystem3D({
 
           if (!arrow) {
             arrow = new THREE.ArrowHelper(direction, pMesh.position, arrowLen, 0x00ff88, 0.6, 0.4);
-            scene.add(arrow);
+            orbitalGroup.add(arrow);
             arrowHelpersRef.current[p.name] = arrow;
           } else {
             arrow.position.copy(pMesh.position);
@@ -1557,16 +1564,19 @@ export function SolarSystem3D({
             descentStartRef.current = timestamp;
             descentCameraStartRef.current = camera.position.clone();
             descentTargetStartRef.current = controls.target.clone();
+            descentFovStartRef.current=camera.fov;
           }
           const raw = Math.min(1, (timestamp - descentStartRef.current) / 5800);
           const eased = raw < .5
             ? 4 * raw * raw * raw
             : 1 - Math.pow(-2 * raw + 2, 3) / 2;
           const marsPos = marsMesh.position.clone();
-          const arrival = marsPos.clone().add(new THREE.Vector3(1.05, .42, 1.35));
-          camera.position.lerpVectors(descentCameraStartRef.current!, arrival, eased);
           controls.target.lerpVectors(descentTargetStartRef.current!, marsPos, eased);
-          camera.fov = 60 - eased * 20;
+          const marsRadius=VISUAL_SCALE.sizes.mars*(globalPlanetSizeRef.current||1)*(planetModifiersRef.current.mars?.radiusMultiplier||1);
+          const direction=descentCameraStartRef.current!.clone().sub(descentTargetStartRef.current!).normalize().lerp(new THREE.Vector3(1.05,.42,1.35).normalize(),eased).normalize();
+          const distance=logarithmicDistance(descentCameraStartRef.current!.distanceTo(descentTargetStartRef.current!),Math.max(1.8,marsRadius*2.6),eased);
+          camera.position.copy(controls.target).addScaledVector(direction,distance);
+          camera.fov = THREE.MathUtils.lerp(descentFovStartRef.current,40,eased);
           camera.updateProjectionMatrix();
         }
       } else if (cameraModeRef.current === 'follow' && selectedPlanetRef.current) {
@@ -1576,6 +1586,7 @@ export function SolarSystem3D({
           const pPos = followMesh.position;
 
           if (lastFollowedNameRef.current !== selectedPlanetRef.current) {
+            galaxyFly=1;desiredDistance=null;
             lastFollowedNameRef.current = selectedPlanetRef.current;
             followPrevPosRef.current = pPos.clone();
             followTransitionRef.current = 0;
@@ -1584,16 +1595,17 @@ export function SolarSystem3D({
           }
 
           if (followTransitionRef.current < 1 && followCameraStartRef.current && followTargetStartRef.current) {
-            const baseRadius = VISUAL_SCALE.sizes[selectedPlanetRef.current] || 0.5;
-            const framingDistance = Math.max(baseRadius * 8.5, 1.8);
+            const baseRadius = (VISUAL_SCALE.sizes[selectedPlanetRef.current] || 0.5)*(globalPlanetSizeRef.current||1)*(planetModifiersRef.current[selectedPlanetRef.current]?.radiusMultiplier||1);
+            const framingDistance = Math.max(baseRadius * (selectedPlanetRef.current==='saturn'?9.5:5.6), 2)*Math.max(1,1/camera.aspect);
             const destination = pPos.clone().add(
               new THREE.Vector3(.55, .36, .84).normalize().multiplyScalar(framingDistance)
             );
-            followTransitionRef.current = Math.min(1, followTransitionRef.current + .022);
+            followTransitionRef.current = Math.min(1, followTransitionRef.current + elapsedSec*.65);
             const t = followTransitionRef.current;
             const eased = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            camera.position.lerpVectors(followCameraStartRef.current, destination, eased);
             controls.target.lerpVectors(followTargetStartRef.current, pPos, eased);
+            const direction=followCameraStartRef.current.clone().sub(followTargetStartRef.current).normalize().lerp(destination.clone().sub(pPos).normalize(),eased).normalize();
+            camera.position.copy(controls.target).addScaledVector(direction,logarithmicDistance(followCameraStartRef.current.distanceTo(followTargetStartRef.current),framingDistance,eased));
             followPrevPosRef.current = pPos.clone();
           } else if (followPrevPosRef.current) {
             // --- Mismo objetivo: traslación rígida -------------------------
@@ -1612,8 +1624,8 @@ export function SolarSystem3D({
         descentStartRef.current = null;
         descentCameraStartRef.current = null;
         descentTargetStartRef.current = null;
-        if (camera.fov !== 60) {
-          camera.fov = 60;
+        if (camera.fov !== 52) {
+          camera.fov = 52;
           camera.updateProjectionMatrix();
         }
         lastFollowedNameRef.current = null;
@@ -1639,32 +1651,52 @@ export function SolarSystem3D({
       // Desde cualquier azimut la mira converge al Sol, evitando que el usuario
       // se pierda en el espacio al usar un rango de zoom tan amplio.
       if (!descentActiveRef.current && galaxyFly < 1) {
-        galaxyFly = Math.min(1, galaxyFly + deltaSec * .72);
+        galaxyFly = Math.min(1, galaxyFly + elapsedSec / flightDuration);
         const eased = galaxyFly < .5
           ? 4 * galaxyFly * galaxyFly * galaxyFly
           : 1 - Math.pow(-2 * galaxyFly + 2, 3) / 2;
-        camera.position.lerpVectors(galaxyCameraStart, galaxyCameraEnd, eased);
-        controls.target.lerp(new THREE.Vector3(0, 0, 0), .24);
+        controls.target.lerpVectors(flightLookStart,flightLookEnd,eased);
+        camera.position.copy(controls.target).addScaledVector(flightDirection,logarithmicDistance(flightStartDistance,flightEndDistance,eased));
       }
 
       const distanceFromSun = camera.position.length();
-      const galacticBlend = THREE.MathUtils.smoothstep(distanceFromSun, 460, 1040);
-      galaxyMaterial.opacity = galacticBlend * .96;
+      const far=Math.max(30000,distanceFromSun*4),near=distanceFromSun>15000?distanceFromSun*.0001:.01;
+      if(Math.abs(camera.far-far)>100||camera.near!==near){camera.far=far;camera.near=near;camera.updateProjectionMatrix();}
+      galacticField.update(distanceFromSun);
+      const galacticBlend = THREE.MathUtils.smoothstep(distanceFromSun, 700, 2800);
+      galaxyMaterial.opacity = galacticBlend * .045;
       galaxyPlane.visible = galacticBlend > .008;
-      starMaterial.opacity = THREE.MathUtils.lerp(.46, .16, galacticBlend);
+      starMaterial.opacity = THREE.MathUtils.lerp(.38, .2, galacticBlend);
+      starfield.position.copy(camera.position);
+      orbitalGroup.scale.setScalar(1-THREE.MathUtils.smoothstep(distanceFromSun,600,1800));
+      orbitalGroup.visible=distanceFromSun<1800;
+      markerMaterial.opacity=THREE.MathUtils.smoothstep(distanceFromSun,350,1400);
 
-      if (!descentActiveRef.current && cameraModeRef.current === 'free') {
-        if (distanceFromSun > 690 && !galacticViewRef.current) {
+      if (!descentActiveRef.current) {
+        if (distanceFromSun > 1600 && !galacticViewRef.current) {
           galacticViewRef.current = true;
           setGalacticView(true);
-        } else if (distanceFromSun < 570 && galacticViewRef.current && galaxyFly >= 1) {
+        } else if (distanceFromSun < 1200 && galacticViewRef.current && galaxyFly >= 1) {
           galacticViewRef.current = false;
           setGalacticView(false);
         }
-        if (distanceFromSun > 440) controls.target.lerp(new THREE.Vector3(0, 0, 0), .16);
+        if (cameraModeRef.current==='free'&&distanceFromSun > 600 && galaxyFly>=1) controls.target.lerp(new THREE.Vector3(0, 0, 0),1-Math.exp(-deltaSec*5));
       }
 
+      const focusedMesh=cameraModeRef.current==='follow'?meshesRef.current[selectedPlanetRef.current]:null;
+      if(focusedMesh)focusName=planets.find(p=>p.name===selectedPlanetRef.current)?.displayName||'Planeta';
+      controls.minDistance=descentActiveRef.current?.1:focusedMesh?Math.max(.05,(VISUAL_SCALE.sizes[selectedPlanetRef.current]||.5)*(globalPlanetSizeRef.current||1)*(planetModifiersRef.current[selectedPlanetRef.current]?.radiusMultiplier||1)*1.3):SUN_VISUAL_RADIUS*1.18;
+      if(!descentActiveRef.current&&desiredDistance!==null){
+        const offset=camera.position.clone().sub(controls.target),distance=offset.length();
+        const next=logarithmicDistance(distance,Math.max(controls.minDistance,desiredDistance),1-Math.exp(-elapsedSec*9));
+        camera.position.copy(controls.target).addScaledVector(offset.normalize(),next);
+        if(Math.abs(Math.log(next/Math.max(controls.minDistance,desiredDistance)))<.001)desiredDistance=null;
+      }
       controls.update();
+      if(timestamp-lastReadout>180){
+        const distance=camera.position.distanceTo(controls.target);
+        setNavigation({focus:focusedMesh?(planets.find(p=>p.name===selectedPlanetRef.current)?.displayName||'Planeta'):focusName,scale:distanceFromSun>25000?'Panorama de galaxias':distanceFromSun>2200?'Vía Láctea':focusedMesh?'Entorno planetario':distanceFromSun>220?'Campo estelar intermedio':distance<38?'Entorno solar':'Sistema solar',zoom:distanceToZoom(desiredDistance??distance,controls.minDistance)});lastReadout=timestamp;
+      }
 
       // --- Overhaul Visual: render con Bloom selectivo (exclusivo del Sol) -----
       scene.traverse(darkenNonBloomed);
@@ -1674,6 +1706,10 @@ export function SolarSystem3D({
 
       // Render 2D screen coordinate floating labels for planets names directly aligned
       updateScreenLabels(camera);
+      if(sunLabelRef.current){const p=new THREE.Vector3().project(camera),w=containerSizeRef.current.width,h=containerSizeRef.current.height;
+        const edge=new THREE.Vector3(SUN_VISUAL_RADIUS,0,0).applyQuaternion(camera.quaternion).project(camera),radius=Math.max(7,Math.abs(edge.x-p.x)*w*.5);
+        const center=(p.x*.5+.5)*w,right=center+radius,labelX=right+76>w-64?center-radius-90:right;
+        sunLabelRef.current.style.display=p.z<1&&!comparisonModeRef.current?'flex':'none';sunLabelRef.current.style.left=`${Math.max(0,Math.min(w-76,labelX))}px`;sunLabelRef.current.style.top=`${(-p.y*.5+.5)*h}px`;}
     };
 
     const screenLabelElements = new Map<string, HTMLDivElement>();
@@ -1681,7 +1717,7 @@ export function SolarSystem3D({
       const el = labelsContainerRef.current;
       if (!el) return;
       screenLabelElements.forEach(label => { label.style.display = 'none'; });
-      if (!togglesRef.current.names) return;
+      if (!togglesRef.current.names || camera.position.length()>700) return;
 
       planets.forEach(p => {
         const mesh = meshesRef.current[p.name];
@@ -1699,7 +1735,7 @@ export function SolarSystem3D({
         const pY = (-(posVec.y * .5) + .5) * screenH;
 
         // Behind camera check
-        if (posVec.z <= 1.0) {
+        if (posVec.z <= 1.0 && posVec.z>=-1 && pX>8 && pX<screenW-8 && pY>8 && pY<screenH-8) {
           // --- Overhaul Visual: etiqueta flotante premium con línea conectora ----
           // (chip tipográfico monoespaciado + punto de acento + leader-line),
           // posicionado por proyección de pantalla (sin tocar la física/posición 3D).
@@ -1732,7 +1768,9 @@ export function SolarSystem3D({
           wrapper.className = isSelected ? 'planet-label-3d is-selected' : 'planet-label-3d';
           wrapper.style.display = 'flex';
           wrapper.style.left = `${pX}px`;
-          wrapper.style.top = `${pY - 16}px`;
+          const radius=(VISUAL_SCALE.sizes[p.name]||.5)*mesh.scale.x;
+          const projectedRadius=radius/cam.position.distanceTo(mesh.position)*screenH/(2*Math.tan(THREE.MathUtils.degToRad(cam.fov)/2));
+          wrapper.style.top = `${Math.max(72,pY-projectedRadius-8)}px`;
           wrapper.style.color = accentColor;
         }
       });
@@ -1793,7 +1831,11 @@ export function SolarSystem3D({
       galaxyTexture.dispose();
       galaxyGeometry.dispose();
       galaxyMaterial.dispose();
-      galaxyJumpRef.current = null;
+      navigationRef.current=null;
+      galacticField.dispose();
+      controls.removeEventListener('start',cancelFlight);
+      renderer.domElement.removeEventListener('wheel',wheel,true);
+      renderer.domElement.removeEventListener('pointerdown',rememberPointer);
       bloomComposer.dispose();
       finalComposer.dispose();
       if (rendererRef.current) {
@@ -1823,24 +1865,26 @@ export function SolarSystem3D({
       {/* Canvas screen projection floating names labels mapping */}
       <div ref={labelsContainerRef} className="absolute inset-0 pointer-events-none z-10 overflow-hidden" id="screen_labels_overlay" />
 
-      <button
-        type="button"
-        className={`galaxy-view-button ${galacticView ? 'is-active' : ''}`}
-        aria-pressed={galacticView}
-        onClick={() => {
-          onCameraModeChange('free');
-          galaxyJumpRef.current?.();
-        }}
-      >
-        <span>{galacticView ? 'REGRESAR AL SISTEMA' : 'VISTA GALÁCTICA'}</span>
-        <small>{galacticView ? 'anclaje: Sol' : '26,000 años luz del centro'}</small>
-      </button>
+      <nav className="solar-navigation" aria-label="Destinos astronómicos">
+        <button onClick={()=>navigationRef.current?.focus('sun')} disabled={descentActive} aria-label="Ver el Sol">Sol</button>
+        <button onClick={()=>navigationRef.current?.focus('planet')} disabled={descentActive} aria-label={`Ver ${selectedComparison.displayName} de cerca`}>{selectedComparison.displayName}</button>
+        <button onClick={()=>navigationRef.current?.focus('system')} disabled={descentActive} aria-label="Ver el sistema solar completo">Sistema</button>
+        <button onClick={()=>navigationRef.current?.focus('galaxy')} disabled={descentActive} aria-pressed={galacticView} aria-label="Ver la Vía Láctea">Galaxia</button>
+        <button onClick={()=>navigationRef.current?.focus('panorama')} disabled={descentActive} aria-label="Ver el panorama de galaxias">Panorama</button>
+      </nav>
+      <button ref={sunLabelRef} className="solar-sun-label" aria-label="Enfocar el Sol" onClick={()=>navigationRef.current?.focus('sun')}><i/>SOL</button>
+      <div className="solar-zoom" aria-label="Zoom astronómico">
+        <button aria-label="Acercar vista astronómica" disabled={descentActive} onClick={()=>navigationRef.current?.zoom(.68)}>+</button>
+        <input aria-label="Nivel de acercamiento astronómico" type="range" min="0" max="100" step=".1" value={navigation.zoom} disabled={descentActive} onChange={event=>navigationRef.current?.level(Number(event.target.value))}/>
+        <button aria-label="Alejar vista astronómica" disabled={descentActive} onClick={()=>navigationRef.current?.zoom(1/.68)}>−</button>
+      </div>
+      {!comparisonMode&&<div className="solar-scale-readout" aria-live="off"><span>ESCALA VISUAL</span><strong>{navigation.scale}</strong><small>Enfoque · {navigation.focus}</small></div>}
 
-      {galacticView && (
+      {(galacticView||navigation.scale==='Campo estelar intermedio') && (
         <aside className="galaxy-context-card" aria-live="polite">
-          <span>ESCALA · VÍA LÁCTEA</span>
-          <strong>El sistema solar se vuelve un punto dentro del Espolón de Orión</strong>
-          <p>La cámara permanece fijada al Sol. Arte científico: NASA/JPL-Caltech/ESO/Robert Hurt.</p>
+          <span>{navigation.scale==='Campo estelar intermedio'?'TRAVESÍA ESTELAR':'ESCALA · VÍA LÁCTEA'}</span>
+          <strong>{navigation.scale==='Campo estelar intermedio'?'Un campo de estrellas con profundidad rodea la referencia solar.':'El sistema solar se vuelve un punto dentro del Espolón de Orión'}</strong>
+          <p>{navigation.scale==='Campo estelar intermedio'?'Campo ilustrativo de puntos, sin distancias reales a estrellas individuales.':'Ilustración NASA GSFC / Conceptual Image Lab. Distancias comprimidas.'}</p>
         </aside>
       )}
 

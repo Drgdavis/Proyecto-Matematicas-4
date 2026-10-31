@@ -32,6 +32,8 @@ jobs:
         run: npm run lint
       - name: Comprobar contenido público
         run: npm run test:public
+      - name: Comprobar navegación solar
+        run: node scripts/verify-solar.mjs
       - name: Compilar para Pages
         run: npm run build
         env:

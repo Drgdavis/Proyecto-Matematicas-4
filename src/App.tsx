@@ -11,6 +11,7 @@ import { ShieldAlert, Sparkles, Zap, BarChart3, Rocket, RotateCcw, MapPin, Slide
 import { assetUrl } from './utils/assetUrl';
 
 export default function App() {
+  const [solarImmersive,setSolarImmersive]=useState(true);
   const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 1199px)').matches);
   const [mobilePanel, setMobilePanel] = useState<'controls' | 'data' | null>(null);
   const panelTrigger = useRef<HTMLButtonElement | null>(null);
@@ -57,7 +58,7 @@ export default function App() {
   const [hoveredPlanetName, setHoveredPlanetName] = useState<string | null>(null);
   // --- Overhaul: tarjeta de información ligera al hacer clic en una luna ---
   const [selectedMoonInfo, setSelectedMoonInfo] = useState<{ moonName: string; parentPlanet: string } | null>(null);
-  const [globalPlanetSize, setGlobalPlanetSize] = useState<number>(3.5); // 3.5x beautiful default so they are perfectly clear from orbit zoom
+  const [globalPlanetSize, setGlobalPlanetSize] = useState<number>(1.75);
 
   // Maintain individual modifiers for each planeta to enable complex custom solar environments! (e.g., resizing Earth without affecting Saturn)
   const [planetModifiers, setPlanetModifiers] = useState<Record<string, ModifiedPhysicalData>>(() => {
@@ -224,7 +225,7 @@ export default function App() {
   }
 
   return (
-    <div className={`w-screen h-screen overflow-hidden flex flex-col bg-[var(--space-950)] text-[#a0aec0] font-mono relative select-none ${experiencePhase === 'descent' ? 'eva01-is-descending' : ''}`} id="app_root_layout">
+    <div className={`w-screen h-screen overflow-hidden flex flex-col bg-[var(--space-950)] text-[#a0aec0] font-mono relative select-none ${solarImmersive?'solar-immersive':''} ${experiencePhase === 'descent' ? 'eva01-is-descending' : ''}`} id="app_root_layout">
 
       {/* Fondo ambiente deep-space + viñeta (puramente decorativo) */}
       <div className="deep-space-backdrop" />
@@ -273,6 +274,7 @@ export default function App() {
             <span className="telemetry-value text-[11px] text-[var(--accent-cyan)] font-semibold">J2000.0 + {(simulatedDays / 365.25).toFixed(1)}y</span>
           </div>
           <div className="solar-telemetry w-px self-stretch bg-[var(--panel-border)]" />
+          <button className="solar-desktop-toggle" aria-pressed={!solarImmersive} onClick={()=>setSolarImmersive(value=>!value)}>{solarImmersive?'Mostrar paneles':'Despejar visor'}</button>
           <a href={assetUrl('/materials/Entrega_EVA03.html')} target="_blank" rel="noreferrer" className="text-[11px] text-white underline underline-offset-4">VER ENTREGA FINAL</a>
           <button className="eva03-mission-cta" onClick={startEvaDescent} title="Iniciar la transición del Sistema Solar a la base marciana">
             <Rocket size={15} /> VIAJAR A MARTE
